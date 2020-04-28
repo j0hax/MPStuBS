@@ -23,7 +23,7 @@ public:
 	 *
 	 *  \todo Konstruktor implementieren
 	 */
-	ConsoleOut();
+	ConsoleOut(){}
 
 	/*! \brief Ausgabe der Zeichenkette auf dem Bildschirm.
 	 *  Die Implementierung soll ausschliesslich `putchar()` verwenden.

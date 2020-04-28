@@ -7,6 +7,11 @@
 #pragma once
 
 #include "o_stream.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
 
 /*! \brief Ausgabe in eine Datei
  *
@@ -21,6 +26,10 @@ class FileOut : public O_Stream
 	FileOut& operator=(const FileOut&) = delete;
 
     // TODO: evtl fehlen hier noch (private) Attribute
+
+	char cpy_path[255] = {0};
+	int fd = 0;
+    static int counter; 
 public:
 	/*! \brief Konstruktor
 	 *  Öffnet die Datei mittels Syscall `open()` zum schreiben.

@@ -56,7 +56,9 @@ protected:
 	 */
 	Stringbuffer()
 	//TODO: Hier muss noch Code vervollständigt werden.
-	{ }
+	{
+		pos = 0;
+	}
 
 	/*! \brief Fügt das Zeichen c in den Puffer ein.
 	 *

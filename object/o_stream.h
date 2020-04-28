@@ -66,7 +66,7 @@
  *  beschrieben sind.
  */
 
-class O_Stream
+class O_Stream : public Stringbuffer
 	//TODO: Hier muss die Vererbungshierarchie vervollständigt werden.
 {
 	O_Stream(const O_Stream&)            = delete;
@@ -84,7 +84,9 @@ public:
 	 */
 	O_Stream ()
 	//TODO: Hier muss noch Code vervollständigt werden.
-	{}
+	{
+		base = 10;
+	}
 
 	/*! \brief Destruktor
 	 */
