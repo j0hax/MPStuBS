@@ -10,18 +10,15 @@ IO_Port d_port(0x3d5);
 
 CGA_Screen::CGA_Screen (int from_col, int to_col, int from_row, int to_row, bool use_cursor) 
     : from_col(from_col), to_col(to_col), from_row(from_row), to_row(to_row), use_cursor(use_cursor)
-    {      
+    {   
         width = to_col - from_col+1;
         height = to_row - from_row+1;
         reset();
-        /*rel_x = 0;
-        rel_y = 0;*/
     }
 
 void CGA_Screen::setpos (int x, int y){
 
-    x = 20;
-    y = 20;
+    if(x < 0 || x >= width || y < 0 || y >= height) return;
 
     int total_x = from_col + x;
     int total_y = from_row + y;
@@ -32,9 +29,10 @@ void CGA_Screen::setpos (int x, int y){
         d_port.outb((uint8_t)((data & 0xFF00) >> 8));
         i_port.outb(0xf);
         d_port.outb((uint8_t)data & 0x00FF);
+    }else{
+        rel_x = x;
+        rel_y = y;
     }
-    rel_x = x;
-    rel_y = y;
     
 }
 
@@ -60,45 +58,47 @@ void CGA_Screen::print (char* string, int length, Attribute attrib){
     int i = 0; 
 
     while (i < length){
-        
-        //shift text
-        if ((rel_x == width || string[i] == '\n') && rel_y == height-1){
-
-            for(int y = from_row; y < to_row; ++y){
-                for(int x = from_col; x <= to_col; ++x){
-                    
-                    screen[(x + y*80)*2] = screen[(x + (y+1)*80)*2];
-                    screen[(x + y*80)*2 + 1] = screen[(x + (y+1)*80)*2 + 1];
-                }
-            }
-            rel_x = 0;
-            //clear last line
-            for(int c = 0; c < width; ++c){
-                show(from_col + c, from_row + rel_y, ' ');
-            }
-
-        // new line
-        } else if (rel_x == width){
-            ++rel_y;
-            rel_x = 0;
-        }
-
 
         if(string[i] == '\0'){
             ++i;
+            continue;
         }
-        else if(string[i] == '\n'){
-            ++rel_y;
-            rel_x = 0;
+
+        int x = 0;
+        int y = 0;
+        getpos(x,y);
+
+        if(string[i] == '\n'){
+            ++y;
+            x = 0;
             ++i;
-            
         }else{
-            show(from_col + rel_x, from_row + rel_y, string[i], attrib);
+            show(from_col + x, from_row + y, string[i], attrib);
         
-            rel_x++;
+            x++;
             i++;
+
+            if ((x == width || string[i] == '\n') && y == height-1){
+
+                for(int tmp_y = from_row; tmp_y < to_row; ++tmp_y){
+                    for(int tmp_x = from_col; tmp_x <= to_col; ++tmp_x){
+                        
+                        screen[(tmp_x + tmp_y*80)*2] = screen[(tmp_x + (tmp_y+1)*80)*2];
+                        screen[(tmp_x + tmp_y*80)*2 + 1] = screen[(tmp_x + (tmp_y+1)*80)*2 + 1];
+                    }
+                }
+                //clear last line
+                for(int c = 0; c < width; ++c){
+                    show(from_col + c, from_row + y, ' ');
+                }
+                x = 0;
+                setpos(x,y);
+            } else if (x == width){
+                ++y;
+                x = 0;
+            }
         }
-        //setpos(rel_x, rel_y);
+        setpos(x, y);
 
     }
 
@@ -106,13 +106,14 @@ void CGA_Screen::print (char* string, int length, Attribute attrib){
 
 
 void CGA_Screen::reset (char character, Attribute attrib){
-
     for(int x = from_col; x <= to_col; ++x){
         for(int y = from_row; y <= to_row; ++y){
             show(x, y, character, attrib);
         }
     }
-    //setpos(0,0);
+    setpos(0,0);
+    rel_x = 0;
+    rel_y = 0;
 
 }
 

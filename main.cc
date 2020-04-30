@@ -16,12 +16,6 @@ static const unsigned long CPU_STACK_SIZE = 4096;
 // Stack fuer max. 7 APs
 static unsigned char cpu_stack[(CPU_MAX - 1) * CPU_STACK_SIZE];
 
-CGA_Stream kout(0, 79, 0, 18, true);
-CGA_Stream dout_CPU0(0, 38, 19, 21, true);
-CGA_Stream dout_CPU1(39, 79, 19, 21, true);
-CGA_Stream dout_CPU2(0, 38, 22, 24, true);
-CGA_Stream dout_CPU3(39, 79, 22, 24, true);
-
 /*! \brief Einsprungpunkt ins System
  *
  *  Dieser Code wird nur auf der Boot-CPU (diejenige mit der ID 0) ausgeführt.
@@ -32,6 +26,12 @@ struct Attribute {
 	char bg:3;
 	bool blink;
 }__attribute__((packed));
+
+CGA_Stream kout(0, 79, 0, 16, true);
+CGA_Stream dout_CPU0(0, 38, 17, 20, false);
+CGA_Stream dout_CPU1(39, 79, 17, 20, false);
+CGA_Stream dout_CPU2(0, 38, 21, 24, false);
+CGA_Stream dout_CPU3(39, 79, 21, 24, false);
 
 extern "C" int main()
 {
@@ -58,6 +58,8 @@ extern "C" int main()
 		}
 	}
 	
+	kout.reset();
+
 	/*
 	Attribute at;
 	at.fg = 0;
@@ -81,28 +83,27 @@ extern "C" int main()
 	scr.setpos(1,1);
 	scr.print("Hello World What's UPPPPP And Welcome...", 10, a);*/
 
-	kout << "Test        <stream "<<  (int)'\n' <<" result> -> <expected>" << endl;
-	kout << "bool:       " << true << " -> true" << endl;
-	kout << "zero:       " << 0 << " -> 0" << endl;
-	kout << "ten:        " << (10) << " -> 10" << endl;
-	kout << "uint max:   " << ~((unsigned int)0) << " -> 4294967295" << endl;
-	kout << "int max:    " << ~(1<<31) << " -> 2147483647" << endl;
-	kout << "int min:    " << (1<<31) << " -> -2147483648" << endl;
-	kout << "some int:   " << (-123456789) << " -> -123456789" << endl;
-	kout << "some int:   " << (123456789) << " -> 123456789" << endl;
-	kout << "binary:     " << bin << 42 << dec << " -> 0b101010" << endl;
-	kout << "octal:      " << oct << 42 << dec << " -> 052" << endl;
-	kout << "hex:        " << hex << 42 << dec << " -> 0x2a" << endl;
-	kout << "pointer:    " << ((void*)(3735928559u)) << " -> 0xdeadbeef" << endl;
-	kout << "smiley:     " << ((char)1) << endl;    // a heart
-	kout << "Test        <stream "<<  (int)'\n' <<" result> -> <expected>" << endl;
-	kout << "bool:       " << true << " -> true" << endl;
-	kout << "zero:       " << 0 << " -> 0" << endl;
-kout << "bool:       " << true << " -> true" << endl;
-	kout << "zero:       " << 0 << " -> 0" << endl;
-kout << "bool:       " << true << " -> true" << endl;
-kout << "bool:       " << true << " -> true" << endl;
-kout << "bool:       " << true << " -> true" << endl;
+	
+	kout << "1        <stream "<<  (int)'\n' <<" result> -> <expected>" << endl;
+	kout << "2:       " << true << " -> true" << endl;
+	kout << "3:       " << 0 << " -> 0" << endl;
+	kout << "4:        " << (10) << " -> 10" << endl;
+	kout << "5 max:   " << ~((unsigned int)0) << " -> 4294967295" << endl;
+	kout << "6 max:    " << ~(1<<31) << " -> 2147483647" << endl;
+	kout << "7 min:    " << (1<<31) << " -> -2147483648" << endl;
+	kout << "8 int:   " << (-123456789) << " -> -123456789" << endl;
+	/*kout << "9 int:   " << (123456789) << " -> 123456789" << endl;
+	kout << "10:     " << bin << 42 << dec << " -> 0b101010" << endl;
+	kout << "11:      " << oct << 42 << dec << " -> 052" << endl;
+	kout << "12:        " << hex << 42 << dec << " -> 0x2a" << endl;
+	kout << "13:    " << ((void*)(3735928559u)) << " -> 0xdeadbeef" << endl;
+	kout << "14:     " << ((char)1) << endl;    // a heart
+	kout << "1        <stream "<<  (int)'\n' <<" result> -> <expected>" << endl;
+	kout << "2:       " << true << " -> true" << endl;*/
+	kout << "3:       " << 0 << " -> 0" << endl;
+	kout << "4:        " << (10) << " -> 10\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nd" << endl;
+	
+	//kout << "5 max:   " << ~((unsigned int)0) << " -> 4294967295 " << "-----------------------------------------12345fghfgdfgdfgkj dfglk dflkgjldk fgkljdflj gldflkg lkdh1234567890   lkdh123456789076432" << flush;
 
 	return 0;
 }
