@@ -21,6 +21,12 @@ static unsigned char cpu_stack[(CPU_MAX - 1) * CPU_STACK_SIZE];
  *  Dieser Code wird nur auf der Boot-CPU (diejenige mit der ID 0) ausgeführt.
  */
 
+struct Attribute {
+	char fg:4;
+	char bg:3;
+	bool blink;
+}__attribute__((packed));
+
 extern "C" int main()
 {
 	// Startmeldung ausgeben
@@ -45,6 +51,14 @@ extern "C" int main()
 		case APICSystem::UNDETECTED: {
 		}
 	}
+	
+	Attribute at;
+	at.fg = 0;
+	at.bg = 2;
+	at.blink = 0;
+	char* cga_screen = (char*) 0xb8000;
+	cga_screen[0] = 'a';
+	cga_screen[1] = *((char*) &at);
 
 	return 0;
 }

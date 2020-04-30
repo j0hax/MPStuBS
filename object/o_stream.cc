@@ -1,7 +1,7 @@
 // vim: set noet ts=4 sw=4:
 
 #include "o_stream.h"
-#include <stdio.h>
+//#include <stdio.h>
 
 O_Stream& O_Stream::operator << (char c){
 
