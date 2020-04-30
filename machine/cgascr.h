@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "types.h"
+#include "io_port.h"
 
 /*! \brief Abstraktion des CGA-Textmodus.
  *  \ingroup io
@@ -33,7 +33,7 @@ private:
 	int to_col;
 	int from_row;
 	int to_row;
-	int use_cursor;
+	bool use_cursor;
 
 	int width;
 	int height;

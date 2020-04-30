@@ -16,6 +16,12 @@ static const unsigned long CPU_STACK_SIZE = 4096;
 // Stack fuer max. 7 APs
 static unsigned char cpu_stack[(CPU_MAX - 1) * CPU_STACK_SIZE];
 
+CGA_Stream kout(0, 79, 0, 18, true);
+CGA_Stream dout_CPU0(0, 38, 19, 21, true);
+CGA_Stream dout_CPU1(39, 79, 19, 21, true);
+CGA_Stream dout_CPU2(0, 38, 22, 24, true);
+CGA_Stream dout_CPU3(39, 79, 22, 24, true);
+
 /*! \brief Einsprungpunkt ins System
  *
  *  Dieser Code wird nur auf der Boot-CPU (diejenige mit der ID 0) ausgeführt.
@@ -40,7 +46,7 @@ extern "C" int main()
 			//Startet die AP-Prozessoren
 			for (unsigned int i = 1; i < numCPUs; i++) {
 				void* startup_stack = (void *) &(cpu_stack[(i) * CPU_STACK_SIZE]);
-				DBG_VERBOSE << "Booting CPU " << i << ", Stack: " << startup_stack << endl;
+				DBG/*_VERBOSE*/ << "Booting CPU " << i << ", Stack: " << startup_stack << endl;
 				system.bootCPU(i, startup_stack);
 			}
 			break;
@@ -62,16 +68,42 @@ extern "C" int main()
 	cga_screen[1] = *((char*) &at);
 	*/
 
-	CGA_Screen::Attribute a(CGA_Screen::color::LIGHT_MAGENTA, CGA_Screen::color::BLUE, false);
-
+	/*CGA_Screen::Attribute a(CGA_Screen::color::LIGHT_MAGENTA, CGA_Screen::color::BLUE, false);
+	
 	CGA_Screen::show(0,0,'A');
 	CGA_Screen::show(1,1,'B', a);
 	CGA_Screen::show(2,2,'1');
 	CGA_Screen::show(-2,-1,'2',a);
-	CGA_Screen scr(2,41,2,2);
+	CGA_Screen scr(2,20,2,3,true);
 	scr.print("Hello World What's UPPPPP And Welcome...", 40, a);
 	scr.reset(' ', a);
-	scr.print("Hello World What's UPPPPP And Welcome...", 40, a);
+	scr.print("Hello World What's UPPPPP And Welcome...", 18, a);
+	scr.setpos(1,1);
+	scr.print("Hello World What's UPPPPP And Welcome...", 10, a);*/
+
+	kout << "Test        <stream "<<  (int)'\n' <<" result> -> <expected>" << endl;
+	kout << "bool:       " << true << " -> true" << endl;
+	kout << "zero:       " << 0 << " -> 0" << endl;
+	kout << "ten:        " << (10) << " -> 10" << endl;
+	kout << "uint max:   " << ~((unsigned int)0) << " -> 4294967295" << endl;
+	kout << "int max:    " << ~(1<<31) << " -> 2147483647" << endl;
+	kout << "int min:    " << (1<<31) << " -> -2147483648" << endl;
+	kout << "some int:   " << (-123456789) << " -> -123456789" << endl;
+	kout << "some int:   " << (123456789) << " -> 123456789" << endl;
+	kout << "binary:     " << bin << 42 << dec << " -> 0b101010" << endl;
+	kout << "octal:      " << oct << 42 << dec << " -> 052" << endl;
+	kout << "hex:        " << hex << 42 << dec << " -> 0x2a" << endl;
+	kout << "pointer:    " << ((void*)(3735928559u)) << " -> 0xdeadbeef" << endl;
+	kout << "smiley:     " << ((char)1) << endl;    // a heart
+	kout << "Test        <stream "<<  (int)'\n' <<" result> -> <expected>" << endl;
+	kout << "bool:       " << true << " -> true" << endl;
+	kout << "zero:       " << 0 << " -> 0" << endl;
+kout << "bool:       " << true << " -> true" << endl;
+	kout << "zero:       " << 0 << " -> 0" << endl;
+kout << "bool:       " << true << " -> true" << endl;
+kout << "bool:       " << true << " -> true" << endl;
+kout << "bool:       " << true << " -> true" << endl;
+
 	return 0;
 }
 
@@ -82,7 +114,7 @@ extern "C" int main()
  */
 extern "C" int main_ap()
 {
-	DBG_VERBOSE << "CPU " << (int) system.getCPUID()
+	DBG/*_VERBOSE*/ << "CPU " << (int) system.getCPUID()
 	            << "/LAPIC " << (int) lapic.getLAPICID() << " in main_ap()" << endl;
 
 	return 0;

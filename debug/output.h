@@ -77,7 +77,10 @@ extern APICSystem system;
  *
  *  \todo Objekt anlegen
  */
+
 extern CGA_Stream dout_CPU0;
+
+//CGA_Stream dout_CPU0()
 
 /*! \brief Debugausgabefenster für die CPU 1
  *  \see dout_CPU0
