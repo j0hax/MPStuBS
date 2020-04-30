@@ -70,7 +70,8 @@ extern "C" int main()
 	CGA_Screen::show(-2,-1,'2',a);
 	CGA_Screen scr(2,41,2,2);
 	scr.print("Hello World What's UPPPPP And Welcome...", 40, a);
-	//scr.reset(' ', a);
+	scr.reset(' ', a);
+	scr.print("Hello World What's UPPPPP And Welcome...", 40, a);
 	return 0;
 }
 
