@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include "types.h"
+
 /*! \brief Abstraktion des CGA-Textmodus.
  *  \ingroup io
  *
@@ -26,6 +28,20 @@ private:
 	// Verhindere Kopien und Zuweisungen
 	CGA_Screen(const CGA_Screen&)            = delete;
 	CGA_Screen& operator=(const CGA_Screen&) = delete;
+
+	int from_col;
+	int to_col;
+	int from_row;
+	int to_row;
+	int use_cursor;
+
+	int width;
+	int height;
+	
+	int rel_x;
+	int rel_y;
+
+	static char* screen;
 
 public:
 	/*! \brief Konstruktor
@@ -78,6 +94,7 @@ public:
 		 *  \param blink blinkend oder nicht (Standard kein blinken)
 		 */
 		Attribute(color foreground = LIGHT_GREY, color background = BLACK, bool blink = false)
+			: foreground(foreground), background(background), blink(blink)
 			{
 				// Vermeiden von Übersetzerwarnung bzgl unbenutzten Parameter
 				(void) foreground;
@@ -169,6 +186,5 @@ public:
 	 *  \param attrib Farbattribut zur Darstellung
 	 */
 	static void show (int x, int y, char character, Attribute attrib = Attribute());
-
 };
 

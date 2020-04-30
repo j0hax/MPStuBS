@@ -52,6 +52,7 @@ extern "C" int main()
 		}
 	}
 	
+	/*
 	Attribute at;
 	at.fg = 0;
 	at.bg = 2;
@@ -59,7 +60,17 @@ extern "C" int main()
 	char* cga_screen = (char*) 0xb8000;
 	cga_screen[0] = 'a';
 	cga_screen[1] = *((char*) &at);
+	*/
 
+	CGA_Screen::Attribute a(CGA_Screen::color::LIGHT_MAGENTA, CGA_Screen::color::BLUE, false);
+
+	CGA_Screen::show(0,0,'A');
+	CGA_Screen::show(1,1,'B', a);
+	CGA_Screen::show(2,2,'1');
+	CGA_Screen::show(-2,-1,'2',a);
+	CGA_Screen scr(2,41,2,2);
+	scr.print("Hello World What's UPPPPP And Welcome...", 40, a);
+	//scr.reset(' ', a);
 	return 0;
 }
 
