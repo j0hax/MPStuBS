@@ -20,13 +20,16 @@ CGA_Screen::CGA_Screen (int from_col, int to_col, int from_row, int to_row, bool
 
 void CGA_Screen::setpos (int x, int y){
 
+    x = 20;
+    y = 20;
+
     int total_x = from_col + x;
     int total_y = from_row + y;
 
     if(use_cursor){
         uint16_t data = (uint16_t)(total_x + total_y*80);
         i_port.outb(0xe);
-        d_port.outb((uint8_t)(data & 0xFF00) >> 1);
+        d_port.outb((uint8_t)((data & 0xFF00) >> 8));
         i_port.outb(0xf);
         d_port.outb((uint8_t)data & 0x00FF);
     }
@@ -40,7 +43,7 @@ void CGA_Screen::getpos (int& x, int& y){
     if(use_cursor){
         uint16_t data = 0;
         i_port.outb(0xe);
-        data = 0xFF00 & (d_port.inb() << 1);
+        data = 0xFF00 & (d_port.inb() << 8);
         i_port.outb(0xf);
         data += 0xFF & d_port.inb();
         y = from_row + (data / 80);
