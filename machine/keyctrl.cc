@@ -20,7 +20,7 @@ Keyboard_Controller::Keyboard_Controller () :
 	// alle LEDs ausschalten (bei vielen PCs ist NumLock nach dem Booten an)
 	set_led (led_caps_lock, false);
 	set_led (led_scroll_lock, false);
-	set_led (led_num_lock, false);
+	set_led (led_num_lock, true);
 
 	// maximale Geschwindigkeit, minimale Verzoegerung
 	set_repeat_rate (0, 0);
@@ -40,23 +40,24 @@ Key Keyboard_Controller::key_hit()
 	// statusregister checken, wenn Puffer nichts neues hat, returnen
 	uint8_t status = ctrl_port.inb();
 	
-	if ((status & outb) == 0) {
+	if ((status & outb) != outb) {
 		return pressed;
 	}
 	
 	// Gucken ob daten von Maus -> Dies ist irgendwie nie der Fall??
-	if ((status & auxb) == 1) {
+	if ((status & auxb) == auxb) {
 		DBG << "mouse detected" << endl;
 		drainKeyboardBuffer();
 		return pressed;
 	}
+
 	// Key lesen
 	pressed = keydecoder.decode(data_port.inb());
 
 	if(pressed.valid())
 	DBG << pressed << " detected" << endl;
+	
 	// Tastatur sagen dass die Key gelesen wurde
-
 	// Key zurueckgeben
 	return pressed;
 }
@@ -107,7 +108,7 @@ void Keyboard_Controller::drainKeyboardBuffer()
 {
 	// Keys lesen bis es keine mehr gibt?
 	uint8_t i = ctrl_port.inb();
-	while ((i & outb) == 1) {
+	while ((i & outb) == outb || (i & auxb) == auxb) {
 		//key_hit();
 		data_port.inb();
 		i = ctrl_port.inb();
@@ -128,9 +129,9 @@ void Keyboard_Controller::send_command(unsigned char cmd, unsigned char data)
 void Keyboard_Controller::send_byte(unsigned char byte)
 {
 
-	while((ctrl_port.inb() & inpb) == 1)
+	while((ctrl_port.inb() & inpb) == inpb)
 		DBG << "waiting for keyboard" << flush;
 	data_port.outb(byte);
-	DBG << "sent " << flush;
+	DBG << "s " << flush;
 
 }

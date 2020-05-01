@@ -66,11 +66,15 @@ void CGA_Screen::print (char* string, int length, Attribute attrib){
 
         bool new_line = false;
         bool last_line = false;
+        bool backspace = false;
         int x = 0;
         int y = 0;
         getpos(x,y);
 
-        if(x == width -1 || string[i] == '\n'){
+        if(string[i] == '\b'){
+            backspace = true;
+            if(x > 0) x--;
+        }else if(x == width -1 || string[i] == '\n'){
             new_line = true;
             if(y == height - 1){
                 last_line = true;
@@ -85,7 +89,11 @@ void CGA_Screen::print (char* string, int length, Attribute attrib){
                 tab = 0;
                 ++i;
             }
-        }else if(string[i] != '\n'){
+        }else if(backspace){
+            show(from_col + x, from_row + y, ' ', attrib);
+            --x;
+            ++i;
+        }else if(!new_line){
             show(from_col + x, from_row + y, string[i], attrib);
             ++i;
         }else{
