@@ -88,6 +88,15 @@ extern "C" int main()
 	kout << "19: max:   " << ~((unsigned int)0) << " -> 4294967295 ok" << " Teste die Ausgabe: Zeilenumbruch automatisch einfuegen... " << endl;
 	kout << "20: \thello: now a tab:\tand now some text..." << flush;
 
+	// Instantiate and echo the keyboard
+	Keyboard_Controller kctrl;
+	
+	Key in;
+	while (true) {
+		in = kctrl.key_hit();
+		kout << in;
+	}
+
 	return 0;
 }
 
