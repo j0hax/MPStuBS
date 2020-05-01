@@ -55,6 +55,7 @@ void CGA_Screen::getpos (int& x, int& y){
 void CGA_Screen::print (char* string, int length, Attribute attrib){
 
     int i = 0; 
+    int tab = 0;
 
     while (i < length){
 
@@ -76,10 +77,20 @@ void CGA_Screen::print (char* string, int length, Attribute attrib){
             }
         }
 
-        if(string[i] != '\n'){
+        if(string[i] == '\t'){
+            ++tab;
+            if(tab < 4){
+                show(from_col + x, from_row + y, ' ', attrib);
+            }else{
+                tab = 0;
+                ++i;
+            }
+        }else if(string[i] != '\n'){
             show(from_col + x, from_row + y, string[i], attrib);
+            ++i;
+        }else{
+            ++i;
         }
-        ++i;
 
         if(last_line){
 

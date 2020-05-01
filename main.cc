@@ -75,7 +75,7 @@ extern "C" int main()
 	kout << "7 min:    " << (1<<31) << " -> -2147483648" << endl;
 	kout << "8 int:   " << (-123456789) << " -> -123456789" << endl;
 	kout << "9 int:   " << (123456789) << " -> 123456789" << endl;
-	kout << "10:     " << bin << 42 << dec << " -> 0b101010" << endl;
+	kout << "\t10:     " << bin << 42 << dec << " -> 0b\t101010" << endl;
 	kout << "11:      " << oct << 42 << dec << " -> 052" << endl;
 	kout << "12:        " << hex << 42 << dec << " -> 0x2a" << endl;
 	kout << "13:    " << ((void*)(3735928559u)) << " -> 0xdeadbeef" << endl;
@@ -86,7 +86,7 @@ extern "C" int main()
 	kout << "18:        " << (10) << " -> 10d" << endl;
 	
 	kout << "19: max:   " << ~((unsigned int)0) << " -> 4294967295 ok" << " Teste die Ausgabe: Zeilenumbruch automatisch einfuegen... " << endl;
-	kout << "20: hello" << flush;
+	kout << "20: \thello: now a tab:\tand now some text..." << flush;
 
 	return 0;
 }
