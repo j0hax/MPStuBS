@@ -9,6 +9,7 @@
 #include "machine/apicsystem.h"
 #include "machine/lapic.h"
 #include "debug/output.h"
+#include "machine/keyctrl.h"
 
 extern APICSystem system;
 
