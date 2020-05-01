@@ -113,13 +113,13 @@ void Keyboard_Controller::drainKeyboardBuffer()
 void Keyboard_Controller::send_command(unsigned char cmd, unsigned char data)
 {
 	// Befehlscode 
-	data_port.outb(cmd);
+	send_byte(cmd);
 	
 	// Befehlsdaten
-	data_port.outb(data);
+	send_byte(data);
 }
 
 void Keyboard_Controller::send_byte(unsigned char byte)
 {
-	ctrl_port.outb(byte);
+	data_port.outb(byte);
 }
