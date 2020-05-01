@@ -6,6 +6,7 @@
 #include "debug/output.h"
 
 /* GLOBALE VARIABLEN */
+//
 
 /* OEFFENTLICHE METHODEN */
 
@@ -34,9 +35,27 @@ Keyboard_Controller::Keyboard_Controller () :
 
 Key Keyboard_Controller::key_hit()
 {
-	//TODO: In dieser Methode muss noch Code von euch ergänzt werden!
 	Key pressed;  // nicht explizit initialisierte Tasten sind ungueltig
 
+	// statusregister checken, wenn Puffer nichts neues hat, returnen
+	uint8_t status = ctrl_port.inb();
+	
+	if ((status & outb) == 0) {
+		return pressed;
+	}
+
+	// Gucken ob daten von Maus
+	if ((status & auxb) == 1) {
+		return pressed;
+	}
+
+	// Key lesen
+	pressed = keydecoder.decode(data_port.inb());
+
+	// Tastatur sagen dass die Key gelesen wurde
+	//drainKeyboardBuffer();
+
+	// Key zurueckgeben
 	return pressed;
 }
 
@@ -64,34 +83,43 @@ void Keyboard_Controller::reboot ()
 
 void Keyboard_Controller::set_repeat_rate (int speed, int delay)
 {
-	//TODO: In dieser Methode muss noch Code von euch ergänzt werden!
-	(void) speed;
-	(void) delay;
+	/*	Hackerman bitwise concatenation:
+		Delay, dann speed hintereinander
+	*/
+	unsigned char data = (delay << 4) | speed;
+
+	send_command(kbd_cmd::set_speed, data);
 }
 
 // SET_LED: setzt oder loescht die angegebene Leuchtdiode
 
 void Keyboard_Controller::set_led (led_t led, bool on)
 {
-	//TODO: In dieser Methode muss noch Code von euch ergänzt werden!
-	(void) led;
-	(void) on;
+	// Compilen tut das. Funktioniert es auch so? Muss getestet werden.
+	send_command(kbd_cmd::set_led, led);
+	// Kommando und LED wurde geschickt, jetzt Zustand
+	send_byte(on);
 }
 
 void Keyboard_Controller::drainKeyboardBuffer()
 {
-	//TODO: In dieser Methode muss noch Code von euch ergänzt werden!
+	// Keys lesen bis es keine mehr gibt?
+	while ((ctrl_port.inb() & outb) != 0) {
+		key_hit();
+	}
+
 }
 
 void Keyboard_Controller::send_command(unsigned char cmd, unsigned char data)
 {
-	//TODO: In dieser Methode muss noch Code von euch ergänzt werden!
-	(void) cmd;
-	(void) data;
+	// Befehlscode 
+	data_port.outb(cmd);
+	
+	// Befehlsdaten
+	data_port.outb(data);
 }
 
 void Keyboard_Controller::send_byte(unsigned char byte)
 {
-	//TODO: In dieser Methode muss noch Code von euch ergänzt werden!
-	(void) byte;
+	ctrl_port.outb(byte);
 }
