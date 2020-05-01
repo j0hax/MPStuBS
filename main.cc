@@ -80,7 +80,7 @@ extern "C" int main()
 	kout << "11:      " << oct << 42 << dec << " -> 052" << endl;
 	kout << "12:        " << hex << 42 << dec << " -> 0x2a" << endl;
 	kout << "13:    " << ((void*)(3735928559u)) << " -> 0xdeadbeef" << endl;
-	kout << "14:     " << ((char)1) << endl;    // a heart
+	kout << "14:     " << ((char)3) << endl;    // a heart
 	kout << "15        <stream "<<  (int)'\n' <<" result> -> <expected>" << endl;
 	kout << "16:       " << true << " -> true" << endl;
 	kout << "17:       " << 0 << " -> 0" << endl;
@@ -95,7 +95,10 @@ extern "C" int main()
 	Key in;
 	while (true) {
 		in = kctrl.key_hit();
-		kout << in;
+		
+		if(in.valid()) kout << in << flush;
+		
+		if(in.ctrl() && in == 'c') kctrl.reboot();
 	}
 
 	return 0;

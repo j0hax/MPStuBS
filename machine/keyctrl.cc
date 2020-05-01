@@ -43,17 +43,19 @@ Key Keyboard_Controller::key_hit()
 	if ((status & outb) == 0) {
 		return pressed;
 	}
-
-	// Gucken ob daten von Maus
+	
+	// Gucken ob daten von Maus -> Dies ist irgendwie nie der Fall??
 	if ((status & auxb) == 1) {
+		DBG << "mouse detected" << endl;
+		drainKeyboardBuffer();
 		return pressed;
 	}
-
 	// Key lesen
 	pressed = keydecoder.decode(data_port.inb());
 
+	if(pressed.valid())
+	DBG << pressed << " detected" << endl;
 	// Tastatur sagen dass die Key gelesen wurde
-	//drainKeyboardBuffer();
 
 	// Key zurueckgeben
 	return pressed;
@@ -104,8 +106,12 @@ void Keyboard_Controller::set_led (led_t led, bool on)
 void Keyboard_Controller::drainKeyboardBuffer()
 {
 	// Keys lesen bis es keine mehr gibt?
-	while ((ctrl_port.inb() & outb) != 0) {
-		key_hit();
+	uint8_t i = ctrl_port.inb();
+	while ((i & outb) == 1) {
+		//key_hit();
+		data_port.inb();
+		i = ctrl_port.inb();
+		DBG << "clearing " << flush;
 	}
 
 }
@@ -121,5 +127,10 @@ void Keyboard_Controller::send_command(unsigned char cmd, unsigned char data)
 
 void Keyboard_Controller::send_byte(unsigned char byte)
 {
+
+	while((ctrl_port.inb() & inpb) == 1)
+		DBG << "waiting for keyboard" << flush;
 	data_port.outb(byte);
+	DBG << "sent " << flush;
+
 }
