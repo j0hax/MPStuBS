@@ -48,7 +48,7 @@ extern "C" int main()
 	// Startmeldung ausgeben
 	APICSystem::SystemType type = system.getSystemType();
 	unsigned int numCPUs = system.getNumberOfCPUs();
-	DBG/*_VERBOSE*/ << "Is SMP system? " << (type == APICSystem::MP_APIC) << endl
+	DBG_VERBOSE << "Is SMP system? " << (type == APICSystem::MP_APIC) << endl
 	            << "Number of CPUs: " << numCPUs << endl;
 	switch (type) {
 		case APICSystem::MP_APIC: {
@@ -109,7 +109,7 @@ extern "C" int main()
 extern "C" int main_ap()
 {
 	DBG.reset(' ', DBG.get_attribute());
-	DBG/*_VERBOSE*/ << "CPU " << (int) system.getCPUID()
+	DBG_VERBOSE << "CPU " << (int) system.getCPUID()
 	            << "/LAPIC " << (int) lapic.getLAPICID() << " in main_ap()" << endl;
 
 	return 0;

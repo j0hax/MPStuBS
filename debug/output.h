@@ -17,6 +17,9 @@
  *        Änderung des Makros) als Ausgabe verwendet werden - dadurch wird
  *        die ggf. sehr umfangreiche Ausgaben besser lesbar (Stichwort Scrollen)
  */
+
+#define VERBOSE
+
 #ifdef VERBOSE
 // Sofern VERBOSE gesetzt ist, leite alles an DBG (unten definiert) weiter
 #define DBG_VERBOSE DBG
