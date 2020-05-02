@@ -28,6 +28,7 @@ void CGA_Screen::setpos (int x, int y){
         d_port.outb((uint8_t)((data & 0xFF00) >> 8));
         i_port.outb(0xf);
         d_port.outb((uint8_t)data & 0x00FF);
+
     }else{
         rel_x = x;
         rel_y = y;
@@ -38,13 +39,18 @@ void CGA_Screen::setpos (int x, int y){
 void CGA_Screen::getpos (int& x, int& y){
 
     if(use_cursor){
+        int total_x = 0;
+        int total_y = 0;
         uint16_t data = 0;
         i_port.outb(0xe);
         data = 0xFF00 & (d_port.inb() << 8);
         i_port.outb(0xf);
         data += 0xFF & d_port.inb();
-        y = from_row + (data / 80);
-        x = from_col + (data - y*80);
+        total_y = data / 80;
+        total_x = data - total_y*80;
+        y = total_y - from_row;
+        x = total_x - from_col;
+
     } else {
         x = rel_x;
         y = rel_y;
@@ -93,12 +99,10 @@ void CGA_Screen::print (char* string, int length, Attribute attrib){
             show(from_col + x, from_row + y, ' ', attrib);
             --x;
             ++i;
-        }else if(!new_line){
+        }else if(string[i] != '\n'){
             show(from_col + x, from_row + y, string[i], attrib);
             ++i;
-        }else{
-            ++i;
-        }
+        }else ++i;
 
         if(last_line){
 

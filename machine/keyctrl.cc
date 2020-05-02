@@ -18,12 +18,12 @@ Keyboard_Controller::Keyboard_Controller () :
 	keydecoder(this), ctrl_port (0x64), data_port (0x60)
 {
 	// alle LEDs ausschalten (bei vielen PCs ist NumLock nach dem Booten an)
-	set_led (led_caps_lock, false);
-	set_led (led_scroll_lock, false);
-	set_led (led_num_lock, true);
+	set_led (led_caps_lock, true);
+	set_led (led_scroll_lock, true);
+	set_led (led_num_lock, false);
 
 	// maximale Geschwindigkeit, minimale Verzoegerung
-	set_repeat_rate (0, 0);
+	set_repeat_rate (0, 0x3);
 }
 
 // KEY_HIT: Dient der Tastaturabfrage nach dem Auftreten einer Tastatur-
@@ -99,9 +99,16 @@ void Keyboard_Controller::set_repeat_rate (int speed, int delay)
 void Keyboard_Controller::set_led (led_t led, bool on)
 {
 	// Compilen tut das. Funktioniert es auch so? Muss getestet werden.
-	send_command(kbd_cmd::set_led, led);
+	//send_command(kbd_cmd::set_led, led);
 	// Kommando und LED wurde geschickt, jetzt Zustand
-	send_byte(on);
+	//send_byte(on);
+	if((led & led_t::led_caps_lock) == led_t::led_caps_lock){
+		send_command(kbd_cmd::set_led, (uint8_t)(on << 2));
+	}else if((led & led_t::led_num_lock) == led_t::led_num_lock){
+		send_command(kbd_cmd::set_led, (uint8_t)(on << 1));
+	}else if((led & led_t::led_scroll_lock) == led_t::led_scroll_lock){
+		send_command(kbd_cmd::set_led, (uint8_t)(on));
+	}
 }
 
 void Keyboard_Controller::drainKeyboardBuffer()
@@ -121,7 +128,9 @@ void Keyboard_Controller::send_command(unsigned char cmd, unsigned char data)
 {
 	// Befehlscode 
 	send_byte(cmd);
-	
+	//while((ctrl_port.inb() & kbd_reply::ack) != kbd_reply::ack){
+	//	DBG << "wfack " << flush;
+	//}
 	// Befehlsdaten
 	send_byte(data);
 }
@@ -130,7 +139,7 @@ void Keyboard_Controller::send_byte(unsigned char byte)
 {
 
 	while((ctrl_port.inb() & inpb) == inpb)
-		DBG << "waiting for keyboard" << flush;
+		DBG << "wfk " << flush;
 	data_port.outb(byte);
 	DBG << "s " << flush;
 
