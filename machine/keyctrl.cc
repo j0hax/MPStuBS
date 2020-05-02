@@ -18,12 +18,12 @@ Keyboard_Controller::Keyboard_Controller () :
 	keydecoder(this), ctrl_port (0x64), data_port (0x60)
 {
 	// alle LEDs ausschalten (bei vielen PCs ist NumLock nach dem Booten an)
-	set_led (led_caps_lock, true);
-	set_led (led_scroll_lock, true);
+	set_led (led_caps_lock, false);
+	set_led (led_scroll_lock, false);
 	set_led (led_num_lock, false);
 
 	// maximale Geschwindigkeit, minimale Verzoegerung
-	set_repeat_rate (0, 0x3);
+	set_repeat_rate (0, 0);
 }
 
 // KEY_HIT: Dient der Tastaturabfrage nach dem Auftreten einer Tastatur-
@@ -103,11 +103,11 @@ void Keyboard_Controller::set_led (led_t led, bool on)
 	// Kommando und LED wurde geschickt, jetzt Zustand
 	//send_byte(on);
 	if((led & led_t::led_caps_lock) == led_t::led_caps_lock){
-		send_command(kbd_cmd::set_led, (uint8_t)(on << 2));
+		send_command(kbd_cmd::set_led, on << 2);
 	}else if((led & led_t::led_num_lock) == led_t::led_num_lock){
-		send_command(kbd_cmd::set_led, (uint8_t)(on << 1));
+		send_command(kbd_cmd::set_led, on << 1);
 	}else if((led & led_t::led_scroll_lock) == led_t::led_scroll_lock){
-		send_command(kbd_cmd::set_led, (uint8_t)(on));
+		send_command(kbd_cmd::set_led, on);
 	}
 }
 
@@ -128,9 +128,7 @@ void Keyboard_Controller::send_command(unsigned char cmd, unsigned char data)
 {
 	// Befehlscode 
 	send_byte(cmd);
-	//while((ctrl_port.inb() & kbd_reply::ack) != kbd_reply::ack){
-	//	DBG << "wfack " << flush;
-	//}
+
 	// Befehlsdaten
 	send_byte(data);
 }
