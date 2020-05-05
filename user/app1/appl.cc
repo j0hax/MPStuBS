@@ -2,7 +2,5 @@
 
 #include "user/app1/appl.h"
 
-void Application::action ()
-{
-
+void Application::action() {
 }

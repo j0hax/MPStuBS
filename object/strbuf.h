@@ -35,52 +35,52 @@
  *  auszugeben.
  */
 class Stringbuffer {
-	// Verhindere Kopien und Zuweisungen
-	Stringbuffer(const Stringbuffer&)            = delete;
-	Stringbuffer& operator=(const Stringbuffer&) = delete;
-	// Alle Variablen und Methoden dieser Klasse sind "protected",
-	// da die abgeleiteten Klassen einen direkten Zugriff auf den
-	// Puffer, den Konstruktor, den Destruktor und die Methode put
-	// benötigen. Die Methode flush() muss sowieso neu definiert
-	// werden und kann dann auch public werden.
+  // Verhindere Kopien und Zuweisungen
+  Stringbuffer(const Stringbuffer &)            = delete;
+  Stringbuffer &operator=(const Stringbuffer &) = delete;
+  // Alle Variablen und Methoden dieser Klasse sind "protected",
+  // da die abgeleiteten Klassen einen direkten Zugriff auf den
+  // Puffer, den Konstruktor, den Destruktor und die Methode put
+  // benötigen. Die Methode flush() muss sowieso neu definiert
+  // werden und kann dann auch public werden.
 
 protected:
-	/// Zeichenpuffer
-	char buffer[80];
-	/// Aktuelle Position im Puffer
-	int pos;
+  /// Zeichenpuffer
+  char buffer[80];
+  /// Aktuelle Position im Puffer
+  int pos;
 
-	/*! \brief Konstruktor; Markiert Puffer als leer.
-	 *
-	 *  \todo Konstruktor vervollständigen
-	 */
-	Stringbuffer()
-	//TODO: Hier muss noch Code vervollständigt werden.
-	{
-		pos = 0;
-	}
+  /*! \brief Konstruktor; Markiert Puffer als leer.
+   *
+   *  \todo Konstruktor vervollständigen
+   */
+  Stringbuffer()
+  //TODO: Hier muss noch Code vervollständigt werden.
+  {
+    pos = 0;
+  }
 
-	/*! \brief Fügt das Zeichen c in den Puffer ein.
-	 *
-	 *  Wenn der Puffer daraufhin voll ist, wird er durch Aufruf der Methode
-	 *  flush() geleert.
-	 *
-	 *  \todo Methode implementieren
-	 *
-	 *  \param c Einzufügendes Zeichen
-	 */
-	void put(char c);
+  /*! \brief Fügt das Zeichen c in den Puffer ein.
+   *
+   *  Wenn der Puffer daraufhin voll ist, wird er durch Aufruf der Methode
+   *  flush() geleert.
+   *
+   *  \todo Methode implementieren
+   *
+   *  \param c Einzufügendes Zeichen
+   */
+  void put(char c);
 
-	/*! \brief Methode zur Ausgabe des Pufferinhalts
-	 *
-	 *  Diese Methode muss in den abgeleiteten Klassen definiert werden,
-	 *  denn nur diese wissen, wie die Zeichen ausgegeben werden können.
-	 *  flush() muss den Positionszeiger pos zurücksetzen.
-	 */
-	virtual void flush() = 0;
+  /*! \brief Methode zur Ausgabe des Pufferinhalts
+   *
+   *  Diese Methode muss in den abgeleiteten Klassen definiert werden,
+   *  denn nur diese wissen, wie die Zeichen ausgegeben werden können.
+   *  flush() muss den Positionszeiger pos zurücksetzen.
+   */
+  virtual void flush() = 0;
 public:
-	/*! \brief Destruktor (hier nichts zu tun)
-	 */
-	virtual ~Stringbuffer() { }
+  /*! \brief Destruktor (hier nichts zu tun)
+   */
+  virtual ~Stringbuffer() { }
 };
 

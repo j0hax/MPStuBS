@@ -25,36 +25,36 @@
  *  Effekte stehen die Methoden der Klasse CGA_Screen zur Verfügung.
  */
 class CGA_Stream : public CGA_Screen, public O_Stream
-	//TODO: Hier muss die Vererbungshierarchie vervollständigt werden.
+//TODO: Hier muss die Vererbungshierarchie vervollständigt werden.
 {
 private:
-	// Verhindere Kopien und Zuweisungen
-	CGA_Stream(const CGA_Stream&)            = delete;
-	CGA_Stream& operator=(const CGA_Stream&) = delete;
-	CGA_Screen::Attribute attr;
+  // Verhindere Kopien und Zuweisungen
+  CGA_Stream(const CGA_Stream &)            = delete;
+  CGA_Stream &operator=(const CGA_Stream &) = delete;
+  CGA_Screen::Attribute attr;
 public:
-	/// \copydoc CGA_Screen::CGA_Screen(int, int, int, int, bool)
-	CGA_Stream(int from_col, int to_col, int from_row, int to_row,
-			   bool use_cursor = false, Attribute a = Attribute())
-	:CGA_Screen(from_col, to_col, from_row, to_row, use_cursor), attr(a)
-	//TODO: Hier muss noch Code vervollständigt werden.
-	{
-		/*(void) from_col;
-		(void) to_col;
-		(void) from_row;
-		(void) to_row;
-		(void) use_cursor;*/
-	}
+  /// \copydoc CGA_Screen::CGA_Screen(int, int, int, int, bool)
+  CGA_Stream(int from_col, int to_col, int from_row, int to_row,
+             bool use_cursor = false, Attribute a = Attribute())
+    : CGA_Screen(from_col, to_col, from_row, to_row, use_cursor), attr(a)
+      //TODO: Hier muss noch Code vervollständigt werden.
+  {
+    /*(void) from_col;
+    (void) to_col;
+    (void) from_row;
+    (void) to_row;
+    (void) use_cursor;*/
+  }
 
-	/*! \brief Methode zur Ausgabe des Pufferinhalts der Basisklasse Stringbuffer.
-	 *
-	 *  Die Methode wird implizit aufgerufen, sobald der Puffer voll ist,
-	 *  kann aber auch explizit verwendet werden, um eine Ausgabe zu erzwingen.
-	 *
-	 *  \todo Methode implementieren
-	 */
-	void flush();
+  /*! \brief Methode zur Ausgabe des Pufferinhalts der Basisklasse Stringbuffer.
+   *
+   *  Die Methode wird implizit aufgerufen, sobald der Puffer voll ist,
+   *  kann aber auch explizit verwendet werden, um eine Ausgabe zu erzwingen.
+   *
+   *  \todo Methode implementieren
+   */
+  void flush();
 
-	CGA_Screen::Attribute get_attribute();
+  CGA_Screen::Attribute get_attribute();
 };
 

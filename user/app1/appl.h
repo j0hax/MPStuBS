@@ -8,21 +8,20 @@
 
 /*! \brief Die Klasse Application definiert eine Anwendung für OO-Stubs.
  */
-class Application
-{
-	// Verhindere Kopien und Zuweisungen
-	Application(const Application&)            = delete;
-	Application& operator=(const Application&) = delete;
+class Application {
+  // Verhindere Kopien und Zuweisungen
+  Application(const Application &)            = delete;
+  Application &operator=(const Application &) = delete;
 
 public:
-	/*! \brief Konstruktor
-	 *
-	 * \param i Instanz-ID
-	 */
+  /*! \brief Konstruktor
+   *
+   * \param i Instanz-ID
+   */
 
-	/*! \brief Enthält den Code der Anwendung
-	 *
-	 */
-	void action ();
+  /*! \brief Enthält den Code der Anwendung
+   *
+   */
+  void action();
 };
 

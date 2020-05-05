@@ -25,4 +25,4 @@
  *  \param context beinhaltet einen Pointer auf den eigenen Stack, über
  *                 den auf den Unterbrechungskontext zugegriffen werden kann.
  */
-extern "C" void guardian(uint32_t vector, irq_context *context);
+extern "C" void guardian(uint32_t vector, irq_context* context);

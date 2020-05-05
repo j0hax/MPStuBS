@@ -21,13 +21,13 @@
 #define VERBOSE
 
 #ifdef VERBOSE
-// Sofern VERBOSE gesetzt ist, leite alles an DBG (unten definiert) weiter
-#define DBG_VERBOSE DBG
+  // Sofern VERBOSE gesetzt ist, leite alles an DBG (unten definiert) weiter
+  #define DBG_VERBOSE DBG
 #else
-// Andernfalls wird alles an den Null_Stream gesendet, der alles einfach verwirft
-#define DBG_VERBOSE nullstream
-// Wir müssen noch den Null_Stream inkludieren
-#include "debug/null_stream.h"
+  // Andernfalls wird alles an den Null_Stream gesendet, der alles einfach verwirft
+  #define DBG_VERBOSE nullstream
+  // Wir müssen noch den Null_Stream inkludieren
+  #include "debug/null_stream.h"
 #endif
 
 /*!

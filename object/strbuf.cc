@@ -2,10 +2,11 @@
 
 #include "strbuf.h"
 
-void Stringbuffer::put(char c){
-    buffer[pos] = c;
-    pos++;
-    if(pos == 80){
-        flush(); 
-    }
+void Stringbuffer::put(char c) {
+  buffer[pos] = c;
+  pos++;
+
+  if (pos == 80) {
+    flush();
+  }
 }

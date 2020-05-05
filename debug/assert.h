@@ -10,14 +10,14 @@
 #pragma once
 
 #ifndef STRINGIFY
-/*!
- *  \def STRINGIFY(S)
- *  \brief Wandle den Makroparameter in eine Zeichenkette um
- *  \ingroup debug
- *  \param S Umzuwandelnder Ausdruck
- *  \return Ausdruck als Zeichenkette
- */
-#define STRINGIFY(S) #S
+  /*!
+  *  \def STRINGIFY(S)
+  *  \brief Wandle den Makroparameter in eine Zeichenkette um
+  *  \ingroup debug
+  *  \param S Umzuwandelnder Ausdruck
+  *  \return Ausdruck als Zeichenkette
+  */
+  #define STRINGIFY(S) #S
 #endif
 
 /*!
@@ -63,6 +63,7 @@
  *  \param file Name der Datei, in der die Zusicherung steht
  *  \param line Zeile in der Datei, in der die Zusicherung steht
  */
-[[noreturn]] void assertion_failed(const char * exp, const char * func, const char * file, int line);
+[[noreturn]] void assertion_failed(const char* exp, const char* func,
+                                   const char* file, int line);
 #endif
 

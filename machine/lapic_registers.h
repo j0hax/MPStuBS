@@ -83,9 +83,9 @@
  *  siehe: System Programming Guide 3A, p. 9-13
  */
 struct LAPICID_P { // Pentium CPUs
-	uint32_t	reserved_1:24,
-				apic_id:4, ///< APIC ID
-				reserved_2:4;
+  uint32_t	reserved_1: 24,
+            apic_id: 4, ///< APIC ID
+            reserved_2: 4;
 } __attribute__((packed));
 
 /*! \brief Local APIC ID Register für Pentium IV und spätere
@@ -93,8 +93,8 @@ struct LAPICID_P { // Pentium CPUs
  *  siehe: System Programming Guide 3A, p. 9-13
  */
 struct LAPICID_P4 { // Pentium 4 and Xeon CPUs
-	uint32_t	reserved_1:24,
-				apic_id:8; ///< APIC ID
+  uint32_t	reserved_1: 24,
+            apic_id: 8; ///< APIC ID
 } __attribute__((packed));
 
 /*! \brief Local APIC Version Register
@@ -102,10 +102,10 @@ struct LAPICID_P4 { // Pentium 4 and Xeon CPUs
  *  siehe: System Programming Guide 3A, p. 9-15
  */
 struct LAPICVER {
-	uint32_t	version:8, ///< Version (0x14 for P4s and Xeons)
-				reserved_1:8,
-				max_lvt_entry:8, ///< Maximum LVT Entry
-				reserved_2:8;
+  uint32_t	version: 8, ///< Version (0x14 for P4s and Xeons)
+            reserved_1: 8,
+            max_lvt_entry: 8, ///< Maximum LVT Entry
+            reserved_2: 8;
 } __attribute__((packed));
 
 /*! \brief Interrupt Command Register Low
@@ -113,16 +113,16 @@ struct LAPICVER {
  *  siehe: System Programming Guide 3A, p. 9-39
  */
 struct ICR_L {
-	uint32_t	vector:8, ///< Vector
-				delivery_mode:3, ///< Delivery Mode
-				destination_mode:1, ///< Destination Mode
-				delivery_status:1, ///< Delivery Status
-				reserved_1:1,
-				level:1, ///< Level
-				trigger_mode:1, ///< Trigger Mode
-				reserved_2:2,
-				destination_shorthand:2, ///< Destination Shorthand
-				reserved_3:12;
+  uint32_t	vector: 8, ///< Vector
+            delivery_mode: 3, ///< Delivery Mode
+            destination_mode: 1, ///< Destination Mode
+            delivery_status: 1, ///< Delivery Status
+            reserved_1: 1,
+            level: 1, ///< Level
+            trigger_mode: 1, ///< Trigger Mode
+            reserved_2: 2,
+            destination_shorthand: 2, ///< Destination Shorthand
+            reserved_3: 12;
 } __attribute__((packed));
 
 /*! \brief LAPIC-Timer Control Register
@@ -130,13 +130,13 @@ struct ICR_L {
  *  siehe: System Programming Guide 3A, 10-13
  */
 struct LAPICTimer_Control {
-	uint32_t	vector:8, ///< Vector
-				reserved_1:4,
-				delivery_status:1, ///< Delivery Status
-				reserved_2:3,
-				masked:1, ///< Interrupt Mask (1 == IRQ tritt nicht auf)
-				timer_mode: 2,  ///< Timer Mode
-				reserved_3:13;
+  uint32_t	vector: 8, ///< Vector
+            reserved_1: 4,
+            delivery_status: 1, ///< Delivery Status
+            reserved_2: 3,
+            masked: 1, ///< Interrupt Mask (1 == IRQ tritt nicht auf)
+            timer_mode: 2,  ///< Timer Mode
+            reserved_3: 13;
 } __attribute__((packed));
 
 /*! \brief Interrupt Command Register High
@@ -144,8 +144,8 @@ struct LAPICTimer_Control {
  *  siehe: System Programming Guide 3A, p. 9-39
  */
 struct ICR_H {
-	uint32_t	reserved:24,
-				destination_field:8; ///< Destination Field
+  uint32_t	reserved: 24,
+            destination_field: 8; ///< Destination Field
 } __attribute__((packed));
 
 /*! \brief Logical Destination Register
@@ -153,8 +153,8 @@ struct ICR_H {
  *  siehe: System Programming Guide 3A, p. 9-47
  */
 struct LDR {
-	uint32_t reserved:24,
-			 lapic_id:8; ///< Logical APIC ID
+  uint32_t reserved: 24,
+           lapic_id: 8; ///< Logical APIC ID
 } __attribute__((packed));
 
 /*! \brief Destination Format Register
@@ -162,8 +162,8 @@ struct LDR {
  *  System Programming Guide 3A, p. 9-48
  */
 struct DFR {
-	uint32_t reserved:28,
-			 model:4; // Model (Flat vs. Cluster)
+  uint32_t reserved: 28,
+           model: 4; // Model (Flat vs. Cluster)
 } __attribute__((packed));
 
 /*! \brief Task Priority Register
@@ -171,9 +171,9 @@ struct DFR {
  *  System Programming Guide 3A, p. 9-58
  */
 struct TPR {
-	uint32_t task_prio_sub:4, ///< Task Priority Sub-Class
-			 task_prio:4, ///< Task Priority
-			 reserved:24;
+  uint32_t task_prio_sub: 4, ///< Task Priority Sub-Class
+           task_prio: 4, ///< Task Priority
+           reserved: 24;
 } __attribute__((packed));
 
 /*! \brief Spurious Interrupt Vector Register
@@ -181,26 +181,26 @@ struct TPR {
  *  System Programming Guide 3A, p. 9-64
  */
 struct SVR {
-	uint32_t spurious_vector:8, ///< Spurious Vector
-			 apic_enable:1, ///< APIC Software Enable/Disable
-			 focus_processor_checking:1, ///< Focus Processor Checking
-			 reserved:22;
+  uint32_t spurious_vector: 8, ///< Spurious Vector
+           apic_enable: 1, ///< APIC Software Enable/Disable
+           focus_processor_checking: 1, ///< Focus Processor Checking
+           reserved: 22;
 } __attribute__((packed));
 
 // Union über alle LAPIC-Register, um die Register generisch verwenden zu können
 union LAPICRegister {
-	struct LAPICID_P		  lapicid_p;
-	struct LAPICID_P4		  lapicid_p4;
-	struct LAPICVER		  lapicver;
-	struct ICR_L			  icr_l;
-	struct ICR_H			  icr_h;
-	struct LDR				  ldr;
-	struct DFR				  dfr;
-	struct TPR				  tpr;
-	struct SVR			      svr;
-	struct LAPICTimer_Control timer_ctrl;
+  struct LAPICID_P		  lapicid_p;
+  struct LAPICID_P4		  lapicid_p4;
+  struct LAPICVER		  lapicver;
+  struct ICR_L			  icr_l;
+  struct ICR_H			  icr_h;
+  struct LDR				  ldr;
+  struct DFR				  dfr;
+  struct TPR				  tpr;
+  struct SVR			      svr;
+  struct LAPICTimer_Control timer_ctrl;
 
-	uint32_t value;
+  uint32_t value;
 } __attribute__((packed));
 
 typedef union LAPICRegister LAPICRegister_t;

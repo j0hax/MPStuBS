@@ -26,7 +26,7 @@
  *  nur noch die als Parameter angegebene Funktion ausführen muss.
  *
  *  \par Anmerkung
- *  Der Manipulatorbegriff wurde dem Buch 
+ *  Der Manipulatorbegriff wurde dem Buch
  *  <a href="http://www.stroustrup.com/4th.html">The C++ Programming Language</a>
  *  von Bjarne Stroustrup entnommen.
  *  Dort finden sich auch weitergehende Erläuterungen dazu.
@@ -67,116 +67,116 @@
  */
 
 class O_Stream : public Stringbuffer
-	//TODO: Hier muss die Vererbungshierarchie vervollständigt werden.
+//TODO: Hier muss die Vererbungshierarchie vervollständigt werden.
 {
-	O_Stream(const O_Stream&)            = delete;
-	O_Stream& operator=(const O_Stream&) = delete;
+  O_Stream(const O_Stream &)            = delete;
+  O_Stream &operator=(const O_Stream &) = delete;
 public:
-	/*! \brief Basis des zur Anzeige verwendeten Zahlensystems (z.B. 2, 8, 10 oder 16)
-	 *
-	 */
-	int base;
+  /*! \brief Basis des zur Anzeige verwendeten Zahlensystems (z.B. 2, 8, 10 oder 16)
+   *
+   */
+  int base;
 
-	/*! \brief Konstruktor; Initiale Zahlenbasis ist das Dezimalsystem.
-	 *
-	 *  \todo Konstruktor implementieren
-	 *
-	 */
-	O_Stream ()
-	//TODO: Hier muss noch Code vervollständigt werden.
-	{
-		base = 10;
-	}
+  /*! \brief Konstruktor; Initiale Zahlenbasis ist das Dezimalsystem.
+   *
+   *  \todo Konstruktor implementieren
+   *
+   */
+  O_Stream()
+  //TODO: Hier muss noch Code vervollständigt werden.
+  {
+    base = 10;
+  }
 
-	/*! \brief Destruktor
-	 */
-	virtual ~O_Stream () {}
+  /*! \brief Destruktor
+   */
+  virtual ~O_Stream() {}
 
-	/*! \brief Leert den Puffer.
-	 *
-	 *  Rein virtuelle Methode, die erst durch abgeleitete Klassen implementiert
-	 *  wird. Darstellung des Pufferinhalts kann so durch unterschiedliche Kindklassen
-	 *  variiert werden.
-	 */
-	virtual void flush () = 0;
+  /*! \brief Leert den Puffer.
+   *
+   *  Rein virtuelle Methode, die erst durch abgeleitete Klassen implementiert
+   *  wird. Darstellung des Pufferinhalts kann so durch unterschiedliche Kindklassen
+   *  variiert werden.
+   */
+  virtual void flush() = 0;
 
-	/*! \brief Stellt ein einzelnes Zeichen dar
-	 *
-	 *  \todo Operator implementieren
-	 *
-	 *  \param c Darzustellendes Zeichen
-	 *  \return Referenz auf ein O_Stream Objekt, um Operatoren konkatenieren zu können.
-	 */
-	O_Stream& operator << (char c);
+  /*! \brief Stellt ein einzelnes Zeichen dar
+   *
+   *  \todo Operator implementieren
+   *
+   *  \param c Darzustellendes Zeichen
+   *  \return Referenz auf ein O_Stream Objekt, um Operatoren konkatenieren zu können.
+   */
+  O_Stream &operator << (char c);
 
-	/*! \brief Stellt ein einzelnes Zeichen dar
-	 *  \note C kennt eigentlich keine Zeichen, sondern nur Ganzzahlen.
-	 *  `char` ist für C nur eine 8bit Zahl, wobei das höchstwertige Bit
-	 *  (MSB) ein Vorzeichen darstellen kann. Dementsprechend hat ein
-	 *  `unsigned char` einen Wertebereich von `0` bis `255`,
-	 *  bei `signed char` ist es `-128` bis `127`.
-	 *  Bei GCC sind `char` standardmäßig vorzeichenbehaftet.
-	 *
-	 *  \todo Operator implementieren
-	 *
-	 *  \param c Darzustellendes Zeichen
-	 *  \return Referenz auf ein O_Stream Objekt, um Operatoren konkatenieren zu können.
-	 */
-	O_Stream& operator << (unsigned char c);
-	/*! \brief Darstellung einer nullterminierten Zeichenkette
-	 *
-	 *  \todo Operator implementieren
-	 *
-	 *  \param string Darzustellende Zeichenkette.
-	 *  \return Referenz auf ein O_Stream Objekt, um Operatoren konkatenieren zu können.
-	 */
-	O_Stream& operator << (const char* string);
-	/*! \brief Stellt ein Boolean dar
-	 *
-	 *  \todo Operator implementieren
-	 *
-	 *  \param b Darzustellendes Boolean
-	 *  \return Referenz auf ein O_Stream Objekt, um Operatoren konkatenieren zu können.
-	 */
-	O_Stream& operator << (bool b);
-	/*! \brief Darstellung ganzer Zahlen im Zahlensystem zur Basis base
-	 *
-	 *  \todo Operator implementieren
-	 *
-	 *  \param ival Darzustellende Zahl
-	 *  \return Referenz auf ein O_Stream Objekt, um Operatoren konkatenieren zu können.
-	 */
-	O_Stream& operator << (short ival);
-	/// \copydoc O_Stream::operator<<(short)
-	O_Stream& operator << (unsigned short ival);
-	/// \copydoc O_Stream::operator<<(short)
-	O_Stream& operator << (int ival);
-	/// \copydoc O_Stream::operator<<(short)
-	O_Stream& operator << (unsigned int ival);
-	/// \copydoc O_Stream::operator<<(short)
-	O_Stream& operator << (long ival);
-	/// \copydoc O_Stream::operator<<(short)
-	O_Stream& operator << (unsigned long ival);
-	/*! \brief Darstellung eines Zeigers als hexadezimale ganze Zahl
-	 *
-	 *  \todo Operator implementieren
-	 *
-	 *  \param ptr Darzustellender Pointer
-	 *  \return Referenz auf ein O_Stream Objekt, um Operatoren konkatenieren zu können.
-	 */
-	O_Stream& operator << (const void* ptr);
-	/*! \brief Aufruf einer Manipulatorfunktion
-	 *
-	 *  Methode sorgt dafür, dass Manipulatorfunktionen aufgerufen werden,
-	 *  um Veränderungen an der Klasse (z.B. Änderung der Zahlenbasis) zu
-	 *  ermöglichen.
-	 *
-	 *  \todo Operator implementieren
-	 *
-	 *  \param f Anzuwendende Manipulatorfunktion
-	 *  \return Referenz auf ein O_Stream Objekt, um Operatoren konkatenieren zu können.
-	 */
-	O_Stream& operator << (O_Stream& (*f) (O_Stream&));
+  /*! \brief Stellt ein einzelnes Zeichen dar
+   *  \note C kennt eigentlich keine Zeichen, sondern nur Ganzzahlen.
+   *  `char` ist für C nur eine 8bit Zahl, wobei das höchstwertige Bit
+   *  (MSB) ein Vorzeichen darstellen kann. Dementsprechend hat ein
+   *  `unsigned char` einen Wertebereich von `0` bis `255`,
+   *  bei `signed char` ist es `-128` bis `127`.
+   *  Bei GCC sind `char` standardmäßig vorzeichenbehaftet.
+   *
+   *  \todo Operator implementieren
+   *
+   *  \param c Darzustellendes Zeichen
+   *  \return Referenz auf ein O_Stream Objekt, um Operatoren konkatenieren zu können.
+   */
+  O_Stream &operator << (unsigned char c);
+  /*! \brief Darstellung einer nullterminierten Zeichenkette
+   *
+   *  \todo Operator implementieren
+   *
+   *  \param string Darzustellende Zeichenkette.
+   *  \return Referenz auf ein O_Stream Objekt, um Operatoren konkatenieren zu können.
+   */
+  O_Stream &operator << (const char* string);
+  /*! \brief Stellt ein Boolean dar
+   *
+   *  \todo Operator implementieren
+   *
+   *  \param b Darzustellendes Boolean
+   *  \return Referenz auf ein O_Stream Objekt, um Operatoren konkatenieren zu können.
+   */
+  O_Stream &operator << (bool b);
+  /*! \brief Darstellung ganzer Zahlen im Zahlensystem zur Basis base
+   *
+   *  \todo Operator implementieren
+   *
+   *  \param ival Darzustellende Zahl
+   *  \return Referenz auf ein O_Stream Objekt, um Operatoren konkatenieren zu können.
+   */
+  O_Stream &operator << (short ival);
+  /// \copydoc O_Stream::operator<<(short)
+  O_Stream &operator << (unsigned short ival);
+  /// \copydoc O_Stream::operator<<(short)
+  O_Stream &operator << (int ival);
+  /// \copydoc O_Stream::operator<<(short)
+  O_Stream &operator << (unsigned int ival);
+  /// \copydoc O_Stream::operator<<(short)
+  O_Stream &operator << (long ival);
+  /// \copydoc O_Stream::operator<<(short)
+  O_Stream &operator << (unsigned long ival);
+  /*! \brief Darstellung eines Zeigers als hexadezimale ganze Zahl
+   *
+   *  \todo Operator implementieren
+   *
+   *  \param ptr Darzustellender Pointer
+   *  \return Referenz auf ein O_Stream Objekt, um Operatoren konkatenieren zu können.
+   */
+  O_Stream &operator << (const void* ptr);
+  /*! \brief Aufruf einer Manipulatorfunktion
+   *
+   *  Methode sorgt dafür, dass Manipulatorfunktionen aufgerufen werden,
+   *  um Veränderungen an der Klasse (z.B. Änderung der Zahlenbasis) zu
+   *  ermöglichen.
+   *
+   *  \todo Operator implementieren
+   *
+   *  \param f Anzuwendende Manipulatorfunktion
+   *  \return Referenz auf ein O_Stream Objekt, um Operatoren konkatenieren zu können.
+   */
+  O_Stream &operator << (O_Stream & (*f)(O_Stream &));
 
 };
 
@@ -187,7 +187,7 @@ public:
  *  \param os Zu modifizierender Stream
  *  \return Referenz auf ein O_Stream Objekt, um Operatoren konkatenieren zu können.
  */
-O_Stream& flush(O_Stream& os);
+O_Stream &flush(O_Stream &os);
 
 /*! \brief Fügt einen Zeilenumbruch in die Ausgabe ein und löst ein Leeren (Flush) des Puffers aus.
  *
@@ -196,7 +196,7 @@ O_Stream& flush(O_Stream& os);
  *  \param os Zu modifizierender Stream
  *  \return Referenz auf ein O_Stream Objekt, um Operatoren konkatenieren zu können.
  */
-O_Stream& endl(O_Stream& os);
+O_Stream &endl(O_Stream &os);
 
 /*! \brief Wählt das binäre Zahlensystem aus.
  *
@@ -205,7 +205,7 @@ O_Stream& endl(O_Stream& os);
  *  \param os Zu modifizierender Stream
  *  \return Referenz auf ein O_Stream Objekt, um Operatoren konkatenieren zu können.
  */
-O_Stream& bin(O_Stream& os);
+O_Stream &bin(O_Stream &os);
 
 /*! \brief Wählt das oktale Zahlensystem aus.
  *
@@ -214,7 +214,7 @@ O_Stream& bin(O_Stream& os);
  *  \param os Zu modifizierender Stream
  *  \return Referenz auf ein O_Stream Objekt, um Operatoren konkatenieren zu können.
  */
-O_Stream& oct(O_Stream& os);
+O_Stream &oct(O_Stream &os);
 
 /*! \brief Wählt das dezimale Zahlensystem aus.
  *
@@ -223,7 +223,7 @@ O_Stream& oct(O_Stream& os);
  *  \param os Zu modifizierender Stream
  *  \return Referenz auf ein O_Stream Objekt, um Operatoren konkatenieren zu können.
  */
-O_Stream& dec(O_Stream& os);
+O_Stream &dec(O_Stream &os);
 
 /*! \brief Wählt das hexadezimale Zahlensystem aus.
  *
@@ -232,5 +232,5 @@ O_Stream& dec(O_Stream& os);
  *  \param os Zu modifizierender Stream
  *  \return Referenz auf ein O_Stream Objekt, um Operatoren konkatenieren zu können.
  */
-O_Stream& hex(O_Stream& os);
+O_Stream &hex(O_Stream &os);
 

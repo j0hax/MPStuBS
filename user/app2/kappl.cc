@@ -2,7 +2,5 @@
 
 #include "user/app2/kappl.h"
 
-void KeyboardApplication::action()
-{
-
+void KeyboardApplication::action() {
 }
