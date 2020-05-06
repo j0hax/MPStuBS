@@ -6,7 +6,7 @@
 #include "debug/output.h"
 
 /* GLOBALE VARIABLEN */
-//
+uint8_t led_ctrl_byte = 0;
 
 /* OEFFENTLICHE METHODEN */
 
@@ -17,6 +17,9 @@
 Keyboard_Controller::Keyboard_Controller() :
   keydecoder(this), ctrl_port(0x64), data_port(0x60) {
   // alle LEDs ausschalten (bei vielen PCs ist NumLock nach dem Booten an)
+
+  //drainKeyboardBuffer();
+
   set_led(led_caps_lock, false);
   set_led(led_scroll_lock, false);
   set_led(led_num_lock, false);
@@ -43,7 +46,7 @@ Key Keyboard_Controller::key_hit() {
   // Gucken ob daten von Maus -> Dies ist irgendwie nie der Fall??
   if ((status & auxb) == auxb) {
     DBG << "mouse detected" << endl;
-    drainKeyboardBuffer();
+    data_port.inb();
     return pressed;
   }
 
@@ -95,13 +98,21 @@ void Keyboard_Controller::set_led(led_t led, bool on) {
   //send_command(kbd_cmd::set_led, led);
   // Kommando und LED wurde geschickt, jetzt Zustand
   //send_byte(on);
-  if ((led & led_t::led_caps_lock) == led_t::led_caps_lock) {
+  /*if ((led & led_t::led_caps_lock) == led_t::led_caps_lock) {
     send_command(kbd_cmd::set_led, on << 2);
   } else if ((led & led_t::led_num_lock) == led_t::led_num_lock) {
     send_command(kbd_cmd::set_led, on << 1);
   } else if ((led & led_t::led_scroll_lock) == led_t::led_scroll_lock) {
     send_command(kbd_cmd::set_led, on);
+  }*/
+  if(on){
+    led_ctrl_byte = led_ctrl_byte | led;
+  } else {
+    led_ctrl_byte = led_ctrl_byte & ~led;
   }
+  DBG << bin << (unsigned int) led_ctrl_byte << flush;
+  send_command(kbd_cmd::set_led, led_ctrl_byte);
+
 }
 
 void Keyboard_Controller::drainKeyboardBuffer() {
