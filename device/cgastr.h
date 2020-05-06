@@ -44,6 +44,7 @@ public:
     (void) from_row;
     (void) to_row;
     (void) use_cursor;*/
+    reset(' ', get_attribute());
   }
 
   /*! \brief Methode zur Ausgabe des Pufferinhalts der Basisklasse Stringbuffer.

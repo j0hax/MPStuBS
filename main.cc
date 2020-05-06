@@ -44,7 +44,7 @@ CGA_Stream dout_CPU2(0, 38, 21, 24, false, c1);
 CGA_Stream dout_CPU3(39, 79, 21, 24, false, c0);
 
 extern "C" int main() {
-  DBG.reset(' ', DBG.get_attribute());
+  //DBG.reset(' ', DBG.get_attribute());
   kout.reset(' ', kout.get_attribute());
   // Startmeldung ausgeben
   APICSystem::SystemType type = system.getSystemType();
@@ -118,7 +118,7 @@ extern "C" int main() {
  *  (entspricht allen CPUs außer derjenigen mit der ID 0).
  */
 extern "C" int main_ap() {
-  DBG.reset(' ', DBG.get_attribute());
+  //DBG.reset(' ', DBG.get_attribute());
   DBG_VERBOSE << "CPU " << (int) system.getCPUID()
               << "/LAPIC " << (int) lapic.getLAPICID() << " in main_ap()" << endl;
   return 0;

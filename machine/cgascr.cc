@@ -130,39 +130,7 @@ void CGA_Screen::print(char* string, int length, Attribute attrib) {
     }
 
     setpos(x, y);
-    /*
-    if(string[i] == '\n'){
-        ++y;
-        x = 0;
-        ++i;
-    }else{
-        show(from_col + x, from_row + y, string[i], attrib);
 
-        x++;
-        i++;
-
-        if ((x == width || string[i] == '\n') && y == height-1){
-
-            for(int tmp_y = from_row; tmp_y < to_row; ++tmp_y){
-                for(int tmp_x = from_col; tmp_x <= to_col; ++tmp_x){
-
-                    screen[(tmp_x + tmp_y*80)*2] = screen[(tmp_x + (tmp_y+1)*80)*2];
-                    screen[(tmp_x + tmp_y*80)*2 + 1] = screen[(tmp_x + (tmp_y+1)*80)*2 + 1];
-                }
-            }
-            //clear last line
-            for(int c = 0; c < width; ++c){
-                show(from_col + c, from_row + y, ' ');
-            }
-            x = 0;
-            setpos(x,y);
-        } else if (x == width){
-            ++y;
-            x = 0;
-        }
-    }
-    setpos(x, y);
-    */
   }
 }
 
