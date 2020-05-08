@@ -40,8 +40,6 @@ private:
   int rel_x;
   int rel_y;
 
-  static char* screen;
-
 public:
   /*! \brief Konstruktor
    *
@@ -101,8 +99,16 @@ public:
       (void) background;
       (void) blink;
     };
-  } __attribute__((
-                    packed)); // sorgt dafür, dass der Übersetzter keinen Speicher auffüllt
+  } __attribute__((packed)); // sorgt dafür, dass der Übersetzter keinen Speicher auffüllt
+
+  struct Cell {
+
+    char c;
+    struct Attribute a;
+
+  }__attribute__((packed));
+
+  static struct Cell* screen;
 
   /*! \brief Setzen des Cursors im Fenster auf Spalte \p x und Zeile \p y.
    *

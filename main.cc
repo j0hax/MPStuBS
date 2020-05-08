@@ -72,27 +72,21 @@ extern "C" int main() {
     }
   }
 
-  kout << "1        <stream " << (int)'\n' << " result> -> <expected>" << endl;
-  kout << "2:       " << true << " -> true" << endl;
-  kout << "3:       " << 0 << " -> 0" << endl;
-  kout << "4:        " << (10) << " -> 10" << endl;
-  kout << "5 max:   " << ~((unsigned int)0) << " -> 4294967295" << endl;
-  kout << "6 max:    " << ~(1 << 31) << " -> 2147483647" << endl;
-  kout << "7 min:    " << (1 << 31) << " -> -2147483648" << endl;
-  kout << "8 int:   " << (-123456789) << " -> -123456789" << endl;
-  kout << "9 int:   " << (123456789) << " -> 123456789" << endl;
-  kout << "\t10:     " << bin << 42 << dec << " -> 0b\t101010" << endl;
-  kout << "11:      " << oct << 42 << dec << " -> 052" << endl;
-  kout << "12:        " << hex << 42 << dec << " -> 0x2a" << endl;
-  kout << "13:    " << ((void*)(3735928559u)) << " -> 0xdeadbeef" << endl;
-  kout << "14:     " << ((char)3) << endl;    // a heart
-  kout << "15        <stream " << (int)'\n' << " result> -> <expected>" << endl;
-  kout << "16:       " << true << " -> true" << endl;
-  kout << "17:       " << 0 << " -> 0" << endl;
-  kout << "18:        " << (10) << " -> 10d" << endl;
-  kout << "19: max:   " << ~((unsigned int)0) << " -> 4294967295 ok" <<
-       " Teste die Ausgabe: Zeilenumbruch automatisch einfuegen... " << endl;
-  kout << "20: \thello: now a tab:\tand now some text..." << flush;
+  kout << "Test        <stream result> -> <expected>" << endl;
+  kout << "bool:       " << true << " -> true" << endl;
+  kout << "zero:       " << 0 << " -> 0" << endl;
+  kout << "ten:        " << (10) << " -> 10" << endl;
+  kout << "uint max:   " << ~((unsigned int)0) << " -> 4294967295" << endl;
+  kout << "int max:    " << ~(1<<31) << " -> 2147483647" << endl;
+  kout << "int min:    " << (1<<31) << " -> -2147483648" << endl;
+  kout << "some int:   " << (-123456789) << " -> -123456789" << endl;
+  kout << "some int:   " << (123456789) << " -> 123456789" << endl;
+  kout << "binary:     " << bin << 42 << dec << " -> 0b101010" << endl;
+  kout << "octal:      " << oct << 42 << dec << " -> 052" << endl;
+  kout << "hex:        " << hex << 42 << dec << " -> 0x2a" << endl;
+  kout << "pointer:    " << ((void*)(3735928559u)) << " -> 0xdeadbeef" << endl;
+  kout << "smiley:     " << ((char)1) << endl;    // a heart
+
   // Instantiate and echo the keyboard
   Keyboard_Controller kctrl;
   Key in;
