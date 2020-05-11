@@ -79,6 +79,13 @@ void CGA_Screen::print(char* string, int length, Attribute attrib) {
   // remaining spaces to new tab position
   int remain = 0;
 
+  // get x and y relativ to window
+  int x = 0;
+  int y = 0;
+  /* only do this at the beginning of the print
+  and update to position at the end of the function */
+  getpos(x, y);
+
   // loop until string is written to console
   while (i < length) {
 
@@ -95,10 +102,6 @@ void CGA_Screen::print(char* string, int length, Attribute attrib) {
     // if input is '\b' = backspace
     bool backspace = false;
     
-    // get x and y relativ to window
-    int x = 0;
-    int y = 0;
-    getpos(x, y);
     
     /*
       checking the next input char
@@ -170,10 +173,9 @@ void CGA_Screen::print(char* string, int length, Attribute attrib) {
     } else { // else just move cursor by one (most of the time that's the case)
       ++x;
     }
-    // set the new cursor position
-    setpos(x, y);
-
   }
+  // set the new cursor position
+  setpos(x, y);
 }
 
 // clears whole window and resets cursor
