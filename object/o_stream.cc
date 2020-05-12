@@ -59,39 +59,13 @@ O_Stream &O_Stream::operator << (unsigned int ival) {
 }
 /// \copydoc O_Stream::operator<<(short)
 O_Stream &O_Stream::operator << (long ival) {
-  char buff[33] = {0};
-  bool neg = false;
-
-  if (ival == 0) {
-    *this << '0';
-    return *this;
-  }
 
   if (base == 10 && ival < 0) {
-    neg = true;
+    *this << '-' << (unsigned long)(ival * (-1)) << dec;
+  }else{
+    *this << (unsigned long)(ival) << dec;
   }
 
-  int i = 31;
-
-  while (ival != 0) {
-    //printf("%ld\n", ival);
-    char rest = ival % base;
-
-    if (rest < 0) {
-      rest = -rest;
-    }
-
-    ival = ival / base;
-    buff[i] = (rest > 9) ? 'a' + (rest - 10) : '0' + rest;
-    //printf("%s\n", buff+i);
-    i--;
-  }
-
-  if (neg) {
-    buff[i--] = '-';
-  }
-
-  *this << (buff + i + 1) << dec;
   return *this;
 }
 /// \copydoc O_Stream::operator<<(short)
@@ -99,8 +73,12 @@ O_Stream &O_Stream::operator << (unsigned long ival) {
   char buff[33] = {0};
   int i = 31;
 
+  if (ival == 0) {
+    *this << '0';
+    return *this;
+  }
+
   while (ival != 0) {
-    //printf("ival: %lu\n", ival);
     char rest = ival % base;
     ival = ival / base;
     buff[i] = (rest > 9) ? 'a' + (rest - 10) : '0' + rest;

@@ -80,10 +80,11 @@ extern "C" int main() {
   kout << "7some int:   " << (-123456789) << " -> -123456789" << endl;
   kout << "8some int:   " << (123456789) << " -> 123456789" << endl;
   kout << "9binary:     " << bin << 42 << dec << " -> 0b101010" << endl;
-  kout << "10octal:      " << oct << 42 << dec << " -> 052" << endl;
-  kout << "11hex:        " << hex << 42 << dec << " -> 0x2a" << endl;
-  kout << "12pointer:    " << ((void*)(3735928559u)) << " -> 0xdeadbeef" << endl;
-  kout << "13smiley:     " << ((char)1) << endl;    // a heart
+  kout << "10octal:     " << oct << 42 << dec << " -> 052" << endl;
+  kout << "11hex:       " << hex << 42 << dec << " -> 0x2a" << endl;
+  kout << "12pointer:   " << ((void*)(3735928559u)) << " -> 0xdeadbeef" << endl;
+  kout << "13smiley:    " << ((char)1) << endl;    // a heart
+  kout << "tabs:\t1\t1\t\t4" << flush;
 
   // Instantiate and echo the keyboard
   Keyboard_Controller kctrl;
