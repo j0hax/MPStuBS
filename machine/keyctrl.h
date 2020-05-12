@@ -61,7 +61,7 @@ protected:
 
 private:
   Key_Decoder keydecoder;
-  char leds;
+  char led_ctrl_byte = 0;
 
   // Benutzte Ports des Tastaturcontrollers
   const IO_Port ctrl_port; // Status- (R) u. Steuerregister (W)

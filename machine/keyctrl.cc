@@ -5,8 +5,6 @@
 #include "machine/keyctrl.h"
 #include "debug/output.h"
 
-/* GLOBALE VARIABLEN */
-uint8_t led_ctrl_byte = 0;
 
 /* OEFFENTLICHE METHODEN */
 

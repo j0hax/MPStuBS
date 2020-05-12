@@ -2,19 +2,17 @@
 
 #include "machine/cgascr.h"
 // Verwendung der Klasse IO_Port für Zugriff auf die Register
-#include "machine/io_port.h"
+
 
 // init screen pointer
 CGA_Screen::Cell* CGA_Screen::screen = (CGA_Screen::Cell*)0xb8000;
 // init cursor ports
-IO_Port i_port(0x3d4);
-IO_Port d_port(0x3d5);
 
 // constructor
 CGA_Screen::CGA_Screen(int from_col, int to_col, int from_row, int to_row,
                        bool use_cursor)
   : from_col(from_col), to_col(to_col), from_row(from_row), to_row(to_row),
-    use_cursor(use_cursor) {
+    use_cursor(use_cursor), i_port(0x3d4), d_port(0x3d5){
   width = to_col - from_col + 1;
   height = to_row - from_row + 1;
 }

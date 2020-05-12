@@ -40,6 +40,9 @@ private:
   int rel_x;
   int rel_y;
 
+  IO_Port i_port;
+  IO_Port d_port;
+
 public:
   /*! \brief Konstruktor
    *
