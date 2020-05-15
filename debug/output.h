@@ -18,7 +18,7 @@
  *        die ggf. sehr umfangreiche Ausgaben besser lesbar (Stichwort Scrollen)
  */
 
-#define VERBOSE
+//#define VERBOSE
 
 #ifdef VERBOSE
   // Sofern VERBOSE gesetzt ist, leite alles an DBG (unten definiert) weiter

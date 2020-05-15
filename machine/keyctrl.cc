@@ -14,15 +14,18 @@
 
 Keyboard_Controller::Keyboard_Controller() :
   keydecoder(this), ctrl_port(0x64), data_port(0x60) {
-  // alle LEDs ausschalten (bei vielen PCs ist NumLock nach dem Booten an)
 
-  //drainKeyboardBuffer();
+  drainKeyboardBuffer();
+
+  // alle LEDs ausschalten (bei vielen PCs ist NumLock nach dem Booten an)
 
   set_led(led_caps_lock, false);
   set_led(led_scroll_lock, false);
   set_led(led_num_lock, false);
   // maximale Geschwindigkeit, minimale Verzoegerung
   set_repeat_rate(0, 0);
+
+  drainKeyboardBuffer();
 }
 
 // KEY_HIT: Dient der Tastaturabfrage nach dem Auftreten einer Tastatur-
@@ -121,7 +124,7 @@ void Keyboard_Controller::drainKeyboardBuffer() {
     //key_hit();
     data_port.inb();
     i = ctrl_port.inb();
-    DBG << "clearing " << flush;
+    DBG << "c" << flush;
   }
 }
 
@@ -138,5 +141,5 @@ void Keyboard_Controller::send_byte(unsigned char byte) {
   }
 
   data_port.outb(byte);
-  DBG << "s " << flush;
+  DBG << "s" << flush;
 }

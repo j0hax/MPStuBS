@@ -108,3 +108,4 @@ public:
 	bool status(unsigned char slot);
 };
 
+extern IOAPIC ioapic;

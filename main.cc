@@ -10,8 +10,13 @@
 #include "machine/lapic.h"
 #include "debug/output.h"
 #include "machine/keyctrl.h"
+#include "machine/ioapic.h"
+#include "machine/cpu.h"
 
 extern APICSystem system;
+extern IOAPIC ioapic;
+
+
 
 static const unsigned long CPU_STACK_SIZE = 4096;
 // Stack fuer max. 7 APs
@@ -47,7 +52,7 @@ extern "C" int main() {
   // Startmeldung ausgeben
   APICSystem::SystemType type = system.getSystemType();
   unsigned int numCPUs = system.getNumberOfCPUs();
-  DBG_VERBOSE << "Is SMP system? " << (type == APICSystem::MP_APIC) << endl
+  DBG/*_VERBOSE*/ << "Is SMP system? " << (type == APICSystem::MP_APIC) << endl
               << "Number of CPUs: " << numCPUs << endl;
 
   switch (type) {
@@ -55,7 +60,7 @@ extern "C" int main() {
       //Startet die AP-Prozessoren
       for (unsigned int i = 1; i < numCPUs; i++) {
         void* startup_stack = (void*) & (cpu_stack[(i) * CPU_STACK_SIZE]);
-        DBG/*_VERBOSE*/ << "Booting CPU " << i << ", Stack: " << startup_stack << endl;
+        DBG_VERBOSE << "Booting CPU " << i << ", Stack: " << startup_stack << endl;
         system.bootCPU(i, startup_stack);
       }
 
@@ -69,6 +74,11 @@ extern "C" int main() {
     case APICSystem::UNDETECTED: {
     }
   }
+
+  // ioapic init
+  Keyboard_Controller kctrl;
+  ioapic.init();
+  CPU::enable_int();
 
   kout << "0Test        <stream result> -> <expected>" << endl;
   kout << "1bool:       " << true << " -> true" << endl;
@@ -86,9 +96,13 @@ extern "C" int main() {
   kout << "13smiley:    " << ((char)1) << endl;    // a heart
   kout << "tabs:\t1\t1\t\t4" << flush;
 
+  // main loop
+  for(;;);
+
   // Instantiate and echo the keyboard
-  Keyboard_Controller kctrl;
-  Key in;
+  
+  //Keyboard_Controller kctrl;
+  /*Key in;
 
   while (true) {
     in = kctrl.key_hit();
@@ -100,7 +114,8 @@ extern "C" int main() {
     if (in.ctrl() && in == 'c') {
       kctrl.reboot();
     }
-  }
+  }*/
+  
 
   return 0;
 }
@@ -112,7 +127,9 @@ extern "C" int main() {
  */
 extern "C" int main_ap() {
   //DBG.reset(' ', DBG.get_attribute());
-  DBG_VERBOSE << "CPU " << (int) system.getCPUID()
+  DBG/*_VERBOSE*/ << "CPU " << (int) system.getCPUID()
               << "/LAPIC " << (int) lapic.getLAPICID() << " in main_ap()" << endl;
+  //main_ap loop
+  for(;;);
   return 0;
 }
