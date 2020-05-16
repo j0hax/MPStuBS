@@ -18,7 +18,7 @@ extern "C" void guardian(uint32_t vector, irq_context* context) {
   (void) vector;
   (void) context;
   //kout << "interrupt in guardian" << flush;
-  DBG << "guardian: " << vector << ' ' << context << endl;
+  DBG << "guardian: " << vector << ' ' << context << flush;
 
   lapic.ackIRQ();
 }

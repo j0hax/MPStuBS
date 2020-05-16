@@ -79,10 +79,11 @@ extern "C" int main() {
   //Keyboard_Controller kctrl;
   CPU::enable_int();
   ioapic.init();
-  ioapic.config(1, Plugbox::Vector::keyboard);
+  ioapic.config(system.getIOAPICSlot(APICSystem::Device::keyboard), Plugbox::Vector::keyboard);
   DBG << ioapic.status(1) << flush;
   ioapic.allow(1);
   DBG << ioapic.status(1) << endl;
+  DBG << (short)system.getIOAPICSlot(APICSystem::Device::keyboard) << flush;
 
   kout << "0Test        <stream result> -> <expected>" << endl;
   kout << "1bool:       " << true << " -> true" << endl;

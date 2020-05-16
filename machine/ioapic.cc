@@ -61,11 +61,9 @@ void IOAPIC::config(unsigned char slot, Plugbox::Vector vector){
     reg.value = *IOWIN_REG;
     //DBG << bin << reg.value << endl;
     reg.IOREDTBL_L.vector = vector;
-    if(vector == Plugbox::Vector::keyboard || vector == Plugbox::Vector::timer){
-        reg.IOREDTBL_L.trigger_mode = TRIGGER_MODE_LEVEL;
-    }else{
-        reg.IOREDTBL_L.trigger_mode = TRIGGER_MODE_EDGE;
-    }
+
+    reg.IOREDTBL_L.trigger_mode = TRIGGER_MODE_EDGE;
+
     //reg.IOREDTBL_L.mask = MASK_ENABLED;
     *IOWIN_REG = reg.value;
     //DBG << bin << reg.value << endl;
