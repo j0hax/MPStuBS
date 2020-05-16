@@ -44,7 +44,6 @@ Key Keyboard_Controller::key_hit() {
     return pressed;
   }
 
-  // Gucken ob daten von Maus -> Dies ist irgendwie nie der Fall??
   if ((status & auxb) == auxb) {
     DBG << "mouse detected" << endl;
     data_port.inb();

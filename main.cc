@@ -76,9 +76,13 @@ extern "C" int main() {
   }
 
   // ioapic init
-  Keyboard_Controller kctrl;
-  ioapic.init();
+  //Keyboard_Controller kctrl;
   CPU::enable_int();
+  ioapic.init();
+  ioapic.config(1, Plugbox::Vector::keyboard);
+  DBG << ioapic.status(1) << flush;
+  ioapic.allow(1);
+  DBG << ioapic.status(1) << endl;
 
   kout << "0Test        <stream result> -> <expected>" << endl;
   kout << "1bool:       " << true << " -> true" << endl;
@@ -130,6 +134,7 @@ extern "C" int main_ap() {
   DBG/*_VERBOSE*/ << "CPU " << (int) system.getCPUID()
               << "/LAPIC " << (int) lapic.getLAPICID() << " in main_ap()" << endl;
   //main_ap loop
+  CPU::enable_int();
   for(;;);
   return 0;
 }

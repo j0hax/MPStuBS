@@ -25,11 +25,11 @@ void IOAPIC::init(){
     for(uint8_t i = 0; i < system.getNumberOfCPUs(); i++){
         cpumask = (cpumask << 1) + 1;
     }
-    DBG << bin << (unsigned short)cpumask << flush;
+    //DBG << bin << (unsigned short)cpumask << flush;
 
     for(int i = 0; i < 24; i++){
         
-        DBG << "IRT Cell " << hex << i*2 + 0x10 << endl;
+        //DBG << "IRT Cell " << hex << i*2 + 0x10 << endl;
 
         *IOREGSEL_REG = i*2 + 0x10;
         reg.value = *IOWIN_REG;
@@ -38,7 +38,7 @@ void IOAPIC::init(){
         reg.IOREDTBL_L.destination_mode = DESTINATION_MODE_LOGICAL;
         reg.IOREDTBL_L.polarity = POLARITY_HIGH;
         reg.IOREDTBL_L.trigger_mode = TRIGGER_MODE_EDGE;
-        reg.IOREDTBL_L.mask = 1;
+        reg.IOREDTBL_L.mask = MASK_DISABLED;
         *IOWIN_REG = reg.value;
 
         *IOREGSEL_REG = i*2 + 0x10 + 1;
@@ -51,7 +51,6 @@ void IOAPIC::init(){
     /*for (int i = 0; i < 24; i++){
          config(i, Plugbox::Vector::keyboard);
     }*/
-    config(1, Plugbox::Vector::keyboard);
 }
 
 void IOAPIC::config(unsigned char slot, Plugbox::Vector vector){
@@ -60,21 +59,47 @@ void IOAPIC::config(unsigned char slot, Plugbox::Vector vector){
 
     *IOREGSEL_REG = slot*2 + 0x10;
     reg.value = *IOWIN_REG;
-    DBG << bin << reg.value << endl;
+    //DBG << bin << reg.value << endl;
     reg.IOREDTBL_L.vector = vector;
     if(vector == Plugbox::Vector::keyboard || vector == Plugbox::Vector::timer){
         reg.IOREDTBL_L.trigger_mode = TRIGGER_MODE_LEVEL;
     }else{
         reg.IOREDTBL_L.trigger_mode = TRIGGER_MODE_EDGE;
     }
-    reg.IOREDTBL_L.mask = 0;
+    //reg.IOREDTBL_L.mask = MASK_ENABLED;
     *IOWIN_REG = reg.value;
     //DBG << bin << reg.value << endl;
 
+}
 
+void IOAPIC::allow(unsigned char slot){
 
-    //*IOREGSEL_REG = slot*2 + 0x10 + 1;
-    //reg.value = *IOWIN_REG;
-    //DBG << bin << reg.value << endl;
+    union IOAPICRegister reg;
+
+    *IOREGSEL_REG = slot*2 + 0x10;
+    reg.value = *IOWIN_REG;
+    reg.IOREDTBL_L.mask = MASK_ENABLED;
+    *IOWIN_REG = reg.value;
+
+}
+
+void IOAPIC::forbid(unsigned char slot){
+
+    union IOAPICRegister reg;
+
+    *IOREGSEL_REG = slot*2 + 0x10;
+    reg.value = *IOWIN_REG;
+    reg.IOREDTBL_L.mask = MASK_DISABLED;
+    *IOWIN_REG = reg.value;
+
+}
+
+bool IOAPIC::status(unsigned char slot){
+
+    union IOAPICRegister reg;
+
+    *IOREGSEL_REG = slot*2 + 0x10;
+    reg.value = *IOWIN_REG;
+    return reg.IOREDTBL_L.mask? false : true;
 
 }
