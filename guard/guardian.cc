@@ -15,6 +15,9 @@
 extern "C" void guardian(uint32_t vector, irq_context* context) {
 
   //kout << "interrupt in guardian" << flush;
+
+  // context not important for now or?
+  (void) context;
   
   // getting a gate pointer (interrupt handler) to the corresponding vector
   // plugbox stores all 256 interrupt vectors (VDT)
