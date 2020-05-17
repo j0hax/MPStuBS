@@ -51,21 +51,6 @@ CGA_Stream dout_CPU3(39, 79, 21, 24, false, c0);
 
 extern "C" int main() {
 
-  // enable interrupts for this core
-  CPU::enable_int();
-  // init ioapic (global instance)
-  ioapic.init();
-  // redirect keyboard interrupt
-  uint32_t kbd_slot = system.getIOAPICSlot(APICSystem::Device::keyboard);
-  ioapic.config(kbd_slot, Plugbox::Vector::keyboard);
-  //DBG << ioapic.status(1) << flush;
-  // unmask keyboard interrupt
-  ioapic.allow(kbd_slot);
-  //DBG << ioapic.status(1) << endl;
-  //DBG << (short)system.getIOAPICSlot(APICSystem::Device::keyboard) << flush;
-
-  keyboard.plugin();
-
   // Startmeldung ausgeben
   APICSystem::SystemType type = system.getSystemType();
   unsigned int numCPUs = system.getNumberOfCPUs();
@@ -94,6 +79,20 @@ extern "C" int main() {
     }
   }
 
+  // enable interrupts for this core
+  CPU::enable_int();
+  // init ioapic (global instance)
+  ioapic.init();
+  // redirect keyboard interrupt
+  uint32_t kbd_slot = system.getIOAPICSlot(APICSystem::Device::keyboard);
+  ioapic.config(kbd_slot, Plugbox::Vector::keyboard);
+  //DBG << ioapic.status(1) << flush;
+  // unmask keyboard interrupt
+  ioapic.allow(kbd_slot);
+  //DBG << ioapic.status(1) << endl;
+  //DBG << (short)system.getIOAPICSlot(APICSystem::Device::keyboard) << flush;
+  // plug keyboard in plugbox (as interrupt handler for the keyboard)
+  keyboard.plugin();
 
   kout << "0Test        <stream result> -> <expected>" << endl;
   kout << "1bool:       " << true << " -> true" << endl;

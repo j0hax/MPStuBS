@@ -14,15 +14,13 @@
 
 extern "C" void guardian(uint32_t vector, irq_context* context) {
 
-  (void) vector;
-  (void) context;
   //kout << "interrupt in guardian" << flush;
-  DBG << "interrupt " << flush;
-
+  
+  // getting a gate pointer (interrupt handler) to the corresponding vector
+  // plugbox stores all 256 interrupt vectors (VDT)
   Gate* ir_handler = plugbox.report(vector);
+  // triggering the interrupt handler (by using gate interface)
   ir_handler->trigger();
-
-  DBG << endl;
 
   lapic.ackIRQ();
 }

@@ -6,14 +6,18 @@
 
 extern CGA_Stream kout;
 
+// global instance
 Keyboard keyboard;
 
+// not really useful but gets ignored anyway
 Keyboard::Keyboard(){
     DBG_VERBOSE << "keyboard created" << endl;
 }
 
+// plugs in keyboard
 void Keyboard::plugin(){
 
+    // assigning this (adr of global obj) as a keyboard interrupt handler to plugbox
     plugbox.assign(Plugbox::Vector::keyboard, this);
 
 }
@@ -26,7 +30,8 @@ void Keyboard::trigger(){
         if (in.ctrl() && in.scancode() == Key::scan::del ) {
             reboot();
         }
-        DBG << in << flush;
+        // debugging
+        DBG << "INT: KBD: " << in << endl;
         kout << in << flush;
     }
 
