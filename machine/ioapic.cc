@@ -10,7 +10,7 @@ volatile uint32_t *IOAPIC::IOWIN_REG = (volatile uint32_t*)0xfec00010;
 
 void IOAPIC::init(){
 
-    DBG << "init ioapic" << endl;
+    DBG_VERBOSE << "init ioapic" << endl;
 
     union IOAPICRegister reg;
 

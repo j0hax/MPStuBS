@@ -24,7 +24,7 @@ class Panic
 	Panic(const Panic&)            = delete;
 	Panic& operator=(const Panic&) = delete;
 public:
-	Panic() {}
+	Panic();
 	/*! \brief Einfachste Form der Unterbrechungsbehandlung: Es wird eine
 	 *  Fehlermeldung ausgegeben und der Prozessor angehalten.
 	 *
@@ -34,3 +34,4 @@ public:
 	void trigger();
 };
 
+extern Panic panic;

@@ -12,10 +12,11 @@
 #include "machine/keyctrl.h"
 #include "machine/ioapic.h"
 #include "machine/cpu.h"
+#include "device/panic.h"
+#include "device/keyboard.h"
 
 extern APICSystem system;
 extern IOAPIC ioapic;
-
 
 
 static const unsigned long CPU_STACK_SIZE = 4096;
@@ -49,10 +50,28 @@ CGA_Stream dout_CPU2(0, 38, 21, 24, false, c1);
 CGA_Stream dout_CPU3(39, 79, 21, 24, false, c0);
 
 extern "C" int main() {
+
+  // enable interrupts for this core
+  CPU::enable_int();
+  // init ioapic (global instance)
+  ioapic.init();
+  // redirect keyboard interrupt
+  uint32_t kbd_slot = system.getIOAPICSlot(APICSystem::Device::keyboard);
+  ioapic.config(kbd_slot, Plugbox::Vector::keyboard);
+  //DBG << ioapic.status(1) << flush;
+  // unmask keyboard interrupt
+  ioapic.allow(kbd_slot);
+  //DBG << ioapic.status(1) << endl;
+  //DBG << (short)system.getIOAPICSlot(APICSystem::Device::keyboard) << flush;
+
+  keyboard.plugin();
+
   // Startmeldung ausgeben
   APICSystem::SystemType type = system.getSystemType();
   unsigned int numCPUs = system.getNumberOfCPUs();
-  DBG/*_VERBOSE*/ << "Is SMP system? " << (type == APICSystem::MP_APIC) << endl
+  DBG/*_VERBOSE*/ << "CPU " << (int) system.getCPUID()
+              << "/LAPIC " << (int) lapic.getLAPICID() << " in main()" << endl;
+  DBG_VERBOSE << "Is SMP system? " << (type == APICSystem::MP_APIC) << endl
               << "Number of CPUs: " << numCPUs << endl;
 
   switch (type) {
@@ -75,15 +94,6 @@ extern "C" int main() {
     }
   }
 
-  // ioapic init
-  //Keyboard_Controller kctrl;
-  CPU::enable_int();
-  ioapic.init();
-  ioapic.config(system.getIOAPICSlot(APICSystem::Device::keyboard), Plugbox::Vector::keyboard);
-  DBG << ioapic.status(1) << flush;
-  ioapic.allow(1);
-  DBG << ioapic.status(1) << endl;
-  DBG << (short)system.getIOAPICSlot(APICSystem::Device::keyboard) << flush;
 
   kout << "0Test        <stream result> -> <expected>" << endl;
   kout << "1bool:       " << true << " -> true" << endl;
@@ -101,26 +111,9 @@ extern "C" int main() {
   kout << "13smiley:    " << ((char)1) << endl;    // a heart
   kout << "tabs:\t1\t1\t\t4" << flush;
 
+
   // main loop
   for(;;);
-
-  // Instantiate and echo the keyboard
-  
-  //Keyboard_Controller kctrl;
-  /*Key in;
-
-  while (true) {
-    in = kctrl.key_hit();
-
-    if (in.valid()) {
-      kout << in << flush;
-    }
-
-    if (in.ctrl() && in == 'c') {
-      kctrl.reboot();
-    }
-  }*/
-  
 
   return 0;
 }

@@ -53,9 +53,11 @@ Key Keyboard_Controller::key_hit() {
   // Key lesen
   pressed = keydecoder.decode(data_port.inb());
 
+  #if DBG_VERBOSE 
   if (pressed.valid()) {
-    DBG << pressed << " detected" << endl;
+    DBG << (unsigned int)pressed << " detected" << endl;
   }
+  #endif
 
   // Tastatur sagen dass die Key gelesen wurde
   // Key zurueckgeben
@@ -110,7 +112,7 @@ void Keyboard_Controller::set_led(led_t led, bool on) {
   } else {
     led_ctrl_byte = led_ctrl_byte & ~led;
   }
-  DBG << bin << (unsigned int) led_ctrl_byte << flush;
+  DBG_VERBOSE << bin << led_ctrl_byte << flush;
   send_command(kbd_cmd::set_led, led_ctrl_byte);
 
 }
@@ -123,7 +125,7 @@ void Keyboard_Controller::drainKeyboardBuffer() {
     //key_hit();
     data_port.inb();
     i = ctrl_port.inb();
-    DBG << "c" << flush;
+    DBG_VERBOSE << "c" << flush;
   }
 }
 
@@ -136,9 +138,9 @@ void Keyboard_Controller::send_command(unsigned char cmd, unsigned char data) {
 
 void Keyboard_Controller::send_byte(unsigned char byte) {
   while ((ctrl_port.inb() & inpb) == inpb) {
-    DBG << "wfk " << flush;
+    DBG_VERBOSE << "wfk " << flush;
   }
 
   data_port.outb(byte);
-  DBG << "s" << flush;
+  DBG_VERBOSE << "s" << flush;
 }

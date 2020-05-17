@@ -24,6 +24,10 @@ private:
 	// Verhindere Kopien und Zuweisungen
 	Plugbox(const Plugbox&)            = delete;
 	Plugbox& operator=(const Plugbox&) = delete;
+
+	// pointers to global gate objects
+	Gate *gateobjs[256];
+
 public:
 	/*! \brief Liste der verwendeten Interruptvektoren
 	 *
@@ -67,3 +71,5 @@ public:
 	 */
 	Gate* report(unsigned int vector);
 };
+
+extern Plugbox plugbox;

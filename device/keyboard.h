@@ -29,7 +29,7 @@ public:
 	/*! \brief Konstruktor
 	 *
 	 */
-	Keyboard() {}
+	Keyboard();
 
 	/*! \brief 'Anstöpseln' der Tastatur.
 	 *
@@ -57,3 +57,5 @@ public:
 	void trigger();
 
 };
+
+extern Keyboard keyboard;
