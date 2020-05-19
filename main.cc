@@ -108,7 +108,7 @@ extern "C" int main() {
   kout << "11hex:       " << hex << 42 << dec << " -> 0x2a" << endl;
   kout << "12pointer:   " << ((void*)(3735928559u)) << " -> 0xdeadbeef" << endl;
   kout << "13smiley:    " << ((char)1) << endl;    // a heart
-  kout << "tabs:\t1\t1\t\t4" << flush;
+  kout << "tabs:\t1\t1\t\t4" << endl;
 
 
   // main loop
