@@ -3,4 +3,5 @@
 #include "user/app1/appl.h"
 
 void Application::action() {
+    kout << "Called " << __FUNCTION__ << "() in " << __FILE__ << endl;
 }

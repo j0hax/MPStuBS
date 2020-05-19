@@ -15,6 +15,8 @@
 #include "device/panic.h"
 #include "device/keyboard.h"
 
+#include "user/app1/appl.h"
+
 extern APICSystem system;
 extern IOAPIC ioapic;
 
@@ -110,6 +112,8 @@ extern "C" int main() {
   kout << "13smiley:    " << ((char)1) << endl;    // a heart
   kout << "tabs:\t1\t1\t\t4" << endl;
 
+  Application app1(1);
+  app1.action();
 
   // main loop
   for(;;);
