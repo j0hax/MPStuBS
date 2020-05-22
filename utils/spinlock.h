@@ -12,7 +12,7 @@ public:
      * @brief Betritt den gesperrten Abschnitt. Ist dieser besetzt, so wird solange aktiv gewartet, bis er betreten werden kann.
      * 
      */
-       void lock() {
+    void lock() {
         while (!free);
         free = false;
     }
