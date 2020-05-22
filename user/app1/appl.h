@@ -2,6 +2,10 @@
 
 #include "device/cgastr.h"
 extern CGA_Stream kout;
+extern CGA_Stream dout_CPU0;
+extern CGA_Stream dout_CPU1;
+extern CGA_Stream dout_CPU2;
+extern CGA_Stream dout_CPU3;
 
 /*! \file
  *  \brief Enthält die Klasse Application
