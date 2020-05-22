@@ -1,18 +1,28 @@
 // vim: set noet ts=4 sw=4:
 
 #include "appl.h"
-#include "utils/spinlock.h"
+//#include "utils/spinlock.h"
 
 void Application::action() {
-    kout << "Called " << __FUNCTION__ << "() in " << __FILE__ << endl;
+    DBG << "Called " << __FUNCTION__ << "() in " << __FILE__ << endl;
 
     // Spinlock instanzieren
-    Spinlock l;
+    //Spinlock l;
 
     // Endlosschleife
+    kout.reset(' ', kout.get_attribute());
     for(int i = 0;;i++) {
-        l.lock();
-        dout_CPU0 << i << endl;
-        l.unlock();
+
+        CPU::disable_int();
+        spinlock.lock();
+        
+        kout.setpos(5,8);
+        kout << i << flush;
+        
+        spinlock.unlock();
+        CPU::enable_int();
+        
+        // uncomment this for seeing output in CPU_0..3 windows
+        //DBG << i << endl;
     }
 }

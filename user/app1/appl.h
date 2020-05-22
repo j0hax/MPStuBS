@@ -1,11 +1,13 @@
 // vim: set noet ts=4 sw=4:
 
 #include "device/cgastr.h"
+#include "debug/output.h"
+#include "machine/cpu.h"
+#include "machine/spinlock.h"
+
 extern CGA_Stream kout;
-extern CGA_Stream dout_CPU0;
-extern CGA_Stream dout_CPU1;
-extern CGA_Stream dout_CPU2;
-extern CGA_Stream dout_CPU3;
+extern Spinlock spinlock;
+
 
 /*! \file
  *  \brief Enthält die Klasse Application

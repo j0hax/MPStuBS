@@ -17,8 +17,11 @@
 
 #include "user/app1/appl.h"
 
+#include "machine/spinlock.h"
+
 extern APICSystem system;
 extern IOAPIC ioapic;
+Spinlock spinlock;
 
 
 static const unsigned long CPU_STACK_SIZE = 4096;
@@ -132,6 +135,10 @@ extern "C" int main_ap() {
               << "/LAPIC " << (int) lapic.getLAPICID() << " in main_ap()" << endl;
   //main_ap loop
   CPU::enable_int();
+
+  Application app_ap(1);
+  app_ap.action();
+
   for(;;);
   return 0;
 }

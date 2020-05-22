@@ -30,6 +30,8 @@ class Spinlock
 private:
 	Spinlock(const Spinlock& copy); //verhindert Kopieren
 
+	volatile unsigned int _lock;
+
 public:
 	/*! \brief Konstruktor; Initialisierung des Spinlocks als ungesperrt.
 	 *
@@ -37,13 +39,16 @@ public:
 	 *
 	 */
 	Spinlock()
-	{}
+	{
+		unlock();
+	}
 	/*! \brief Betritt den gesperrten Abschnitt. Ist dieser besetzt, so wird
 	 *  solange aktiv gewartet, bis er betreten werden kann.
 	 *
 	 *  \todo Methode implementieren
 	 */
 	void lock() {
+		while(__sync_lock_test_and_set(&_lock, 1) == 1);
 	}
 	/*! \brief Gibt den gesperrten Abschnitt wieder frei.
 	 *
@@ -51,6 +56,7 @@ public:
 	 *  \todo Methode implementieren
 	 */
 	void unlock() {
+		__sync_lock_release(&_lock);
 	}
 };
 

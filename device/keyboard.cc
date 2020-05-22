@@ -32,7 +32,7 @@ void Keyboard::trigger(){
         }
         // debugging
         DBG << "INT: KBD: " << in << endl;
-        kout << in << flush;
+        kout << in << endl;
     }
 
 }
