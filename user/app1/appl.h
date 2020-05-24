@@ -4,9 +4,11 @@
 #include "debug/output.h"
 #include "machine/cpu.h"
 #include "machine/spinlock.h"
+#include "machine/ticketlock.h"
 
 extern CGA_Stream kout;
 extern Spinlock spinlock;
+extern Ticketlock ticketlock;
 
 
 /*! \file

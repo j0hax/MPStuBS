@@ -14,12 +14,12 @@ void Application::action() {
     for(int i = 0;;i++) {
 
         CPU::disable_int();
-        spinlock.lock();
+        ticketlock.lock();
         
         kout.setpos(5,8);
         kout << i << flush;
         
-        spinlock.unlock();
+        ticketlock.unlock();
         CPU::enable_int();
         
         // uncomment this for seeing output in CPU_0..3 windows

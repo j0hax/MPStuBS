@@ -18,10 +18,12 @@
 #include "user/app1/appl.h"
 
 #include "machine/spinlock.h"
+#include "machine/ticketlock.h"
 
 extern APICSystem system;
 extern IOAPIC ioapic;
 Spinlock spinlock;
+Ticketlock ticketlock;
 
 
 static const unsigned long CPU_STACK_SIZE = 4096;
