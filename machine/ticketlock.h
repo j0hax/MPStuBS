@@ -23,6 +23,10 @@ class Ticketlock
 private:
 	Ticketlock(const Ticketlock& copy); //verhindert Kopieren
 
+	// Variable für das Ticket
+	volatile unsigned int _ticketnumber;
+	volatile unsigned int _turn;
+
 public:
 
 	/*! \brief Konstruktor; Initialisierung des Ticketlocks.
@@ -30,7 +34,11 @@ public:
 	 * \opt Konstruktor vervollständigen
 	 */
 	Ticketlock()
-	{}
+	{
+		_ticketnumber = 0;
+		_turn = 0;
+		unlock();
+	}
 
 	/*! \brief Betritt den gesperrten Abschnitt. Ist dieser besetzt, so wird
 	 *  solange aktiv gewartet, bis er betreten werden kann.
@@ -38,6 +46,10 @@ public:
 	 * \opt Methode implementieren
 	 */
 	void lock() {
+		volatile unsigned int current = __sync_fetch_and_add(&_ticketnumber, 1);
+
+		// warten
+		while(__sync_lock_test_and_set(&current, current) != _turn);
 	}
 
 	/*! \brief Gibt den gesperrten Abschnitt wieder frei.
@@ -45,6 +57,7 @@ public:
 	 * \opt Methode implementieren
 	 */
 	void unlock() {
+		__sync_fetch_and_add(&_turn, 1);
 	}
 };
 
