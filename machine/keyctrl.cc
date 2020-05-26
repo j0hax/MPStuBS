@@ -59,6 +59,8 @@ Key Keyboard_Controller::key_hit() {
   }
   #endif
 
+  //drainKeyboardBuffer();
+
   // Tastatur sagen dass die Key gelesen wurde
   // Key zurueckgeben
   return pressed;
@@ -121,7 +123,7 @@ void Keyboard_Controller::drainKeyboardBuffer() {
   // Keys lesen bis es keine mehr gibt?
   uint8_t i = ctrl_port.inb();
 
-  while ((i & outb) == outb || (i & auxb) == auxb) {
+  while ((i & outb) == outb) {
     //key_hit();
     data_port.inb();
     i = ctrl_port.inb();

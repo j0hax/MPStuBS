@@ -30,7 +30,7 @@ class Spinlock
 private:
 	Spinlock(const Spinlock& copy); //verhindert Kopieren
 
-	volatile unsigned int _lock;
+	volatile unsigned int _lock = 0;
 
 public:
 	/*! \brief Konstruktor; Initialisierung des Spinlocks als ungesperrt.

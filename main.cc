@@ -58,6 +58,21 @@ CGA_Stream dout_CPU3(39, 79, 21, 24, false, c0);
 
 extern "C" int main() {
 
+  // enable interrupts for this core
+  CPU::enable_int();
+  // init ioapic (global instance)
+  ioapic.init();
+  // redirect keyboard interrupt
+  uint32_t kbd_slot = system.getIOAPICSlot(APICSystem::Device::keyboard);
+  ioapic.config(kbd_slot, Plugbox::Vector::keyboard);
+  // unmask keyboard interrupt
+  ioapic.allow(kbd_slot);
+  // plug keyboard in plugbox (as interrupt handler for the keyboard)
+  keyboard.plugin();
+
+  // clear screen
+  kout.reset(' ', kout.get_attribute());
+
   // Startmeldung ausgeben
   APICSystem::SystemType type = system.getSystemType();
   unsigned int numCPUs = system.getNumberOfCPUs();
@@ -86,21 +101,10 @@ extern "C" int main() {
     }
   }
 
-  // enable interrupts for this core
-  CPU::enable_int();
-  // init ioapic (global instance)
-  ioapic.init();
-  // redirect keyboard interrupt
-  uint32_t kbd_slot = system.getIOAPICSlot(APICSystem::Device::keyboard);
-  ioapic.config(kbd_slot, Plugbox::Vector::keyboard);
-  //DBG << ioapic.status(1) << flush;
-  // unmask keyboard interrupt
-  ioapic.allow(kbd_slot);
-  //DBG << ioapic.status(1) << endl;
-  //DBG << (short)system.getIOAPICSlot(APICSystem::Device::keyboard) << flush;
-  // plug keyboard in plugbox (as interrupt handler for the keyboard)
-  keyboard.plugin();
+  Application app1(1);
+  app1.action();
 
+  /*
   kout << "0Test        <stream result> -> <expected>" << endl;
   kout << "1bool:       " << true << " -> true" << endl;
   kout << "2zero:       " << 0 << " -> 0" << endl;
@@ -116,9 +120,8 @@ extern "C" int main() {
   kout << "12pointer:   " << ((void*)(3735928559u)) << " -> 0xdeadbeef" << endl;
   kout << "13smiley:    " << ((char)1) << endl;    // a heart
   kout << "tabs:\t1\t1\t\t4" << endl;
+  */
 
-  Application app1(1);
-  app1.action();
 
   // main loop
   for(;;);

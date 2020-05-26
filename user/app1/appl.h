@@ -34,7 +34,6 @@ public:
 
     Application(int i) {
       instanceID = i;
-      kout << "Launched app1 with InstanceID " << instanceID << endl;
     }
 
   /*! \brief Enthält den Code der Anwendung
