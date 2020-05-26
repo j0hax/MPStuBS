@@ -10,16 +10,16 @@ void Application::action() {
 
         
         CPU::disable_int();
-        spinlock.lock();
-        //DBG << i << " locked" << endl;
+        ticketlock.lock();
+        DBG << i << " locked" << endl;
         
-        kout.setpos(5,8);
+        kout.setpos(5,instanceID + 5);
         kout << i << flush;
         
         
-        CPU::enable_int();
-        spinlock.unlock();
-
+        
+        ticketlock.unlock();
+CPU::enable_int();
         //DBG << i << " unlocked" << endl;
         
         // uncomment this for seeing output in CPU_0..3 windows

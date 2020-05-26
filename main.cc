@@ -56,6 +56,8 @@ CGA_Stream dout_CPU1(39, 79, 17, 20, false, c1);
 CGA_Stream dout_CPU2(0, 38, 21, 24, false, c1);
 CGA_Stream dout_CPU3(39, 79, 21, 24, false, c0);
 
+volatile int i = 0;
+
 extern "C" int main() {
 
   // enable interrupts for this core
@@ -101,7 +103,9 @@ extern "C" int main() {
     }
   }
 
-  Application app1(1);
+  ticketlock.lock();
+  Application app1(i++);
+  ticketlock.unlock();
   app1.action();
 
   /*
@@ -141,7 +145,9 @@ extern "C" int main_ap() {
   //main_ap loop
   CPU::enable_int();
 
-  Application app_ap(1);
+  ticketlock.lock();
+  Application app_ap(i++);
+  ticketlock.unlock();
   app_ap.action();
 
   for(;;);

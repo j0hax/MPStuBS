@@ -9,6 +9,9 @@
 #include "machine/keyctrl.h"
 #include "guard/gate.h"
 #include "machine/key.h"
+#include "machine/ticketlock.h"
+
+extern Ticketlock ticketlock;
 
 /*! \brief Die Klasse Keyboard stellt die Abstraktion der Tastatur dar.
  *  \ingroup io

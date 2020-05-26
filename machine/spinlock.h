@@ -48,7 +48,7 @@ public:
 	 *  \todo Methode implementieren
 	 */
 	void lock() {
-		while(__sync_lock_test_and_set(&_lock, 1) == 1);
+		while(__sync_lock_test_and_set(&_lock, 1));
 	}
 	/*! \brief Gibt den gesperrten Abschnitt wieder frei.
 	 *

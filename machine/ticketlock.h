@@ -37,7 +37,6 @@ public:
 	{
 		_ticketnumber = 0;
 		_turn = 0;
-		unlock();
 	}
 
 	/*! \brief Betritt den gesperrten Abschnitt. Ist dieser besetzt, so wird
@@ -46,10 +45,11 @@ public:
 	 * \opt Methode implementieren
 	 */
 	void lock() {
-		volatile unsigned int current = __sync_fetch_and_add(&_ticketnumber, 1);
+		unsigned int current = __sync_fetch_and_add(&_ticketnumber, 1);
 
 		// warten
-		while(__sync_lock_test_and_set(&current, current) != _turn);
+		//while(__sync_fetch_and_add(&_turn, 0) != current);
+		while(_turn != current);
 	}
 
 	/*! \brief Gibt den gesperrten Abschnitt wieder frei.
@@ -57,7 +57,8 @@ public:
 	 * \opt Methode implementieren
 	 */
 	void unlock() {
-		__sync_fetch_and_add(&_turn, 1);
+		//__sync_fetch_and_add(&_turn, 1);
+		_turn++;
 	}
 };
 

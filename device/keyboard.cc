@@ -32,7 +32,13 @@ void Keyboard::trigger(){
         }
         // debugging
         DBG << "INT: KBD: " << in << endl;
+        int x,y;
+        ticketlock.lock();
+        kout.getpos(x,y);
+        kout.setpos(5,10);
         kout << in << endl;
+        kout.setpos(x,y);
+        ticketlock.unlock();
     }
 
 }

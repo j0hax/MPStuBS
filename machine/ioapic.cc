@@ -37,7 +37,7 @@ void IOAPIC::init(){
         *IOREGSEL_REG = i*2 + 0x10;
         reg.value = *IOWIN_REG;
         // change the non reserved data
-        reg.IOREDTBL_L.vector = 0;
+        reg.IOREDTBL_L.vector = 34;
         reg.IOREDTBL_L.delivery_mode = DELIVERY_MODE_LOWESTPRI;
         reg.IOREDTBL_L.destination_mode = DESTINATION_MODE_LOGICAL;
         reg.IOREDTBL_L.polarity = POLARITY_HIGH;
