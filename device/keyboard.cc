@@ -6,12 +6,9 @@
 
 extern CGA_Stream kout;
 
-// global instance
-Keyboard keyboard;
-
-// not really useful but gets ignored anyway
 Keyboard::Keyboard(){
     DBG_VERBOSE << "keyboard created" << endl;
+    kout.getpos(pos_x, pos_y);
 }
 
 // plugs in keyboard
@@ -31,14 +28,28 @@ void Keyboard::trigger(){
             reboot();
         }
         // debugging
-        DBG << "INT: KBD: " << in << endl;
+        DBG_VERBOSE << "INT: KBD: " << in << endl;
         int x,y;
         ticketlock.lock();
         kout.getpos(x,y);
-        kout.setpos(5,10);
-        kout << in << endl;
+        kout.setpos(pos_x, pos_y);
+        kout << in << flush;
+        kout.getpos(pos_x, pos_y);
         kout.setpos(x,y);
         ticketlock.unlock();
     }
+
+}
+
+bool Keyboard::prologue() {
+
+    // say that an epilogue is needed
+    return true;
+
+}
+
+void Keyboard::epilogue() {
+
+    trigger();
 
 }

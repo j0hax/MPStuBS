@@ -11,7 +11,7 @@ void Application::action() {
         
         CPU::disable_int();
         ticketlock.lock();
-        DBG << i << " locked" << endl;
+        DBG_VERBOSE << i << " locked" << endl;
         
         kout.setpos(5,instanceID + 5);
         kout << i << flush;

@@ -23,7 +23,25 @@ extern "C" void guardian(uint32_t vector, irq_context* context) {
   // plugbox stores all 256 interrupt vectors (VDT)
   Gate* ir_handler = plugbox.report(vector);
   // triggering the interrupt handler (by using gate interface)
-  ir_handler->trigger();
+  //ir_handler->trigger();
+
+  if(ir_handler->prologue()){
+
+    DBG << "ir needs epilogue..." << endl;
+
+    if(ir_handler->set_queued() == false){
+      DBG << "already in queue." << endl;
+    } else {
+      // enqueue the gate
+
+      // TODO:
+      //      enqueue()
+      DBG << "enqueued." << endl;
+    }
+
+  }else{
+    DBG << "ir has no epilogue." << endl;
+  }
 
   lapic.ackIRQ();
 }

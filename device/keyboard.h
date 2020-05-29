@@ -28,6 +28,8 @@ class Keyboard
 	Keyboard& operator=(const Keyboard&) = delete;
 
 private:
+	int pos_x;
+	int pos_y;
 public:
 	/*! \brief Konstruktor
 	 *
@@ -58,6 +60,9 @@ public:
 	 *
 	 */
 	void trigger();
+
+	virtual void epilogue();
+	virtual bool prologue();
 
 };
 
