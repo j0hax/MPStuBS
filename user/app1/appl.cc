@@ -5,9 +5,15 @@
 void Application::action() {
     //DBG << "Called " << __FUNCTION__ << "() in " << __FILE__ << endl;
 
+    // ##### start testing #####
+    {
+        Secure s;
+    
+    }
+    // ###### end testing ######
+
     // Endlosschleife    
     for(int i = 0;;i++) {
-
         
         CPU::disable_int();
         ticketlock.lock();
@@ -19,7 +25,7 @@ void Application::action() {
         
         
         ticketlock.unlock();
-CPU::enable_int();
+    CPU::enable_int();
         //DBG << i << " unlocked" << endl;
         
         // uncomment this for seeing output in CPU_0..3 windows

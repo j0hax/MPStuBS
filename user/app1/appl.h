@@ -5,6 +5,7 @@
 #include "machine/cpu.h"
 #include "machine/spinlock.h"
 #include "machine/ticketlock.h"
+#include "guard/secure.h"
 
 extern CGA_Stream kout;
 extern Spinlock spinlock;

@@ -6,6 +6,9 @@
 
 #pragma once
 
+#include "guard/guard.h"
+extern Guard guard;
+
 /*! \brief Die Klasse Secure dient dem bequemen Schutz kritischer Abschnitte.
  *  \ingroup interrupts
  *
@@ -37,4 +40,10 @@ class Secure
 public:
 	//TODO: Konstruktor und Destruktor müssen noch von euch implementiert
 	// werden.
+	Secure(){
+		guard.enter();
+	}
+	~Secure(){
+		guard.leave();
+	}
 };

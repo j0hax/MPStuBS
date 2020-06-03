@@ -20,6 +20,9 @@
 #include "machine/spinlock.h"
 #include "machine/ticketlock.h"
 
+#include "guard/guard.h"
+#include "guard/secure.h"
+
 extern APICSystem system;
 extern IOAPIC ioapic;
 Spinlock spinlock;
@@ -58,6 +61,9 @@ CGA_Stream dout_CPU3(39, 79, 21, 24, false, c0);
 
 // global instance
 Keyboard keyboard;
+
+//init guard
+Guard guard;
 
 volatile int i = 0;
 
@@ -128,7 +134,6 @@ extern "C" int main() {
   kout << "13smiley:    " << ((char)1) << endl;    // a heart
   kout << "tabs:\t1\t1\t\t4" << endl;
   */
-
 
   // main loop
   for(;;);

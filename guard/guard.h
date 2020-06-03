@@ -8,6 +8,7 @@
 
 #include "guard/gate.h"
 #include "object/queue.h"
+#include "device/cgastr.h"
 
 /*! \brief Synchronisation des BS-Kerns mit Unterbrechungen.
  *  \ingroup interrupts
@@ -62,6 +63,8 @@ class Guard {
 	// Verhindere Kopien und Zuweisungen
 	Guard(const Guard&) = delete;
 	Guard& operator=(const Guard&) = delete;
+private:
+	Queue<Gate> queues[4];
 public:
 	/*! \brief Konstruktor
 	 *
