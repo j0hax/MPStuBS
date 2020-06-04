@@ -9,6 +9,8 @@
 #include "guard/gate.h"
 #include "object/queue.h"
 #include "device/cgastr.h"
+#include "machine/apicsystem.h"
+#include "machine/spinlock.h"
 
 /*! \brief Synchronisation des BS-Kerns mit Unterbrechungen.
  *  \ingroup interrupts
@@ -65,6 +67,7 @@ class Guard {
 	Guard& operator=(const Guard&) = delete;
 private:
 	Queue<Gate> queues[4];
+	Spinlock s_lock;
 public:
 	/*! \brief Konstruktor
 	 *
