@@ -5,22 +5,21 @@
 
 extern APICSystem system;
 
+// In Ebene 1/2 absetzen
 void Guard::enter(){
-
-    DBG << __func__ << flush;
     s_lock.lock();
-    
-
 }
 
+// Abarbeiten oder in Ebene 0 versetzen
 void Guard::leave(){
-    DBG << __func__ << endl;
     s_lock.unlock();
+    // TODO: weitere epiloge abarbeiten
 }
 
 void Guard::relay(Gate *item){
     enter();
     int curr_cpu = system.getCPUID();
     queues[curr_cpu].enqueue(item);
+    DBG << "Relayed gate " << item << " to CPU " << curr_cpu << endl;
     leave();
 }
