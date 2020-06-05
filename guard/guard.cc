@@ -5,15 +5,21 @@
 
 extern APICSystem system;
 
-// In Ebene 1/2 absetzen
+// Warten bis Ebene 1/2 verfügbar ist
 void Guard::enter(){
     s_lock.lock();
 }
 
-// Abarbeiten oder in Ebene 0 versetzen
+// Abarbeiten oder zurück in Ebene 0 versetzen
 void Guard::leave(){
-    s_lock.unlock();
     // TODO: weitere epiloge abarbeiten
+    int curr_cpu = system.getCPUID();
+    Gate* item;
+    while((item = queues[curr_cpu].dequeue())) {
+        item->epilogue();
+        item->set_dequeued();
+    }
+    s_lock.unlock();
 }
 
 void Guard::relay(Gate *item){

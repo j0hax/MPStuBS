@@ -11,8 +11,11 @@
 #include "machine/cpu.h"
 #include "debug/output.h"
 #include "machine/plugbox.h"
+#include "guard.h"
 
 extern "C" void guardian(uint32_t vector, irq_context* context) {
+
+  Guard grd;
 
   //kout << "interrupt in guardian" << flush;
 
@@ -33,9 +36,7 @@ extern "C" void guardian(uint32_t vector, irq_context* context) {
       DBG << "already in queue." << endl;
     } else {
       // enqueue the gate
-
-      // TODO:
-      //      enqueue()
+      grd.relay(ir_handler);
       DBG << "enqueued." << endl;
     }
 
