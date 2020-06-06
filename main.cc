@@ -68,7 +68,6 @@ Guard guard;
 volatile int i = 0;
 
 extern "C" int main() {
-
   // enable interrupts for this core
   CPU::enable_int();
   // init ioapic (global instance)
@@ -80,15 +79,13 @@ extern "C" int main() {
   ioapic.allow(kbd_slot);
   // plug keyboard in plugbox (as interrupt handler for the keyboard)
   keyboard.plugin();
-
   // clear screen
   kout.reset(' ', kout.get_attribute());
-
   // Startmeldung ausgeben
   APICSystem::SystemType type = system.getSystemType();
   unsigned int numCPUs = system.getNumberOfCPUs();
   DBG/*_VERBOSE*/ << "CPU " << (int) system.getCPUID()
-              << "/LAPIC " << (int) lapic.getLAPICID() << " in main()" << endl;
+                  << "/LAPIC " << (int) lapic.getLAPICID() << " in main()" << endl;
   DBG_VERBOSE << "Is SMP system? " << (type == APICSystem::MP_APIC) << endl
               << "Number of CPUs: " << numCPUs << endl;
 
@@ -136,7 +133,7 @@ extern "C" int main() {
   */
 
   // main loop
-  for(;;);
+  for (;;);
 
   return 0;
 }
@@ -149,15 +146,15 @@ extern "C" int main() {
 extern "C" int main_ap() {
   //DBG.reset(' ', DBG.get_attribute());
   DBG/*_VERBOSE*/ << "CPU " << (int) system.getCPUID()
-              << "/LAPIC " << (int) lapic.getLAPICID() << " in main_ap()" << endl;
+                  << "/LAPIC " << (int) lapic.getLAPICID() << " in main_ap()" << endl;
   //main_ap loop
   CPU::enable_int();
-
   ticketlock.lock();
   Application app_ap(i++);
   ticketlock.unlock();
   app_ap.action();
 
-  for(;;);
+  for (;;);
+
   return 0;
 }

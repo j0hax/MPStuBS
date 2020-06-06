@@ -18,20 +18,19 @@
  *  für alle Interrupt-Nummern eingetragen.
  */
 class Panic
-	: public Gate
-{
-	// Verhindere Kopien und Zuweisungen
-	Panic(const Panic&)            = delete;
-	Panic& operator=(const Panic&) = delete;
+  : public Gate {
+  // Verhindere Kopien und Zuweisungen
+  Panic(const Panic &)            = delete;
+  Panic &operator=(const Panic &) = delete;
 public:
-	Panic();
-	/*! \brief Einfachste Form der Unterbrechungsbehandlung: Es wird eine
-	 *  Fehlermeldung ausgegeben und der Prozessor angehalten.
-	 *
-	 *  \todo Methode implementieren
-	 *
-	 */
-	void trigger();
+  Panic();
+  /*! \brief Einfachste Form der Unterbrechungsbehandlung: Es wird eine
+   *  Fehlermeldung ausgegeben und der Prozessor angehalten.
+   *
+   *  \todo Methode implementieren
+   *
+   */
+  void trigger();
 };
 
 extern Panic panic;

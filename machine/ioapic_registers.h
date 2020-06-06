@@ -52,9 +52,9 @@
  *  siehe: IO-APIC manual, p. 9
  */
 struct IOAPICID {
-	unsigned int reserved_2:24,
-			 ID:4, ///< IOAPIC Identification, R/W
-			 reserved_1:4;
+  unsigned int reserved_2: 24,
+           ID: 4, ///< IOAPIC Identification, R/W
+           reserved_1: 4;
 } __attribute__((packed));
 
 /*! \brief Eintrag in der IO Redirection Table
@@ -105,29 +105,29 @@ struct IOAPICID {
  *  \see [IO-APIC manual](intel_ioapic.pdf), p. 11-13
  */
 struct IOREDTBL_L {
-	unsigned int vector:8,           ///< Interrupt Vector, R/W
-			 delivery_mode:3,    ///< Delivery Mode, R/W
-			 destination_mode:1, ///< Destination Mode, R/W
-			 delivery_status:1,  ///< Delivery Status, RO
-			 polarity:1,         ///< Interrupt Input Pin Polarity, R/W
-			 remote_irr:1,       ///< Remote IRR (for level-triggered interrupts only), RO
-			 trigger_mode:1,     ///< Trigger Mode, R/W
-			 mask:1,             ///< Interrupt Mask, R/W
-			 reserved:15;
+  unsigned int vector: 8,          ///< Interrupt Vector, R/W
+           delivery_mode: 3,   ///< Delivery Mode, R/W
+           destination_mode: 1, ///< Destination Mode, R/W
+           delivery_status: 1, ///< Delivery Status, RO
+           polarity: 1,        ///< Interrupt Input Pin Polarity, R/W
+           remote_irr: 1,      ///< Remote IRR (for level-triggered interrupts only), RO
+           trigger_mode: 1,    ///< Trigger Mode, R/W
+           mask: 1,            ///< Interrupt Mask, R/W
+           reserved: 15;
 } __attribute__((packed));
 
 /// \copydoc IOREDTBL_L
 struct IOREDTBL_H {
-	unsigned int reserved:24,
-			 logical_destination:8; ///< Menge von Zielprozessoren
+  unsigned int reserved: 24,
+           logical_destination: 8; ///< Menge von Zielprozessoren
 } __attribute__((packed));
 
 /// Union über die einzelnen Registertypen des IO-APICs
 union IOAPICRegister {
-	struct IOAPICID		IOAPICID;
-	struct IOREDTBL_L   IOREDTBL_L;
-	struct IOREDTBL_H   IOREDTBL_H;
-	unsigned int        value;
+  struct IOAPICID		IOAPICID;
+  struct IOREDTBL_L   IOREDTBL_L;
+  struct IOREDTBL_H   IOREDTBL_H;
+  unsigned int        value;
 } __attribute__((packed));
 
 typedef union IOAPICRegister IOAPICRegister_t;

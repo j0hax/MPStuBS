@@ -27,15 +27,15 @@ class Application {
 
 public:
   /*! \brief Konstruktor
-   * 
+   *
    * \param i Instanz-ID
    */
 
-    int instanceID;
+  int instanceID;
 
-    Application(int i) {
-      instanceID = i;
-    }
+  Application(int i) {
+    instanceID = i;
+  }
 
   /*! \brief Enthält den Code der Anwendung
    *

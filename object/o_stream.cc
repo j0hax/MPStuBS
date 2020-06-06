@@ -59,10 +59,9 @@ O_Stream &O_Stream::operator << (unsigned int ival) {
 }
 /// \copydoc O_Stream::operator<<(short)
 O_Stream &O_Stream::operator << (long ival) {
-
   if (base == 10 && ival < 0) {
     *this << '-' << (unsigned long)(ival * (-1)) << dec;
-  }else{
+  } else {
     *this << (unsigned long)(ival) << dec;
   }
 

@@ -25,38 +25,36 @@
  *
  *  <a href="http://gcc.gnu.org/onlinedocs/gcc-4.1.2/gcc/Atomic-Builtins.html">Eintrag im GCC Manual über Atomic Builtins</a>
  */
-class Spinlock
-{
+class Spinlock {
 private:
-	Spinlock(const Spinlock& copy); //verhindert Kopieren
+  Spinlock(const Spinlock &copy); //verhindert Kopieren
 
-	volatile unsigned int _lock = 0;
+  volatile unsigned int _lock = 0;
 
 public:
-	/*! \brief Konstruktor; Initialisierung des Spinlocks als ungesperrt.
-	 *
-	 *  \todo Konstruktor vervollständigen
-	 *
-	 */
-	Spinlock()
-	{
-		unlock();
-	}
-	/*! \brief Betritt den gesperrten Abschnitt. Ist dieser besetzt, so wird
-	 *  solange aktiv gewartet, bis er betreten werden kann.
-	 *
-	 *  \todo Methode implementieren
-	 */
-	void lock() {
-		while(__sync_lock_test_and_set(&_lock, 1));
-	}
-	/*! \brief Gibt den gesperrten Abschnitt wieder frei.
-	 *
-	 *
-	 *  \todo Methode implementieren
-	 */
-	void unlock() {
-		__sync_lock_release(&_lock);
-	}
+  /*! \brief Konstruktor; Initialisierung des Spinlocks als ungesperrt.
+   *
+   *  \todo Konstruktor vervollständigen
+   *
+   */
+  Spinlock() {
+    unlock();
+  }
+  /*! \brief Betritt den gesperrten Abschnitt. Ist dieser besetzt, so wird
+   *  solange aktiv gewartet, bis er betreten werden kann.
+   *
+   *  \todo Methode implementieren
+   */
+  void lock() {
+    while (__sync_lock_test_and_set(&_lock, 1));
+  }
+  /*! \brief Gibt den gesperrten Abschnitt wieder frei.
+   *
+   *
+   *  \todo Methode implementieren
+   */
+  void unlock() {
+    __sync_lock_release(&_lock);
+  }
 };
 

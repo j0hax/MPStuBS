@@ -14,17 +14,13 @@
 
 Keyboard_Controller::Keyboard_Controller() :
   keydecoder(this), ctrl_port(0x64), data_port(0x60) {
-
   drainKeyboardBuffer();
-
   // alle LEDs ausschalten (bei vielen PCs ist NumLock nach dem Booten an)
-
   set_led(led_caps_lock, false);
   set_led(led_scroll_lock, false);
   set_led(led_num_lock, false);
   // maximale Geschwindigkeit, minimale Verzoegerung
   set_repeat_rate(0, 0);
-
   drainKeyboardBuffer();
 }
 
@@ -52,15 +48,14 @@ Key Keyboard_Controller::key_hit() {
 
   // Key lesen
   pressed = keydecoder.decode(data_port.inb());
+#if DBG_VERBOSE
 
-  #if DBG_VERBOSE 
   if (pressed.valid()) {
     DBG << (unsigned int)pressed << " detected" << endl;
   }
-  #endif
 
+#endif
   //drainKeyboardBuffer();
-
   // Tastatur sagen dass die Key gelesen wurde
   // Key zurueckgeben
   return pressed;
@@ -109,14 +104,14 @@ void Keyboard_Controller::set_led(led_t led, bool on) {
   } else if ((led & led_t::led_scroll_lock) == led_t::led_scroll_lock) {
     send_command(kbd_cmd::set_led, on);
   }*/
-  if(on){
+  if (on) {
     led_ctrl_byte = led_ctrl_byte | led;
   } else {
     led_ctrl_byte = led_ctrl_byte & ~led;
   }
+
   DBG_VERBOSE << bin << led_ctrl_byte << flush;
   send_command(kbd_cmd::set_led, led_ctrl_byte);
-
 }
 
 void Keyboard_Controller::drainKeyboardBuffer() {

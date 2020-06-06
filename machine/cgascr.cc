@@ -12,7 +12,7 @@ CGA_Screen::Cell* CGA_Screen::screen = (CGA_Screen::Cell*)0xb8000;
 CGA_Screen::CGA_Screen(int from_col, int to_col, int from_row, int to_row,
                        bool use_cursor)
   : from_col(from_col), to_col(to_col), from_row(from_row), to_row(to_row),
-    use_cursor(use_cursor), i_port(0x3d4), d_port(0x3d5){
+    use_cursor(use_cursor), i_port(0x3d4), d_port(0x3d5) {
   width = to_col - from_col + 1;
   height = to_row - from_row + 1;
 }
@@ -55,7 +55,7 @@ void CGA_Screen::getpos(int &x, int &y) {
     // get lower byte
     i_port.outb(0xf);
     data += 0xFF & d_port.inb();
-    // calculate coordinates for data 
+    // calculate coordinates for data
     total_y = data / 80;
     total_x = data - total_y * 80;
     y = total_y - from_row;
@@ -68,15 +68,12 @@ void CGA_Screen::getpos(int &x, int &y) {
 
 // prints a string; used by CGA_Stream as output method
 void CGA_Screen::print(char* string, int length, Attribute attrib) {
-  
   // index at string
   int i = 0;
-
-  // tab indent 
+  // tab indent
   int INDENT = 4;
   // remaining spaces to new tab position
   int remain = 0;
-
   // get x and y relativ to window
   int x = 0;
   int y = 0;
@@ -86,7 +83,6 @@ void CGA_Screen::print(char* string, int length, Attribute attrib) {
 
   // loop until string is written to console
   while (i < length) {
-
     // ignore '\0' as a symbol
     if (string[i] == '\0') {
       ++i;
@@ -99,8 +95,7 @@ void CGA_Screen::print(char* string, int length, Attribute attrib) {
     bool last_line = false;
     // if input is '\b' = backspace
     bool backspace = false;
-    
-    
+
     /*
       checking the next input char
     */
@@ -123,9 +118,10 @@ void CGA_Screen::print(char* string, int length, Attribute attrib) {
     */
     // tab
     if (string[i] == '\t') {
-      if(remain == 0){
+      if (remain == 0) {
         remain = INDENT - (x % INDENT);
       }
+
       if (remain > 1) {
         --remain;
         show(from_col + x, from_row + y, ' ', attrib);
@@ -133,12 +129,13 @@ void CGA_Screen::print(char* string, int length, Attribute attrib) {
         remain = 0;
         ++i;
       }
-    // backspace
+
+      // backspace
     } else if (backspace) {
       show(from_col + x, from_row + y, ' ', attrib);
       --x;
       ++i;
-    // new line through '\n'
+      // new line through '\n'
     } else if (string[i] != '\n') {
       show(from_col + x, from_row + y, string[i], attrib);
       ++i;
@@ -147,7 +144,7 @@ void CGA_Screen::print(char* string, int length, Attribute attrib) {
     }
 
     /*
-      important checks after writing a char    
+      important checks after writing a char
     */
     // last line is full
     if (last_line) {
@@ -165,13 +162,14 @@ void CGA_Screen::print(char* string, int length, Attribute attrib) {
       }
 
       x = 0;
-    } else if (new_line) { // if newline 
+    } else if (new_line) { // if newline
       ++y;
       x = 0;
     } else { // else just move cursor by one (most of the time that's the case)
       ++x;
     }
   }
+
   // set the new cursor position
   setpos(x, y);
 }
@@ -191,7 +189,6 @@ void CGA_Screen::reset(char character, Attribute attrib) {
 
 // responsible for actually writing a character to screen
 void CGA_Screen::show(int x, int y, char character, Attribute attrib) {
-
   // punch everything in a Cell structure
   struct CGA_Screen::Cell cell;
   cell.c = character;
@@ -201,6 +198,7 @@ void CGA_Screen::show(int x, int y, char character, Attribute attrib) {
   if (x < 0) {
     x = 80 + x;
   }
+
   if (y < 0) {
     y = 25 + y;
   }

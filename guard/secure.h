@@ -32,18 +32,17 @@ extern Guard guard;
 	// Ende des kritischen Abschnitts
 	\endverbatim
  */
-class Secure
-{
-	// Verhindere Kopien und Zuweisungen
-	Secure(const Secure&) = delete;
-	Secure& operator=(const Secure&) = delete;
+class Secure {
+  // Verhindere Kopien und Zuweisungen
+  Secure(const Secure &) = delete;
+  Secure &operator=(const Secure &) = delete;
 public:
-	//TODO: Konstruktor und Destruktor müssen noch von euch implementiert
-	// werden.
-	Secure(){
-		guard.enter();
-	}
-	~Secure(){
-		guard.leave();
-	}
+  //TODO: Konstruktor und Destruktor müssen noch von euch implementiert
+  // werden.
+  Secure() {
+    guard.enter();
+  }
+  ~Secure() {
+    guard.leave();
+  }
 };

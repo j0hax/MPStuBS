@@ -10,26 +10,24 @@ extern Panic panic;
 
 Plugbox plugbox;
 
-Plugbox::Plugbox(){
+Plugbox::Plugbox() {
+  DBG_VERBOSE << "plugbox created" << endl;
 
-    DBG_VERBOSE << "plugbox created" << endl;
-
-    for(int i = 0; i < 256; i++){
-        gateobjs[i] = &panic;
-    }
-
+  for (int i = 0; i < 256; i++) {
+    gateobjs[i] = &panic;
+  }
 }
 
-void Plugbox::assign(unsigned int vector, Gate *gate){
-
-    if(vector <= 255)
+void Plugbox::assign(unsigned int vector, Gate* gate) {
+  if (vector <= 255) {
     gateobjs[vector] = gate;
-
+  }
 }
 
-Gate* Plugbox::report(unsigned int vector){
-
-    if(vector <= 255)
+Gate* Plugbox::report(unsigned int vector) {
+  if (vector <= 255) {
     return gateobjs[vector];
-    return NULL;
+  }
+
+  return NULL;
 }

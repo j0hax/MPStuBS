@@ -21,48 +21,47 @@ extern Ticketlock ticketlock;
  *  durch die Anwendung ermöglichen.
  */
 class Keyboard
-	: public Gate, public Keyboard_Controller
-{
-	// Verhindere Kopien und Zuweisungen
-	Keyboard(const Keyboard&)            = delete;
-	Keyboard& operator=(const Keyboard&) = delete;
+  : public Gate, public Keyboard_Controller {
+  // Verhindere Kopien und Zuweisungen
+  Keyboard(const Keyboard &)            = delete;
+  Keyboard &operator=(const Keyboard &) = delete;
 
 private:
-	int pos_x;
-	int pos_y;
+  int pos_x;
+  int pos_y;
 public:
-	/*! \brief Konstruktor
-	 *
-	 */
-	Keyboard();
+  /*! \brief Konstruktor
+   *
+   */
+  Keyboard();
 
-	/*! \brief 'Anstöpseln' der Tastatur.
-	 *
-	 *  Initialisierung der Tastatur und Aktivieren der spezifischen
-	 *  Interruptbehandlung. Dazu muss sich das Keyboard-Objekt bei der Plugbox
-	 *  plugbox anmelden und dem IOAPIC Objekt ioapic mitteilen, dass
-	 *  Unterbrechungen der Tastatur fortan dem Prozessor gemeldet werden
-	 *  sollen.
-	 *
-	 *  \todo Methode implementieren
-	 *
-	 */
-	void plugin();
+  /*! \brief 'Anstöpseln' der Tastatur.
+   *
+   *  Initialisierung der Tastatur und Aktivieren der spezifischen
+   *  Interruptbehandlung. Dazu muss sich das Keyboard-Objekt bei der Plugbox
+   *  plugbox anmelden und dem IOAPIC Objekt ioapic mitteilen, dass
+   *  Unterbrechungen der Tastatur fortan dem Prozessor gemeldet werden
+   *  sollen.
+   *
+   *  \todo Methode implementieren
+   *
+   */
+  void plugin();
 
-	/*! \brief Bearbeitung der Tastaturunterbrechung.
-	 *
-	 * Hier soll die Bearbeitung des von der Tastatur ausgelösten Interrupts
-	 * erfolgen. trigger gibt dazu entsprechend gültige Zeichen auf einer
-	 * eigenen Zeile auf dem Bildschirm aus. Wird die Tastenkombination
-	 * `[ctrl]-[alt]-[delete]` gedrückt, soll ein Reboot ausgelöst werden.
-	 *
-	 *  \todo Methode implementieren
-	 *
-	 */
-	void trigger();
+  /*! \brief Bearbeitung der Tastaturunterbrechung.
+   *
+   * Hier soll die Bearbeitung des von der Tastatur ausgelösten Interrupts
+   * erfolgen. trigger gibt dazu entsprechend gültige Zeichen auf einer
+   * eigenen Zeile auf dem Bildschirm aus. Wird die Tastenkombination
+   * `[ctrl]-[alt]-[delete]` gedrückt, soll ein Reboot ausgelöst werden.
+   *
+   *  \todo Methode implementieren
+   *
+   */
+  void trigger();
 
-	virtual void epilogue();
-	virtual bool prologue();
+  virtual void epilogue();
+  virtual bool prologue();
 
 };
 

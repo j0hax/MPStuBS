@@ -8,15 +8,11 @@ Panic panic;
 
 // not useful; gets ignored
 Panic::Panic() {
-
-    DBG_VERBOSE << "panic erstellt" << endl;
-
+  DBG_VERBOSE << "panic erstellt" << endl;
 }
 
 // default interrupt handler routine: sends message and freezes cpu
-void Panic::trigger(){
-
-    DBG << "INT: PANIC: CPU DIES!" << flush;
-    CPU::die();
-
+void Panic::trigger() {
+  DBG << "INT: PANIC: CPU DIES!" << flush;
+  CPU::die();
 }

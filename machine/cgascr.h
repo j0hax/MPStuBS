@@ -102,14 +102,15 @@ public:
       (void) background;
       (void) blink;
     };
-  } __attribute__((packed)); // sorgt dafür, dass der Übersetzter keinen Speicher auffüllt
+  } __attribute__((
+                    packed)); // sorgt dafür, dass der Übersetzter keinen Speicher auffüllt
 
   struct Cell {
 
     char c;
     struct Attribute a;
 
-  }__attribute__((packed));
+  } __attribute__((packed));
 
   static struct Cell* screen;
 

@@ -62,51 +62,51 @@
  *    </ul>
  */
 class Guard {
-	// Verhindere Kopien und Zuweisungen
-	Guard(const Guard&) = delete;
-	Guard& operator=(const Guard&) = delete;
+  // Verhindere Kopien und Zuweisungen
+  Guard(const Guard &) = delete;
+  Guard &operator=(const Guard &) = delete;
 private:
-	Queue<Gate> queues[4];
-	Spinlock s_lock;
+  Queue<Gate> queues[4];
+  Spinlock s_lock;
 public:
-	/*! \brief Konstruktor
-	 *
-	 */
-	Guard () {}
+  /*! \brief Konstruktor
+   *
+   */
+  Guard() {}
 
 public:
-	/*! \brief Betreten des kritischen Abschnitts.
-	 *
-	 *  Das Betreten des kritischen Abschnittes ist je nach Art des Systems
-	 *  unterschiedlich zu handhaben. Bei einem Uniprozessorsystem genügt es,
-	 *  das Betreten durch einfaches Setzen einer Sperrvariable zu markieren,
-	 *  da nur ein einziger Kontrollfluss gleichzeitig den kritischen Bereich
-	 *  betreten kann. Sobald jedoch mehrere CPUs vorhanden sind, ist dies
-	 *  nicht mehr der Fall. Will nun eine CPU den kritischen Bereich betreten,
-	 *  obwohl sich dort schon eine andere CPU befindet, so soll hier aktiv
-	 *  gewartet werden, bis der kritische Bereich wieder freigegeben wurde.
-	 *
-	 *  \todo Methode implementieren
-	 */
-	void enter();
-	/*! \brief Verlassen des kritischen Abschnitts.
-	 *
-	 *  Mit dieser Methode wird der kritische Abschnitt verlassen und die
-	 *  angestauten Epiloge werden abgearbeitet.
-	 *
-	 *  \todo Methode implementieren
-	 */
-	void leave();
-	/*! \brief Ein Prolog möchte, dass seine Epilog-Aktivität ausgeführt wird.
-	 *
-	 *  Diese Methode wird von guardian () aufgerufen, falls der zuvor
-	 *  ausgeführte Prolog durch einen Rückgabewert true angezeigt hat, dass
-	 *  sein Epilog ausgeführt werden soll. Ob der Epilog sofort behandelt oder
-	 *  zunächst nur in die Epilogliste eingehängt wird, hängt davon ab, ob der
-	 *  kritische Abschnitt frei oder besetzt ist.
-	 *
-	 *  \todo Methode implementieren
-	 */
-	void relay(Gate *item);
+  /*! \brief Betreten des kritischen Abschnitts.
+   *
+   *  Das Betreten des kritischen Abschnittes ist je nach Art des Systems
+   *  unterschiedlich zu handhaben. Bei einem Uniprozessorsystem genügt es,
+   *  das Betreten durch einfaches Setzen einer Sperrvariable zu markieren,
+   *  da nur ein einziger Kontrollfluss gleichzeitig den kritischen Bereich
+   *  betreten kann. Sobald jedoch mehrere CPUs vorhanden sind, ist dies
+   *  nicht mehr der Fall. Will nun eine CPU den kritischen Bereich betreten,
+   *  obwohl sich dort schon eine andere CPU befindet, so soll hier aktiv
+   *  gewartet werden, bis der kritische Bereich wieder freigegeben wurde.
+   *
+   *  \todo Methode implementieren
+   */
+  void enter();
+  /*! \brief Verlassen des kritischen Abschnitts.
+   *
+   *  Mit dieser Methode wird der kritische Abschnitt verlassen und die
+   *  angestauten Epiloge werden abgearbeitet.
+   *
+   *  \todo Methode implementieren
+   */
+  void leave();
+  /*! \brief Ein Prolog möchte, dass seine Epilog-Aktivität ausgeführt wird.
+   *
+   *  Diese Methode wird von guardian () aufgerufen, falls der zuvor
+   *  ausgeführte Prolog durch einen Rückgabewert true angezeigt hat, dass
+   *  sein Epilog ausgeführt werden soll. Ob der Epilog sofort behandelt oder
+   *  zunächst nur in die Epilogliste eingehängt wird, hängt davon ab, ob der
+   *  kritische Abschnitt frei oder besetzt ist.
+   *
+   *  \todo Methode implementieren
+   */
+  void relay(Gate* item);
 };
 
