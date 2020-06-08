@@ -14,8 +14,9 @@
 #include "guard.h"
 
 extern "C" void guardian(uint32_t vector, irq_context* context) {
+
   Guard grd;
-  //kout << "interrupt in guardian" << flush;
+
   // context not important for now or?
   (void) context;
   // getting a gate pointer (interrupt handler) to the corresponding vector
@@ -24,18 +25,18 @@ extern "C" void guardian(uint32_t vector, irq_context* context) {
   // triggering the interrupt handler (by using gate interface)
   //ir_handler->trigger();
 
-  if (ir_handler->prologue()) {
-    DBG << "ir needs epilogue..." << endl;
+  /* TODO: Interrupts only working on one CPU */
 
+  if (ir_handler->prologue()) {
+    DBG << "Gate " << ir_handler << ": ";
     if (ir_handler->set_queued() == false) {
       DBG << "already in queue." << endl;
     } else {
-      // enqueue the gate
+      // Enqueue or process the gate
       grd.relay(ir_handler);
-      DBG << "enqueued." << endl;
     }
   } else {
-    DBG << "ir has no epilogue." << endl;
+    DBG << "Interrupt has no epilogue." << endl;
   }
 
   lapic.ackIRQ();
