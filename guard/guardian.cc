@@ -40,4 +40,5 @@ extern "C" void guardian(uint32_t vector, irq_context* context) {
   }
 
   lapic.ackIRQ();
+
 }

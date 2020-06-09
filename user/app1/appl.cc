@@ -17,14 +17,14 @@ void Application::action() {
     ticketlock.unlock();
     CPU::enable_int();
     */
-    /*{
+    {
       Secure s;
     
       DBG_VERBOSE << i << " locked" << endl;
       kout.setpos(5, instanceID + 5);
       kout << i << flush;
     
-    }*/
+    }
 
 
     //DBG << i << " unlocked" << endl;

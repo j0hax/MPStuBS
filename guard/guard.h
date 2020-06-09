@@ -70,7 +70,7 @@ private:
   Ticketlock s_lock;
 
   // kleine Variable um zu gucken ob wir in Ebene 1/2 sind
-  volatile bool flag = false;
+  volatile bool flag[4] = {false};
 
 public:
   /*! \brief Konstruktor
