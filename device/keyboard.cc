@@ -28,14 +28,14 @@ void Keyboard::trigger() {
 
     // debugging
     DBG_VERBOSE << "INT: KBD: " << in << endl;
-    int x, y;
-    ticketlock.lock();
-    kout.getpos(x, y);
+    //int x, y;
+    //ticketlock.lock();
+    //kout.getpos(x, y);
     kout.setpos(pos_x, pos_y);
     kout << in << flush;
     kout.getpos(pos_x, pos_y);
-    kout.setpos(x, y);
-    ticketlock.unlock();
+    //kout.setpos(x, y);
+    //ticketlock.unlock();
   }
 }
 

@@ -13,8 +13,11 @@ extern APICSystem system;
 
 // Warten bis Ebene 1/2 verfügbar ist
 void Guard::enter() {
-  flag = true;
+  
+  CPU::disable_int();
   s_lock.lock();
+  flag = true;
+  CPU::enable_int();
   //DBG << "enter" << flush;
   //flag[system.getCPUID()] = true;
 
@@ -35,12 +38,11 @@ void Guard::leave() {
     CPU::enable_int();
     item->epilogue();
   }
-  CPU::enable_int();
 
   //flag[curr_cpu] = false;
   flag = false;
   s_lock.unlock();
-
+  CPU::enable_int();
   // Zurück zur Ebene 0 (normaler Programmbetrieb)
 }
 
@@ -50,7 +52,7 @@ void Guard::relay(Gate* item) {
   //if (flag[curr_cpu]) {
   if (flag) {
     queues[curr_cpu].enqueue(item);
-    item->set_queued();
+    DBG << item->set_queued();
     DBG << " enqu " << endl;
   } else {
     CPU::enable_int();
@@ -58,7 +60,7 @@ void Guard::relay(Gate* item) {
     {
       Secure section;
       //CPU::disable_int();
-      item->set_dequeued();
+      
       item->epilogue();
       
       //CPU::enable_int();

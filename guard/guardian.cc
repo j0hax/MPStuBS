@@ -30,6 +30,7 @@ extern "C" void guardian(uint32_t vector, irq_context* context) {
     if (ir_handler->set_queued() == false) {
       DBG << "already in queue." << endl;
     } else {
+      ir_handler->set_dequeued();
       // Enqueue or process the gate
       DBG << "relay: " << flush;
       guard.relay(ir_handler);
