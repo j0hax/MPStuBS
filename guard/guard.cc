@@ -11,13 +11,13 @@
 
 extern APICSystem system;
 
-// kleine Variable um zu gucken ob wir in Ebene 1/2 sind
-volatile bool flag[4];
-
 // Warten bis Ebene 1/2 verfügbar ist
 void Guard::enter() {
+  flag = true;
   s_lock.lock();
-  flag[system.getCPUID()] = true;
+  //DBG << "enter" << flush;
+  //flag[system.getCPUID()] = true;
+
 }
 
 // Die Epiloge abarbeiten
@@ -27,16 +27,18 @@ void Guard::leave() {
   // IRQs enabled
   while (true) {
     CPU::disable_int();
+
     item = queues[curr_cpu].dequeue();
-    if (item == 0) break;
+    if (!item) break;
+    item->set_dequeued();
+    DBG << " dequ " << endl;
     CPU::enable_int();
     item->epilogue();
-    item->set_dequeued();
   }
-
   CPU::enable_int();
 
-  flag[curr_cpu] = false;
+  //flag[curr_cpu] = false;
+  flag = false;
   s_lock.unlock();
 
   // Zurück zur Ebene 0 (normaler Programmbetrieb)
@@ -45,17 +47,24 @@ void Guard::leave() {
 void Guard::relay(Gate* item) {
   int curr_cpu = system.getCPUID();
   // E1 -> E1/2
-  if (flag[curr_cpu]) {
+  //if (flag[curr_cpu]) {
+  if (flag) {
     queues[curr_cpu].enqueue(item);
-    DBG << "added to queue." << endl;
+    item->set_queued();
+    DBG << " enqu " << endl;
   } else {
+    CPU::enable_int();
+    lapic.ackIRQ();
     {
       Secure section;
-      CPU::disable_int();
-      item->epilogue();
+      //CPU::disable_int();
       item->set_dequeued();
-      CPU::enable_int();
+      item->epilogue();
+      
+      //CPU::enable_int();
       DBG << "processed." << endl;
-    };
+
+    }
+
   }
 }

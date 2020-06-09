@@ -10,7 +10,7 @@
 #include "object/queue.h"
 #include "device/cgastr.h"
 #include "machine/apicsystem.h"
-#include "machine/spinlock.h"
+#include "machine/ticketlock.h"
 
 /*! \brief Synchronisation des BS-Kerns mit Unterbrechungen.
  *  \ingroup interrupts
@@ -67,7 +67,11 @@ class Guard {
   Guard &operator=(const Guard &) = delete;
 private:
   Queue<Gate> queues[4];
-  Spinlock s_lock;
+  Ticketlock s_lock;
+
+  // kleine Variable um zu gucken ob wir in Ebene 1/2 sind
+  volatile bool flag = false;
+
 public:
   /*! \brief Konstruktor
    *
@@ -110,3 +114,5 @@ public:
   void relay(Gate* item);
 };
 
+
+extern Guard guard;

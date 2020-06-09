@@ -15,8 +15,6 @@
 
 extern "C" void guardian(uint32_t vector, irq_context* context) {
 
-  Guard grd;
-
   // context not important for now or?
   (void) context;
   // getting a gate pointer (interrupt handler) to the corresponding vector
@@ -28,12 +26,13 @@ extern "C" void guardian(uint32_t vector, irq_context* context) {
   /* TODO: Interrupts only working on one CPU */
 
   if (ir_handler->prologue()) {
-    DBG << "Gate " << ir_handler << ": ";
+    DBG << "Gate " << ir_handler << ": " << flush;
     if (ir_handler->set_queued() == false) {
       DBG << "already in queue." << endl;
     } else {
       // Enqueue or process the gate
-      grd.relay(ir_handler);
+      DBG << "relay: " << flush;
+      guard.relay(ir_handler);
     }
   } else {
     DBG << "Interrupt has no epilogue." << endl;
