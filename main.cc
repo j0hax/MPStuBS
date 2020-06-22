@@ -70,6 +70,9 @@ volatile int i = 0;
 extern "C" int main() {
   // enable interrupts for this core
   CPU::enable_int();
+
+  /* //UNCOMMENT FOR INTERRUPTS
+
   // init ioapic (global instance)
   ioapic.init();
   // redirect keyboard interrupt
@@ -79,6 +82,9 @@ extern "C" int main() {
   ioapic.allow(kbd_slot);
   // plug keyboard in plugbox (as interrupt handler for the keyboard)
   keyboard.plugin();
+  
+  */
+  
   // clear screen
   kout.reset(' ', kout.get_attribute());
   // Startmeldung ausgeben

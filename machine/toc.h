@@ -53,8 +53,7 @@ class Thread;
  *  \todo Funktion implementieren
  *
  */
-void toc_settle(struct toc *regs, void *tos, void (*kickoff)(Thread*),
-				Thread *object);
+void toc_settle(struct toc *regs, void *tos, void (*kickoff)(Thread*),Thread *object);
 
 extern "C" {
 	/*! \brief Diese Funktion lädt die Prozessorregister mit den Inhalten aus
