@@ -23,6 +23,8 @@
 #include "guard/guard.h"
 #include "guard/secure.h"
 
+#include "machine/toc.h"
+
 extern APICSystem system;
 extern IOAPIC ioapic;
 Spinlock spinlock;
@@ -114,11 +116,13 @@ extern "C" int main() {
     case APICSystem::UNDETECTED: {
     }
   }
-
-  ticketlock.lock();
+  
+  a1.go();
+  
+  /*ticketlock.lock();
   Application app1(i++);
   ticketlock.unlock();
-  app1.action();
+  app1.action();*/
 
   /*
   kout << "0Test        <stream result> -> <expected>" << endl;
@@ -154,12 +158,14 @@ extern "C" int main_ap() {
   DBG/*_VERBOSE*/ << "CPU " << (int) system.getCPUID()
                   << "/LAPIC " << (int) lapic.getLAPICID() << " in main_ap()" << endl;
   //main_ap loop
+  /*
   CPU::enable_int();
   ticketlock.lock();
   Application app_ap(i++);
   ticketlock.unlock();
   app_ap.action();
-
+  */
+  DBG << "doing nothing" << flush;
   for (;;);
 
   return 0;

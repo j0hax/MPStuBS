@@ -20,6 +20,5 @@ void toc_settle (struct toc *regs, void *tos, void (*kickoff)(Thread*), Thread *
     
     regs->esp = stackptr-2;
 
-    toc_go(regs);
 }
 

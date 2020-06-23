@@ -2,3 +2,11 @@
 
 #include "thread/dispatcher.h"
 
+#include "debug/output.h"
+
+void Dispatcher::kickoff(Thread *t){
+
+    DBG << "kickoff!" << flush;
+    t->action();
+
+}

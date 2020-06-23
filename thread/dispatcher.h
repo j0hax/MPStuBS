@@ -30,6 +30,7 @@ class Dispatcher
 
 protected:
 	void setActive(Thread* c) {
+		(void) c;
 	}
 public:
 	/*! \brief Konstruktor
