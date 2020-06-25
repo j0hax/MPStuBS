@@ -16,7 +16,6 @@ void Dispatcher::kickoff(Thread *t){
 void Dispatcher::go(Thread *first) {
     setActive(first);
     first->go();
-    //first->action();
 }
 
 void Dispatcher::dispatch(Thread *next) {
