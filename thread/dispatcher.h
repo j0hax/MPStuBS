@@ -8,6 +8,10 @@
  */
 
 #include "thread/thread.h"
+#include "object/queue.h"
+#include "machine/apicsystem.h"
+
+extern APICSystem system;
 
 /*! \brief Der Dispatcher lastet Threads ein und setzt damit die Entscheidungen der Ablaufplanung durch.
  *  \ingroup thread
@@ -28,10 +32,15 @@ class Dispatcher
 	Dispatcher(const Dispatcher&)            = delete;
 	Dispatcher& operator=(const Dispatcher&) = delete;
 
+	/* Der aktive Thread auf jeden core.
+	Implementierung bei setActive() und active() ähnlich wie bei den
+	guard.cc multiprozessorvariante? */
+
+	//Queue<Thread> queues[4];
+	Thread* life[4];
+
 protected:
-	void setActive(Thread* c) {
-		(void) c;
-	}
+	void setActive(Thread* t);
 public:
 	/*! \brief Konstruktor
 	 *
@@ -42,9 +51,7 @@ public:
 	 *  \todo Konstruktor implementieren
 	 *
 	 */
-	Dispatcher()
-	{
-	}
+	Dispatcher();
 
 	/*! \brief Hiermit kann abgefragt werden, welche Koroutine gerade im Besitz
 	 *  des aktuellen Prozessors ist.
@@ -53,9 +60,7 @@ public:
 	 *  \todo Methode implementieren
 	 *
 	 */
-	Thread* active() {
-		return 0;
-	}
+	Thread* active();
 
 	/*! \brief Mit dieser Methode wird die Koroutine first im Life-Pointer des
 	 *  aktuellen Prozessores vermerkt und gestartet.

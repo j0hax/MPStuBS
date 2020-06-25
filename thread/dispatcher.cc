@@ -4,9 +4,34 @@
 
 #include "debug/output.h"
 
-void Dispatcher::kickoff(Thread *t){
+// https://www.sra.uni-hannover.de/Lehre/SS20/V_BSB/doc/classDispatcher.html#a1bd5ef08a829632075b6ccc7c81b1609
+Dispatcher::Dispatcher() {
+}
 
+void Dispatcher::kickoff(Thread *t){
     DBG << "kickoff!" << flush;
     t->action();
+}
 
+void Dispatcher::go(Thread *first) {
+    setActive(first);
+    first->go();
+    //first->action();
+}
+
+void Dispatcher::dispatch(Thread *next) {
+    DBG << "Dispatched " << next << endl;
+    Thread* old = active();
+    setActive(next);
+    old->resume(next);
+}
+
+void Dispatcher::setActive(Thread *t){
+    int curr_cpu = system.getCPUID();
+	life[curr_cpu] = t;
+}
+
+Thread* Dispatcher::active() {
+	int curr_cpu = system.getCPUID();
+	return life[curr_cpu];
 }
