@@ -25,6 +25,8 @@
 
 #include "machine/toc.h"
 
+#include "thread/dispatcher.h"
+
 extern APICSystem system;
 extern IOAPIC ioapic;
 Spinlock spinlock;
@@ -117,7 +119,7 @@ extern "C" int main() {
     }
   }
   
-  a1.go();
+  dispatcher.go(&a1);
   
   /*ticketlock.lock();
   Application app1(i++);

@@ -17,7 +17,7 @@ void Application::action() {
   for (int i = 0; ; i++) {
     
     kout.setpos(10,instanceID*2);
-    kout << "<thread " << instanceID << ": hello No." << i << "> " << endl;
+    kout << "<thread " << instanceID << ": running task " << i << "> " << endl;
 
     /* --start--
     making some really slow operations (volatile)
@@ -31,9 +31,9 @@ void Application::action() {
     
     // switching thread
     if(instanceID == 1){
-      resume(&a2);
+      dispatcher.dispatch(&a2);
     }else if(instanceID == 2){
-      resume(&a1);
+      dispatcher.dispatch(&a1);
     }
   }
 }

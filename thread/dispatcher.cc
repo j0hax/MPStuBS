@@ -4,12 +4,14 @@
 
 #include "debug/output.h"
 
+Dispatcher dispatcher;
+
 // https://www.sra.uni-hannover.de/Lehre/SS20/V_BSB/doc/classDispatcher.html#a1bd5ef08a829632075b6ccc7c81b1609
 Dispatcher::Dispatcher() {
 }
 
 void Dispatcher::kickoff(Thread *t){
-    DBG << "kickoff!" << flush;
+    DBG << "kickoff!" << endl;
     t->action();
 }
 
