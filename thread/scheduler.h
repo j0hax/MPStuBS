@@ -10,6 +10,7 @@
 #include "thread/dispatcher.h"
 #include "thread/thread.h"
 #include "object/queue.h"
+#include "machine/ticketlock.h"
 
 /*! \brief Der Scheduler implementiert die Ablaufplanung und somit die Auswahl des nächsten Threads.
  *  \ingroup thread
@@ -27,6 +28,15 @@ class Scheduler
 	// Verhindere Kopien und Zuweisungen
 	Scheduler(const Scheduler&)            = delete;
 	Scheduler& operator=(const Scheduler&) = delete;
+
+private:
+
+	// Nur 1 Prozessor
+	Ticketlock tl;
+
+	// Warteschlange der threads
+	Queue<Thread> jobs;
+
 public:
 	/*! \brief Konstruktor
 	 *
