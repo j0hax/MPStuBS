@@ -20,3 +20,16 @@ void Thread::resume(Thread *next){
     toc_switch(&regs, &(next->regs));
 
 }
+
+// von MPStuBS benötigt
+void Thread::reset_kill_flag() {
+    kill_flag = false;
+}
+
+void Thread::set_kill_flag() {
+    kill_flag = true;
+}
+
+bool Thread::dying() {
+    return kill_flag;
+}

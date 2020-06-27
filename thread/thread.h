@@ -39,6 +39,7 @@ public:
 	QueueLink<Thread> queue_link;
 private:
 	struct toc regs;
+	bool kill_flag;
 public:
 	/*! \brief Aktiviert den ersten Thread auf einem Prozessor.
 	 *
@@ -67,4 +68,11 @@ public:
 	 *  angeben, der als Thread ausgeführt werden soll.
 	 */
 	virtual void action() = 0;
+
+	// von MPStuBS benötigt
+	void reset_kill_flag();
+
+	void set_kill_flag();
+
+	bool dying();
 };
