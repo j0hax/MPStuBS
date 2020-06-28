@@ -57,5 +57,16 @@ public:
   void flush();
 
   CGA_Screen::Attribute get_attribute();
+
+  void set_attribute(CGA_Screen::Attribute att);
+
 };
 
+extern CGA_Stream kout;
+extern CGA_Stream dout_CPU0;
+extern CGA_Stream dout_CPU1;
+extern CGA_Stream dout_CPU2;
+extern CGA_Stream dout_CPU3;
+
+extern CGA_Screen::Attribute c2;
+extern CGA_Screen::Attribute c3;

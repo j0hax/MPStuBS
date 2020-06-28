@@ -39,7 +39,7 @@ public:
 	QueueLink<Thread> queue_link;
 private:
 	struct toc regs;
-	bool kill_flag;
+	volatile bool kill_flag;
 public:
 	/*! \brief Aktiviert den ersten Thread auf einem Prozessor.
 	 *

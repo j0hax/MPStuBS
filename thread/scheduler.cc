@@ -2,13 +2,15 @@
 
 #include "thread/scheduler.h"
 
+Scheduler scheduler;
+
+
 void Scheduler::exit() {
     tl.lock();
     Thread* next = jobs.dequeue();
     tl.unlock();
     Dispatcher::dispatch(next);
 }
-
 
 
 void Scheduler::kill(Thread* that) {
@@ -23,11 +25,13 @@ void Scheduler::kill(Thread* that) {
     }
 }
 
+
 void Scheduler::ready(Thread * that) {
     tl.lock();
     jobs.enqueue(that);
     tl.unlock();
 }
+
 
 void Scheduler::resume() {
     
@@ -46,7 +50,7 @@ void Scheduler::resume() {
 
 void Scheduler::schedule() {
     tl.lock();
-    Thread* next = jobs.dequeue();
+    Thread* first = jobs.dequeue();
     tl.unlock();
-    Dispatcher::dispatch(next);
+    Dispatcher::go(first);
 }

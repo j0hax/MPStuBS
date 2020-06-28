@@ -7,6 +7,7 @@
 #include "machine/ticketlock.h"
 #include "guard/secure.h"
 #include "thread/dispatcher.h"
+#include "machine/apicsystem.h"
 
 extern CGA_Stream kout;
 extern Spinlock spinlock;
@@ -45,4 +46,7 @@ public:
 
 extern Application a1;
 extern Application a2;
-
+extern Application a3;
+extern Application a4;
+extern Application a5;
+extern Application a6;
