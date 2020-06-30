@@ -40,8 +40,8 @@ void Guard::leave() {
   }
 
   flag[curr_cpu] = false;
-  CPU::enable_int();
   s_lock.unlock();
+  CPU::enable_int();
   
   // Zurück zur Ebene 0 (normaler Programmbetrieb)
 }
