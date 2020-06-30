@@ -54,6 +54,8 @@ void Application::action() {
     // --end--
 
     scheduler.resume();
+    
+    
 
     // testing kill and exit
     /*if(instanceID == 2){

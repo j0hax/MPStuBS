@@ -111,7 +111,11 @@ extern "C" int main() {
     }
   }
 
-  scheduler.schedule();
+  {
+    Secure s;
+    scheduler.schedule();
+  }
+  
 
 
   /*ticketlock.lock();
@@ -143,7 +147,10 @@ extern "C" int main_ap() {
   app_ap.action();
   */
   CPU::disable_int();
-  scheduler.schedule();
+  {
+    Secure s;
+    scheduler.schedule();
+  }
 
   DBG << "doing nothing" << flush;
   for (;;);

@@ -1,56 +1,64 @@
 // vim: set noet ts=4 sw=4:
 
 #include "thread/scheduler.h"
+#include "debug/output.h"
+#include "machine/cpu.h"
+#include "guard/guard.h"
 
 Scheduler scheduler;
 
 
 void Scheduler::exit() {
-    tl.lock();
+    guard.enter();
     Thread* next = jobs.dequeue();
-    tl.unlock();
     Dispatcher::dispatch(next);
 }
 
 
 void Scheduler::kill(Thread* that) {
-    tl.lock();
+    guard.enter();
     Thread* to_kill = jobs.remove(that);
-    tl.unlock();
+    
 
     // gucken, ob Thread in der Ready-Liste ist.
     if (to_kill == 0) {
         // Thread nicht in der ready-liste, soll vermerkt werden bei 
         that->set_kill_flag();
     }
+    guard.leave();
 }
 
 
 void Scheduler::ready(Thread * that) {
-    tl.lock();
     jobs.enqueue(that);
-    tl.unlock();
 }
 
 
 void Scheduler::resume() {
     
+    guard.enter();
+
     Thread* curr = Dispatcher::active();
 
-    tl.lock();
     if (!curr->dying()) {
         jobs.enqueue(curr);
+    }else{
+        DBG << "tod!" << endl;
+        CPU::die();
     }
 
     Thread* next = jobs.dequeue();
-    tl.unlock();
+    if(next){
     Dispatcher::dispatch(next);
+    }else{
+        DBG << "queue null" << endl;
+    }
+    guard.leave();
+    
 }
 
 
 void Scheduler::schedule() {
-    tl.lock();
     Thread* first = jobs.dequeue();
-    tl.unlock();
     Dispatcher::go(first);
 }

@@ -3,6 +3,7 @@
 #include "thread/dispatcher.h"
 
 #include "debug/output.h"
+#include "guard/guard.h"
 
 Dispatcher dispatcher;
 
@@ -12,6 +13,7 @@ Dispatcher::Dispatcher() {
 
 void Dispatcher::kickoff(Thread *t){
     DBG << "kickoff!" << endl;
+    guard.leave();
     t->action();
 }
 
@@ -25,6 +27,7 @@ void Dispatcher::dispatch(Thread *next) {
     Thread* old = active();
     setActive(next);
     old->resume(next);
+    
 }
 
 void Dispatcher::setActive(Thread *t){
