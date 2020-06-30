@@ -50,7 +50,9 @@ volatile int i = 0;
 
 extern "C" int main() {
   // enable interrupts for this core
-  CPU::enable_int();
+  //CPU::enable_int();
+
+  CPU::disable_int();
 
   /* //UNCOMMENT FOR INTERRUPTS
 
@@ -109,7 +111,6 @@ extern "C" int main() {
     }
   }
 
-
   scheduler.schedule();
 
 
@@ -141,7 +142,7 @@ extern "C" int main_ap() {
   ticketlock.unlock();
   app_ap.action();
   */
-
+  CPU::disable_int();
   scheduler.schedule();
 
   DBG << "doing nothing" << flush;

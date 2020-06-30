@@ -16,6 +16,7 @@ Application a3(3, stack3+255);
 Application a4(4, stack4+255);
 Application a5(5, stack5+255);
 Application a6(6, stack6+255);
+Ticketlock ticket;
 
 void Application::action() {
   //DBG << "Called " << __FUNCTION__ << "() in " << __FILE__ << endl;
@@ -28,7 +29,7 @@ void Application::action() {
 
   for (int i = 0; ; i++) {
     
-    { Secure s;
+    ticket.lock();
 
       kout.setpos(10,instanceID*2);
       kout << "<thread " << instanceID << ": running task " << flush;
@@ -38,17 +39,18 @@ void Application::action() {
       kout.set_attribute(def_att);
 
       kout << " on CPU " << system.getCPUID() << "> " << flush;
-    }
+
+    ticket.unlock();
     
 
     /* --start--
     making some really slow operations (volatile)
     to add some delay between thread switching
     */
-    volatile long long sum = 0;
+    /*volatile long long sum = 0;
     for(unsigned long long j = 0; j < 100000000; j++){
       sum += j;
-    }
+    }*/
     // --end--
 
     scheduler.resume();
