@@ -194,9 +194,11 @@ void LAPIC::setTimer(uint32_t counter, uint8_t divide, uint8_t vector,
   reg.timer_ctrl.timer_mode = periodic;
   write(timerctrl_reg, reg);
 
+  // setup icnt register
   reg.value = counter;
   write(icr_reg, reg);
 
+  // setup timediv register
   reg.value = timer_div(divide);
   write(dcr_reg, reg);
 

@@ -71,12 +71,12 @@ extern "C" int main() {
   keyboard.plugin();
 
   
-  //tests
+  //tests: 1.000.000 us = 1sec
+
   watch.windup(1000000);
-  DBG << watch.interval() << endl;
+  DBG << "lapic interval:" << watch.interval()  << "ms"<< endl;
   
-  
-  
+
   // clear screen
   kout.reset(' ', kout.get_attribute());
   // Startmeldung ausgeben
@@ -126,7 +126,7 @@ extern "C" int main() {
   }*/
   
 
-  //watch.activate();
+  watch.activate();
 
 
   /*ticketlock.lock();
@@ -152,6 +152,8 @@ extern "C" int main_ap() {
   //main_ap loop
   
   CPU::enable_int();
+
+  watch.activate();
 
   /*ticketlock.lock();
   Application app_ap(i++);

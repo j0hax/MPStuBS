@@ -30,7 +30,7 @@ class Watch
 
 private:
 	uint8_t _divide = 1;
-	uint32_t _intv = 0;
+	uint32_t _ticks = 0;
 
 public:
 	Watch() {}
