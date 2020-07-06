@@ -27,6 +27,8 @@
 
 #include "thread/scheduler.h"
 
+#include "device/watch.h"
+
 Spinlock spinlock;
 Ticketlock ticketlock;
 
@@ -46,15 +48,17 @@ Keyboard keyboard;
 //init guard
 Guard guard;
 
+Watch watch;
+
 volatile int i = 0;
 
 extern "C" int main() {
   // enable interrupts for this core
-  //CPU::enable_int();
+  CPU::enable_int();
 
-  CPU::disable_int();
+  //CPU::disable_int();
 
-  /* //UNCOMMENT FOR INTERRUPTS
+  //UNCOMMENT FOR INTERRUPTS
 
   // init ioapic (global instance)
   ioapic.init();
@@ -65,8 +69,13 @@ extern "C" int main() {
   ioapic.allow(kbd_slot);
   // plug keyboard in plugbox (as interrupt handler for the keyboard)
   keyboard.plugin();
+
   
-  */
+  //tests
+  watch.windup(1000000);
+  DBG << watch.interval() << endl;
+  
+  
   
   // clear screen
   kout.reset(' ', kout.get_attribute());
@@ -75,12 +84,12 @@ extern "C" int main() {
   unsigned int numCPUs = system.getNumberOfCPUs();
 
 
-  scheduler.ready(&a1);
+  /*scheduler.ready(&a1);
   scheduler.ready(&a2);
   scheduler.ready(&a3);
   scheduler.ready(&a4);
   scheduler.ready(&a5);
-  scheduler.ready(&a6);
+  scheduler.ready(&a6);*/
   
   // old way of switching threads
   //dispatcher.go(&a1);
@@ -111,11 +120,13 @@ extern "C" int main() {
     }
   }
 
-  {
+  /*{
     Secure s;
     scheduler.schedule();
-  }
+  }*/
   
+
+  //watch.activate();
 
 
   /*ticketlock.lock();
@@ -139,18 +150,19 @@ extern "C" int main_ap() {
   DBG/*_VERBOSE*/ << "CPU " << (int) system.getCPUID()
                   << "/LAPIC " << (int) lapic.getLAPICID() << " in main_ap()" << endl;
   //main_ap loop
-  /*
+  
   CPU::enable_int();
-  ticketlock.lock();
+
+  /*ticketlock.lock();
   Application app_ap(i++);
   ticketlock.unlock();
   app_ap.action();
   */
-  CPU::disable_int();
-  {
+  
+  /*{
     Secure s;
     scheduler.schedule();
-  }
+  }*/
 
   DBG << "doing nothing" << flush;
   for (;;);

@@ -186,11 +186,19 @@ uint8_t LAPIC::timer_div(uint8_t div) {
 
 void LAPIC::setTimer(uint32_t counter, uint8_t divide, uint8_t vector,
                      bool periodic, bool masked) {
-  // Compiler-Warnungen unterdrücken (kann gelöscht werden)
-  (void) counter;
-  (void) divide;
-  (void) vector;
-  (void) periodic;
-  (void) masked;
+
+  // setup timer control register
+  LAPICRegister_t reg = read(timerctrl_reg);
+  reg.timer_ctrl.vector = vector;
+  reg.timer_ctrl.masked = masked;
+  reg.timer_ctrl.timer_mode = periodic;
+  write(timerctrl_reg, reg);
+
+  reg.value = counter;
+  write(icr_reg, reg);
+
+  reg.value = timer_div(divide);
+  write(dcr_reg, reg);
+
 }
 

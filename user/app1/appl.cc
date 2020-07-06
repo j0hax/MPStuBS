@@ -53,7 +53,7 @@ void Application::action() {
     }*/
     // --end--
 
-    scheduler.resume();
+    //scheduler.resume();
     
     
 

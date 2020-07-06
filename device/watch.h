@@ -10,6 +10,10 @@
 
 #include "types.h"
 #include "guard/gate.h"
+#include "machine/lapic.h"
+#include "debug/output.h"
+#include "utils/math.h"
+#include "machine/plugbox.h"
 
 /*! \brief Interruptbehandlung für Timerinterrupts.
  *
@@ -23,6 +27,10 @@ class Watch
 	// Verhindere Kopien und Zuweisungen
 	Watch(const Watch&)            = delete;
 	Watch& operator=(const Watch&) = delete;
+
+private:
+	uint8_t _divide = 1;
+	uint32_t _intv = 0;
 
 public:
 	Watch() {}

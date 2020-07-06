@@ -49,7 +49,7 @@ public:
    *  implementiert ist, muss sie durch die abgeleiteten Klassen spezifiziert
    *  werden.
    */
-  virtual void trigger() = 0;
+  //virtual void trigger() = 0;
 
   virtual void epilogue() {}
   virtual bool prologue() {
