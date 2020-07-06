@@ -48,11 +48,11 @@ void Watch::epilogue() {
 
 }
 
-// returns interval in ms
+// returns interval in us
 uint32_t Watch::interval() {
 
-    return _ticks*_divide/lapic.timer_ticks();
-
+    uint64_t us = (uint64_t)_ticks*_divide*1000;
+    return (uint32_t)Math::div64(us, lapic.timer_ticks());
 }
 
 // actives timer

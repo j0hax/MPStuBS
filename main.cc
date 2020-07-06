@@ -74,7 +74,7 @@ extern "C" int main() {
   //tests: 1.000.000 us = 1sec
 
   watch.windup(1000000);
-  DBG << "lapic interval:" << watch.interval()  << "ms"<< endl;
+  DBG << "lapic interval:" << watch.interval()  << "us"<< endl;
   
 
   // clear screen
