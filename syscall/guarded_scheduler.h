@@ -20,4 +20,33 @@
 class Guarded_Scheduler
 {
 public:
+
+    static void exit() {
+        { 
+            Secure s;
+            scheduler.exit();
+        }
+    }
+
+    static void kill(Thread *that) {
+        { 
+            Secure s;
+            scheduler.kill(that);
+        }
+    }
+
+    static void ready(Thread *that) {
+        { 
+            Secure s;
+            scheduler.ready(that);
+        }
+    }
+
+    static void resume() {
+        { 
+            Secure s;
+            scheduler.resume();
+        }
+    }
+
 };

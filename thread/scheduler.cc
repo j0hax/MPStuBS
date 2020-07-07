@@ -9,14 +9,14 @@ Scheduler scheduler;
 
 
 void Scheduler::exit() {
-    guard.enter();
+    //guard.enter();
     Thread* next = jobs.dequeue();
     Dispatcher::dispatch(next);
 }
 
 
 void Scheduler::kill(Thread* that) {
-    guard.enter();
+    //guard.enter();
     Thread* to_kill = jobs.remove(that);
     
 
@@ -25,7 +25,7 @@ void Scheduler::kill(Thread* that) {
         // Thread nicht in der ready-liste, soll vermerkt werden bei 
         that->set_kill_flag();
     }
-    guard.leave();
+    //guard.leave();
 }
 
 
@@ -36,24 +36,24 @@ void Scheduler::ready(Thread * that) {
 
 void Scheduler::resume() {
     
-    guard.enter();
-
+    //guard.enter();
     Thread* curr = Dispatcher::active();
 
     if (!curr->dying()) {
         jobs.enqueue(curr);
     }else{
         DBG << "tod!" << endl;
-        CPU::die();
+        //CPU::die();
     }
 
     Thread* next = jobs.dequeue();
+
     if(next){
     Dispatcher::dispatch(next);
     }else{
         DBG << "queue null" << endl;
     }
-    guard.leave();
+    //guard.leave();
     
 }
 

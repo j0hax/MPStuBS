@@ -25,8 +25,8 @@ extern "C" void guardian(uint32_t vector, irq_context* context) {
 
   /* TODO: Interrupts only working on one CPU */
 
-  if (ir_handler->prologue()) {
-    DBG << "Gate " << ir_handler << ": " << flush;
+  /*if (ir_handler->prologue()) {
+    DBG << "Gate " << vector << ": " << flush;
     if (ir_handler->set_queued() == false) {
       DBG << "already in queue." << endl;
     } else {
@@ -37,8 +37,9 @@ extern "C" void guardian(uint32_t vector, irq_context* context) {
     }
   } else {
     DBG << "Interrupt has no epilogue." << endl;
-  }
-
-  lapic.ackIRQ();
+  }*/
+  DBG << "int" << endl;
+  guard.relay(ir_handler);
+  //lapic.ackIRQ();
 
 }

@@ -14,6 +14,7 @@
 #include "debug/output.h"
 #include "utils/math.h"
 #include "machine/plugbox.h"
+#include "thread/scheduler.h"
 
 /*! \brief Interruptbehandlung für Timerinterrupts.
  *

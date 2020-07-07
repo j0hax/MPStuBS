@@ -59,7 +59,7 @@ AR = ar
 QEMUCPUS = 4
 QEMUWAIT =
 QEMUFLAGS = -k en-us -d guest_errors $(QEMUWAIT)
-QEMUREMOTEGDB = -gdb tcp::1234
+QEMUREMOTEGDB = -gdb tcp::23746
 QEMUDBGFLAGS = -no-shutdown -no-reboot
 KVMFLAGS = -enable-kvm -cpu host
 SERIALPTY = -serial pty
@@ -174,7 +174,7 @@ gdb: all
 
 # um sich mit GDB auf dem Standardport zu verbinden
 connect-gdb:
-	gdb -ex "target remote localhost:1234" $(KERNEL)
+	gdb -ex "target remote localhost:23746" $(KERNEL)
 
 # --------------------------------------------------------------------------
 # fuer die remote Benutzung (ohne X), von SSH aus

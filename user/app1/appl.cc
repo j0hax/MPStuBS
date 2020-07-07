@@ -1,7 +1,7 @@
 // vim: set noet ts=4 sw=4:
 
 #include "appl.h"
-#include "thread/scheduler.h"
+#include "syscall/guarded_scheduler.h"
 
 uint32_t stack1[256];
 uint32_t stack2[256];
@@ -10,13 +10,13 @@ uint32_t stack4[256];
 uint32_t stack5[256];
 uint32_t stack6[256];
 
-Application a1(1, stack1+255);
-Application a2(2, stack2+255);
-Application a3(3, stack3+255);
-Application a4(4, stack4+255);
-Application a5(5, stack5+255);
-Application a6(6, stack6+255);
-Ticketlock ticket;
+Application a1(0, stack1+255);
+Application a2(1, stack2+255);
+Application a3(2, stack3+255);
+Application a4(3, stack4+255);
+Application a5(4, stack5+255);
+Application a6(5, stack6+255);
+//Ticketlock ticket;
 
 void Application::action() {
   //DBG << "Called " << __FUNCTION__ << "() in " << __FILE__ << endl;
@@ -25,43 +25,35 @@ void Application::action() {
 
   // Endlosschleife
 
-  CGA_Screen::Attribute def_att = kout.get_attribute();
-
   for (int i = 0; ; i++) {
     
-    ticket.lock();
+    { Secure s;
 
-      kout.setpos(10,instanceID*2);
-      kout << "<thread " << instanceID << ": running task " << flush;
-
-      kout.set_attribute(c2);
-      kout << i << flush;
-      kout.set_attribute(def_att);
-
+      kout.setpos(0,instanceID*2+1);
+      kout << "<thread " << instanceID << ": running task ";
+      kout << i;
       kout << " on CPU " << system.getCPUID() << "> " << flush;
 
-    ticket.unlock();
+    }
     
 
     /* --start--
     making some really slow operations (volatile)
     to add some delay between thread switching
     */
-    /*volatile long long sum = 0;
-    for(unsigned long long j = 0; j < 100000000; j++){
+    volatile long long sum = 0;
+    for(unsigned long long j = 0; j < 10; j++){
       sum += j;
-    }*/
+    }
     // --end--
 
-    //scheduler.resume();
-    
-    
+    //Guarded_Scheduler::resume();
 
     // testing kill and exit
     /*if(instanceID == 2){
-      scheduler.kill(&a1);
+      Guarded_Scheduler::kill(&a1);
     }if(instanceID == 3){
-      scheduler.exit();
+      Guarded_Scheduler::exit();
     }*/
 
     /* old way of switching threads
@@ -78,9 +70,9 @@ void Application::action() {
     }*/
 
     /*
-    if(instanceID == 2){
-      scheduler.kill(&a1);
-    }
-  */
+    if(instanceID == 2 && i == 5){
+      Guarded_Scheduler::kill(&a3);
+    }*/
+  
   }
 }

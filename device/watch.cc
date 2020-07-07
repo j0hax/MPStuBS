@@ -1,6 +1,8 @@
 // vim: set noet ts=4 sw=4:
 
 #include "device/watch.h"
+#include "syscall/guarded_scheduler.h"
+
 
 bool Watch::windup(uint32_t us){
 
@@ -44,7 +46,9 @@ bool Watch::prologue() {
 
 void Watch::epilogue() {
     // test
-    DBG << "watch!" << endl;
+    DBG << "thread change!" << endl;
+    scheduler.resume();
+    
 
 }
 

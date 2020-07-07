@@ -22,12 +22,12 @@
 
 #include "guard/guard.h"
 #include "guard/secure.h"
-
 #include "machine/toc.h"
-
 #include "thread/scheduler.h"
-
 #include "device/watch.h"
+
+#include "syscall/guarded_scheduler.h"
+
 
 Spinlock spinlock;
 Ticketlock ticketlock;
@@ -54,9 +54,9 @@ volatile int i = 0;
 
 extern "C" int main() {
   // enable interrupts for this core
-  CPU::enable_int();
+  //CPU::enable_int();
 
-  //CPU::disable_int();
+  CPU::disable_int();
 
   //UNCOMMENT FOR INTERRUPTS
 
@@ -72,8 +72,8 @@ extern "C" int main() {
 
   
   //tests: 1.000.000 us = 1sec
-
-  watch.windup(1000000);
+  //watch.windup(1000000);
+  watch.windup(50000);
   DBG << "lapic interval:" << watch.interval()  << "us"<< endl;
   
 
@@ -84,12 +84,12 @@ extern "C" int main() {
   unsigned int numCPUs = system.getNumberOfCPUs();
 
 
-  /*scheduler.ready(&a1);
-  scheduler.ready(&a2);
-  scheduler.ready(&a3);
-  scheduler.ready(&a4);
-  scheduler.ready(&a5);
-  scheduler.ready(&a6);*/
+  Guarded_Scheduler::ready(&a1);
+  Guarded_Scheduler::ready(&a2);
+  Guarded_Scheduler::ready(&a3);
+  Guarded_Scheduler::ready(&a4);
+  Guarded_Scheduler::ready(&a5);
+  Guarded_Scheduler::ready(&a6);
   
   // old way of switching threads
   //dispatcher.go(&a1);
@@ -120,19 +120,18 @@ extern "C" int main() {
     }
   }
 
-  /*{
-    Secure s;
-    scheduler.schedule();
-  }*/
-  
+  ticketlock.lock();
+  i++;
+  ticketlock.unlock();
+  while(i != 4){}
 
   watch.activate();
-
-
-  /*ticketlock.lock();
-  Application app1(i++);
-  ticketlock.unlock();
-  app1.action();*/
+  
+  {
+    Secure s;
+    //watch.activate();
+    scheduler.schedule();
+  }
 
   // main loop
   for (;;);
@@ -150,21 +149,17 @@ extern "C" int main_ap() {
   DBG/*_VERBOSE*/ << "CPU " << (int) system.getCPUID()
                   << "/LAPIC " << (int) lapic.getLAPICID() << " in main_ap()" << endl;
   //main_ap loop
-  
-  CPU::enable_int();
+
+  ticketlock.lock();
+  i++;
+  ticketlock.unlock();
+  while(i != 4){}
 
   watch.activate();
-
-  /*ticketlock.lock();
-  Application app_ap(i++);
-  ticketlock.unlock();
-  app_ap.action();
-  */
-  
-  /*{
+  {
     Secure s;
     scheduler.schedule();
-  }*/
+  }
 
   DBG << "doing nothing" << flush;
   for (;;);
