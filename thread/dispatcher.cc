@@ -5,6 +5,8 @@
 #include "debug/output.h"
 #include "guard/guard.h"
 
+#include "machine/cpu.h"
+
 Dispatcher dispatcher;
 
 // https://www.sra.uni-hannover.de/Lehre/SS20/V_BSB/doc/classDispatcher.html#a1bd5ef08a829632075b6ccc7c81b1609
@@ -31,11 +33,15 @@ void Dispatcher::dispatch(Thread *next) {
 }
 
 void Dispatcher::setActive(Thread *t){
+    CPU::disable_int();
     int curr_cpu = system.getCPUID();
 	life[curr_cpu] = t;
+    CPU::enable_int();
 }
 
 Thread* Dispatcher::active() {
+    CPU::disable_int();
 	int curr_cpu = system.getCPUID();
 	return life[curr_cpu];
+    CPU::enable_int();
 }

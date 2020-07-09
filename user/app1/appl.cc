@@ -26,7 +26,7 @@ void Application::action() {
   // Endlosschleife
 
   for (int i = 0; ; i++) {
-    
+
     { Secure s;
 
       kout.setpos(0,instanceID*2+1);

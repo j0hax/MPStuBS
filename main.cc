@@ -48,8 +48,6 @@ Keyboard keyboard;
 //init guard
 Guard guard;
 
-Watch watch;
-
 volatile int i = 0;
 
 extern "C" int main() {
@@ -73,7 +71,7 @@ extern "C" int main() {
   
   //tests: 1.000.000 us = 1sec
   //watch.windup(1000000);
-  watch.windup(50000);
+  watch.windup(40000); // 40 ms
   DBG << "lapic interval:" << watch.interval()  << "us"<< endl;
   
 
@@ -125,11 +123,10 @@ extern "C" int main() {
   ticketlock.unlock();
   while(i != 4){}
 
-  watch.activate();
+  //watch.activate();
   
   {
     Secure s;
-    //watch.activate();
     scheduler.schedule();
   }
 
@@ -155,7 +152,7 @@ extern "C" int main_ap() {
   ticketlock.unlock();
   while(i != 4){}
 
-  watch.activate();
+  //watch.activate();
   {
     Secure s;
     scheduler.schedule();

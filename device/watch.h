@@ -91,3 +91,5 @@ public:
 	void activate();
 
 };
+
+extern Watch watch;

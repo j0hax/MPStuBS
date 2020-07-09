@@ -4,6 +4,7 @@
 #include "debug/output.h"
 #include "machine/cpu.h"
 #include "guard/guard.h"
+#include "device/watch.h"
 
 Scheduler scheduler;
 
@@ -38,6 +39,10 @@ void Scheduler::resume() {
     
     //guard.enter();
     Thread* curr = Dispatcher::active();
+    if(!curr) {
+        DBG << "active is null" << endl;
+        CPU::die();
+    }
 
     if (!curr->dying()) {
         jobs.enqueue(curr);
@@ -52,6 +57,7 @@ void Scheduler::resume() {
     Dispatcher::dispatch(next);
     }else{
         DBG << "queue null" << endl;
+        CPU::die();
     }
     //guard.leave();
     
@@ -60,5 +66,10 @@ void Scheduler::resume() {
 
 void Scheduler::schedule() {
     Thread* first = jobs.dequeue();
+    if(!first) {
+        DBG << "no job to start" << endl;
+        CPU::die();
+    }
+    watch.activate();
     Dispatcher::go(first);
 }

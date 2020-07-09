@@ -4,6 +4,8 @@
 #include "syscall/guarded_scheduler.h"
 
 
+Watch watch;
+
 bool Watch::windup(uint32_t us){
 
     // calculates intv 
