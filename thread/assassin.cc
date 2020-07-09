@@ -2,3 +2,16 @@
 
 #include "thread/assassin.h"
 
+
+void Assassin::epilogue() {
+
+}
+
+void Assassin::hire() {
+
+}
+
+
+bool Assassin::prologue() {
+    return false;
+}
