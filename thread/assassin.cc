@@ -8,7 +8,7 @@ void Assassin::epilogue() {
 }
 
 void Assassin::hire() {
-
+	plugbox.assign(Plugbox::Vector::assassin, this);
 }
 
 
