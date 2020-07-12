@@ -1,6 +1,7 @@
 // vim: set noet ts=4 sw=4:
 
 #include <machine/plugbox.h>
+#include <thread/scheduler.h>
 
 /*! \file
  *  \brief Enthält die Klasse Assassin
@@ -9,6 +10,7 @@
 #pragma once
 
 extern Plugbox plugbox;
+extern Scheduler scheduler;
 
 // Ab hier alles selbst geschrieben :/
 class Assassin : public Gate {

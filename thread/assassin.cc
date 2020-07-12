@@ -4,7 +4,11 @@
 
 
 void Assassin::epilogue() {
-
+	// check if thread is dying
+	Thread* current = scheduler.active();
+	if (current->dying()) {
+		scheduler.resume();
+	}
 }
 
 void Assassin::hire() {
