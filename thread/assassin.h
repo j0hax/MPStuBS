@@ -11,7 +11,7 @@
 extern Plugbox plugbox;
 
 // Ab hier alles selbst geschrieben :/
-class Assassin {
+class Assassin : public Gate {
 
 public:
 
