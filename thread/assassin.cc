@@ -13,5 +13,5 @@ void Assassin::hire() {
 
 
 bool Assassin::prologue() {
-    return false;
+    return true;
 }
