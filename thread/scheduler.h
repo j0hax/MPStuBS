@@ -11,6 +11,7 @@
 #include "thread/thread.h"
 #include "object/queue.h"
 #include "machine/ticketlock.h"
+#include "machine/plugbox.h"
 
 /*! \brief Der Scheduler implementiert die Ablaufplanung und somit die Auswahl des nächsten Threads.
  *  \ingroup thread
@@ -107,3 +108,5 @@ public:
 };
 
 extern Scheduler scheduler;
+
+extern APICSystem system;

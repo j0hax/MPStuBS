@@ -37,7 +37,7 @@ class Dispatcher
 	guard.cc multiprozessorvariante? */
 
 	//Queue<Thread> queues[4];
-	Thread* life[4] = {nullptr};
+	protected: Thread* life[4] = {nullptr};
 
 protected:
 	void setActive(Thread* t);

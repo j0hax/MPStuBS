@@ -6,6 +6,9 @@
 #include "guard/guard.h"
 #include "device/watch.h"
 
+
+#include "machine/apicsystem.h"
+
 Scheduler scheduler;
 
 
@@ -17,16 +20,30 @@ void Scheduler::exit() {
 
 
 void Scheduler::kill(Thread* that) {
-    //guard.enter();
-    Thread* to_kill = jobs.remove(that);
-    
+    // Da Interrupts teuer sind, senden wir den Interrupt nur an der CPU mit dem Thread.
 
-    // gucken, ob Thread in der Ready-Liste ist.
-    if (to_kill == 0) {
-        // Thread nicht in der ready-liste, soll vermerkt werden bei 
-        that->set_kill_flag();
+	// TODO: Protect with secure or guard?
+
+    // Gucken wo der Interrupt ist
+
+	// Check Queues
+	if (jobs.remove(that) != 0) {
+		that->set_kill_flag();
+		return;
+	}
+
+	// Check if running on a core
+    Thread** running = Dispatcher::life;
+
+    int limit = system.getNumberOfOnlineCPUs();
+    int target = 0;
+    for (; target < limit; target++) {
+        if (that == running[target]) break;
     }
-    //guard.leave();
+    // convert to binary
+    unsigned char dest = 1 << target;
+    // send the command
+    system.sendCustomIPI(dest, Plugbox::Vector::assassin);
 }
 
 
