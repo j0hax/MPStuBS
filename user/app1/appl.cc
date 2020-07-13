@@ -36,15 +36,16 @@ void Application::action() {
 
     }
     
-
+    if( i == 1000 && instanceID == 0) Guarded_Scheduler::kill(&a3);
+    if( i == 1000 && instanceID == 2) Guarded_Scheduler::kill(&a1);
     /* --start--
     making some really slow operations (volatile)
     to add some delay between thread switching
     */
-    volatile long long sum = 0;
+    /*volatile long long sum = 0;
     for(unsigned long long j = 0; j < 10; j++){
       sum += j;
-    }
+    }*/
     // --end--
 
     //Guarded_Scheduler::resume();

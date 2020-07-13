@@ -22,13 +22,16 @@ void Scheduler::exit() {
 void Scheduler::kill(Thread* that) {
     // Da Interrupts teuer sind, senden wir den Interrupt nur an der CPU mit dem Thread.
 
-	// TODO: Protect with secure or guard?
-
-    // Gucken wo der Interrupt ist
+    // kill flag setzen
+    /*
+    Fall 1: set_kill_flag -> IPI -> wechselt Thread -> alter Thread wird nicht enqueued
+    Fall 2: set_kill_flag -> WatchINT -> wechselt Thread -> alter Thread wird nicht enqueued
+    Fall 3: Thread wechselt -> set_kill_flag -> deqeue bzw erneutes enqueue wird verhindert
+    */
+    that->set_kill_flag();
 
 	// Check Queues
 	if (jobs.remove(that) != 0) {
-		that->set_kill_flag();
 		return;
 	}
 
@@ -68,7 +71,9 @@ void Scheduler::resume() {
         //CPU::die();
     }
 
+    // dequeue threads until one is found that is not dying
     Thread* next = jobs.dequeue();
+    while(next && next->dying()) next = jobs.dequeue();
 
     if(next){
     Dispatcher::dispatch(next);
