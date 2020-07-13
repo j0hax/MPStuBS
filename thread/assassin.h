@@ -27,3 +27,5 @@ public:
     bool prologue();
 
 };
+
+extern Assassin assassin;

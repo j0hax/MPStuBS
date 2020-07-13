@@ -27,6 +27,7 @@
 #include "device/watch.h"
 
 #include "syscall/guarded_scheduler.h"
+#include <thread/assassin.h>
 
 
 Spinlock spinlock;
@@ -67,8 +68,9 @@ extern "C" int main() {
   ioapic.allow(kbd_slot);
   // plug keyboard in plugbox (as interrupt handler for the keyboard)
   keyboard.plugin();
+  // plugin assassin
+  assassin.hire();
 
-  
   //tests: 1.000.000 us = 1sec
   //watch.windup(1000000);
   watch.windup(40000); // 40 ms

@@ -36,8 +36,8 @@ void Application::action() {
 
     }
     
-    if( i == 1000 && instanceID == 0) Guarded_Scheduler::kill(&a3);
-    if( i == 1000 && instanceID == 2) Guarded_Scheduler::kill(&a1);
+    if( i == 1000 && instanceID == 1) Guarded_Scheduler::kill(&a3);
+    if( i == 1000 && instanceID == 2) Guarded_Scheduler::kill(&a2);
     /* --start--
     making some really slow operations (volatile)
     to add some delay between thread switching
